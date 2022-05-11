@@ -10,7 +10,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const puppeteer = require('puppeteer');
-
   (async () => {
     const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 2400 } });
     const page = await browser.newPage();
