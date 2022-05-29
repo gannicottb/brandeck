@@ -1,0 +1,25 @@
+.card {
+  width: 375px;
+  height: 525px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: solid .25rem black;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.art {
+  width: 300px;
+  height: 200px;
+  background: goldenrod;
+}
+
+.bottombar {
+  display: flex;
+  margin-top: auto;
+}

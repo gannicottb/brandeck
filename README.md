@@ -1,9 +1,14 @@
 # BRANDECK
 
-This is the data-driven card generator tool used for Winding Road Games projects post-Sky Pirate.
+This is the data-driven card generator tool used for Winding Road Games projects.
 
 Google Drive structure:
 root_folder
+  /generated
+    /v1.0-timestamped
+      1.png
+      2.png
+      ...
   /v1
     /.0
       cards*
@@ -15,14 +20,40 @@ root_folder
       cards*
     ...
 
+This Project Structure:
+/lib (these evolve, and are not versioned)
+  import.ts
+  parse.ts
+  generate.ts
+  export.ts
+/pages
+  index.ts
+  /api
+    /generate
+      [[...version]].ts
+  /cards
+    [[...version]].ts
+/components (loaded dynamically as appropriate)
+  /v1
+  /v2
+  /v...
+
 Config:
+SERVICE_ACCOUNT_EMAIL
+SERVICE_ACCOUNT_KEY
 ROOT_FOLDER_ID - the root Google Drive folder containing card spreadsheets in a known structure
 
 Pages:
 /cards/[Major].[Minor] - Renders the cards for vMajor.Minor using the appropriate templates
 /cards - Defaults to highest version found in root folder
 
+API:
+/api/generate/[Major].[Minor] - import, parse, render, screenshot, and upload to a known location
+/api/generate - Defaults to highest version found in root folder
 
+
+
+===
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

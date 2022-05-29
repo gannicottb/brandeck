@@ -1,21 +1,21 @@
-import { parseString, Row } from '@fast-csv/parse';
+import { parseString } from '@fast-csv/parse';
 
-// 2.0
+// starting from 2.0
 type CardRow = {
-  name: string;
-  cost: string;
-  type: string;
-  biome: string;
-  speed: string;
-  strength: string;
-  family: string;
-  psychic: string;
-  num: string;
-  art: string;
-  text: string;
+  Name: string;
+  Cost: string;
+  Type: string;
+  Biome: string;
+  Speed: string;
+  Strength: string;
+  Family: string;
+  Psychic: string;
+  Num: string;
+  Art: string;
+  Text: string;
 };
 
-type ParsedCard = {
+export type ParsedCard = {
   name: string;
   cost: number;
   type: string;
@@ -30,9 +30,24 @@ type ParsedCard = {
 };
 
 export default (csv: string) => {
-  return new Promise<Row<any>[]>(resolve => {
-    let result: Row<any>[] = []
-    parseString(csv, { headers: true })
+  return new Promise<ParsedCard[]>(resolve => {
+    let result: ParsedCard[] = []
+    parseString<CardRow, ParsedCard>(csv, { headers: true })
+      .transform((data: CardRow): ParsedCard => ({
+        name: data.Name,
+        cost: Number(data.Cost),
+        type: data.Type,
+        biome: data.Biome,
+        speed: Number(data.Speed),
+        strength: Number(data.Strength),
+        family: Number(data.Family),
+        psychic: Number(data.Psychic),
+        num: Number(data.Num),
+        art: data.Art,
+        text: data.Text
+      })
+
+      )
       .on('error', error => console.error(error))
       .on('data', row => result.push(row))
       .on('end', (rowCount: number) => {
