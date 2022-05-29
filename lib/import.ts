@@ -28,11 +28,12 @@ jwtClient.authorize(function (err, tokens) {
 })
 
 const parseVersion = (version: String): Version => {
+  if (version === "latest") return { major: 2, minor: 0 } // this is a hack, should be smarter
   const [major, minor] = version.split(".").map((s) => Number(s))
   return { major, minor }
 }
 
-export default async (version: String) => {
+export default async (version: string) => {
   const ver = parseVersion(version)
 
   const drive = google.drive({ version: "v3", auth: jwtClient });
