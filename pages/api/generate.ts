@@ -13,7 +13,7 @@ export default async function handler(
   (async () => {
     const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 2400 } });
     const page = await browser.newPage();
-    await page.goto('http://localhost:3000/grid');
+    await page.goto('http://localhost:3000/cards/latest');
     await page.screenshot({ path: "screenshots/full.png" })
 
     const cardWidth = 375

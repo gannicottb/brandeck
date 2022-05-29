@@ -30,10 +30,14 @@ This Project Structure:
   index.ts
   /api
     /generate
-      [[...version]].ts
+      [version].ts
   /cards
-    [[...version]].ts
+    [version].tsx
 /components (loaded dynamically as appropriate)
+  /v1
+  /v2
+  /v...
+/styles (loaded dynamically as appropriate)
   /v1
   /v2
   /v...
@@ -45,11 +49,11 @@ ROOT_FOLDER_ID - the root Google Drive folder containing card spreadsheets in a 
 
 Pages:
 /cards/[Major].[Minor] - Renders the cards for vMajor.Minor using the appropriate templates
-/cards - Defaults to highest version found in root folder
+/cards/latest - Highest version found in root folder
 
 API:
 /api/generate/[Major].[Minor] - import, parse, render, screenshot, and upload to a known location
-/api/generate - Defaults to highest version found in root folder
+/api/generate/latest - Highest version found in root folder
 
 
 
