@@ -1,5 +1,6 @@
 
 import { google } from "googleapis";
+import { GaxiosPromise } from "gaxios";
 
 interface Version {
   major: Number,
@@ -54,10 +55,12 @@ export default async (version: String) => {
 
   if (!sheet) throw new Error(`Could not find the sheet for ${ver}`)
 
-  const buf = await drive.files.export({
+  // Weird typing is a workaround as described here
+  // https://github.com/googleapis/google-api-nodejs-client/issues/1683
+  const buf = await ((drive.files.export({
     fileId: sheet.id,
     mimeType: "text/csv"
-  })
+  }) as unknown) as GaxiosPromise<string>)
 
-  return buf
+  return buf.data
 }
