@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import * as puppeteer from 'puppeteer'
 import { FolderType, getClient } from '../../lib/import'
 import { Readable } from 'stream'
-import { ExportFolderId, getVersion } from '../../lib/utils'
+import { ExportFolderId, getVersion, sleep } from '../../lib/utils'
 
 type Data = {
   name: string
@@ -41,8 +41,8 @@ export default async function handler(
       parents: [ExportFolderId]
     }
   })
-
-  await Promise.all(Array.from(Array(result.total).keys()).map(async (i) => {
+  const cardIndexRange = Array.from(Array(result.total).keys())
+  await Promise.all(cardIndexRange.map(async (i) => {
     const offsetX = cardWidth * (i % cardsPerRow)
     const offsetY = cardHeight * Math.floor(i / cardsPerRow)
     const grabX = result.x + offsetX
@@ -71,8 +71,11 @@ export default async function handler(
         body: readable
       }
     })
+    // hack for rate limiting
+    await sleep(300);
   }))
 
   await browser.close();
+  console.log(`Finished generating images in ${batchFolder.data.id}`)
   res.status(200).json({ name: JSON.stringify(result) })
 }

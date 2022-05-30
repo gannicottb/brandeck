@@ -18,3 +18,9 @@ export const getVersion = (query: string | string[]): Version => {
   const versionToUse = firstVersionParam === undefined ? "latest" : firstVersionParam
   return parseVersion(versionToUse)
 }
+
+export const sleep = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}

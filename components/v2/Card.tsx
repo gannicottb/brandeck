@@ -20,7 +20,7 @@ export const Card: React.FC<CardProps> = ({ data, ...props }) => {
   const stats = ["speed", "strength", "family", "psychic"]
   const colors = data.biome.split("").map(b => biomeColors[b])
   const biomeColor = colors.length == 1 ? colors[0] : `linear-gradient(to right, ${colors.join(",")})`
-  console.log(`color = ${biomeColor}`)
+
   return (
     <div className={styles.card}
       style={{
