@@ -1,3 +1,4 @@
+import initializeBasicAuth from 'nextjs-basic-auth'
 
 export interface Version {
   major: Number,
@@ -24,3 +25,11 @@ export const sleep = (ms: number) => {
     setTimeout(resolve, ms);
   });
 }
+
+const users = process.env.ADMIN_SECRET ? [
+  { user: 'admin', password: process.env.ADMIN_SECRET }
+] : []
+
+export const basicAuth = initializeBasicAuth({
+  users: users
+})

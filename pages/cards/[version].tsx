@@ -4,7 +4,7 @@ import { Card as V2Card } from '../../components/v2/Card'
 import * as importer from '../../lib/import'
 import * as parser from '../../lib/parse'
 import { ParsedCard } from '../../lib/parse'
-import { getVersion, Version } from "../../lib/utils"
+import { basicAuth, getVersion, Version } from "../../lib/utils"
 
 var cache = require('memory-cache');
 

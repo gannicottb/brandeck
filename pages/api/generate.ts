@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import * as puppeteer from 'puppeteer'
 import { FolderType, getClient } from '../../lib/import'
 import { Readable } from 'stream'
-import { ExportFolderId, getVersion, sleep } from '../../lib/utils'
+import { basicAuth, ExportFolderId, getVersion, sleep } from '../../lib/utils'
 
 type Data = {
   name: string
@@ -16,6 +16,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  if (process.env.NODE_ENV == "production") await basicAuth(req, res)
+
   const ver = getVersion(req.query.version)
   const drive = getClient()
   const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 2400 } });
