@@ -1,41 +1,35 @@
 
 import { google } from "googleapis";
 import { GaxiosPromise } from "gaxios";
+import { Version } from "./utils";
 
-export interface Version {
-  major: Number,
-  minor: Number
-}
+export const FolderType = "application/vnd.google-apps.folder"
 
-const FolderType = "application/vnd.google-apps.folder"
+export const getClient = () => {
+  const jwtClient = new google.auth.JWT(
+    process.env.SERVICE_ACCOUNT_EMAIL,
+    undefined,
+    process.env.SERVICE_ACCOUNT_KEY,
+    ['https://www.googleapis.com/auth/spreadsheets',
+      'https://www.googleapis.com/auth/drive',
+    ]
+  )
 
-const jwtClient = new google.auth.JWT(
-  process.env.SERVICE_ACCOUNT_EMAIL,
-  undefined,
-  process.env.SERVICE_ACCOUNT_KEY,
-  ['https://www.googleapis.com/auth/spreadsheets',
-    'https://www.googleapis.com/auth/drive',
-  ]
-)
+  jwtClient.authorize(function (err, tokens) {
+    if (err) {
+      console.log(err);
+      return;
+    } else {
+      console.log("Successfully connected!");
+    }
+  })
 
-jwtClient.authorize(function (err, tokens) {
-  if (err) {
-    console.log(err);
-    return;
-  } else {
-    console.log("Successfully connected!");
-  }
-})
-
-export const parseVersion = (version: String): Version => {
-  if (version === "latest") return { major: 2, minor: 0 } // this is a hack, should be smarter
-  const [major, minor] = version.split(".").map((s) => Number(s))
-  return { major, minor }
+  return google.drive({ version: "v3", auth: jwtClient });
 }
 
 export default async (ver: Version): Promise<string> => {
 
-  const drive = google.drive({ version: "v3", auth: jwtClient });
+  const drive = getClient()
 
   const major_folder = await drive.files.list(
     { q: `name = 'v${ver.major}' and parents in '${process.env.ROOT_FOLDER_ID}' and mimeType = '${FolderType}'` }
@@ -55,10 +49,12 @@ export default async (ver: Version): Promise<string> => {
 
   if (!sheet) throw new Error(`Could not find the sheet for ${ver}`)
 
+
   // Weird typing is a workaround as described here
   // https://github.com/googleapis/google-api-nodejs-client/issues/1683
+  const sheetId = sheet.id == null ? undefined : sheet.id
   const buf = await ((drive.files.export({
-    fileId: sheet.id,
+    fileId: sheetId,
     mimeType: "text/csv"
   }) as unknown) as GaxiosPromise<string>)
 

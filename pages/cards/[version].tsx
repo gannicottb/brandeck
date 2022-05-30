@@ -1,22 +1,16 @@
 import { GetServerSideProps, NextPage } from "next"
-import type { NextApiRequest, NextApiResponse } from 'next'
 import styles from '../../styles/Cards.module.css'
 import { Card as V2Card } from '../../components/v2/Card'
 import * as importer from '../../lib/import'
 import * as parser from '../../lib/parse'
 import { ParsedCard } from '../../lib/parse'
-import { Version, parseVersion } from '../../lib/import'
+import { getVersion, Version } from "../../lib/utils"
 
 var cache = require('memory-cache');
 
 // This function gets called at request time
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // export async function getServerSideProps({ req }: SSPContext) {
-  const version = context.params?.version
-  const firstVersionParam = Array.isArray(version) ? version[0] : version
-  const versionToUse = firstVersionParam === undefined ? "latest" : firstVersionParam
-  console.log(`Importing ${versionToUse}`)
-  const ver = parseVersion(versionToUse)
+  const ver = getVersion(context.params?.version || [])
 
   console.log(`key = ${JSON.stringify(ver)}`)
   let cached = cache.get(JSON.stringify(ver))
