@@ -43,7 +43,7 @@ const Cards: NextPage<CardsProps, {}> = ({ version, cards }: CardsProps) => {
         if (version.major == 2) {
           return <V2Card
             key={i}
-            {...c}
+            data={c}
           />
         }
       }

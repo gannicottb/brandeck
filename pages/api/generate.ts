@@ -1,14 +1,17 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as puppeteer from 'puppeteer'
-import { getClient } from '../../lib/import'
+import { FolderType, getClient } from '../../lib/import'
 import { Readable } from 'stream'
-import { getVersion } from '../../lib/utils'
+import { ExportFolderId, getVersion } from '../../lib/utils'
 
 type Data = {
   name: string
 }
-
+/*
+  This endpoint performs a full generation of card images for the given version,
+  and automatically uploads them to EXPORT_FOLDER_ID
+*/
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
@@ -31,17 +34,21 @@ export default async function handler(
 
   const now = Date.now()
 
+  const batchFolder = await drive.files.create({
+    requestBody: {
+      name: `V${ver.major}.${ver.minor}-${now}`,
+      mimeType: FolderType,
+      parents: [ExportFolderId]
+    }
+  })
+
   await Promise.all(Array.from(Array(result.total).keys()).map(async (i) => {
     const offsetX = cardWidth * (i % cardsPerRow)
     const offsetY = cardHeight * Math.floor(i / cardsPerRow)
     const grabX = result.x + offsetX
     const grabY = result.y + offsetY
-    // console.log(`${i}: ${offsetX},${offsetY} -> ${grabX},${grabY}`)
-    // const promise = await page.screenshot({
-    //   path: `screenshots/card_${i}.png`,
-    //   clip: { x: grabX, y: grabY, width: cardWidth, height: cardHeight }
-    // });
 
+    // Take the screenshot
     const buffer = await page.screenshot({
       clip: { x: grabX, y: grabY, width: cardWidth, height: cardHeight }
     });
@@ -55,10 +62,9 @@ export default async function handler(
     // Upload to drive
     await drive.files.create({
       requestBody: {
-        name: `V${ver.major}.${ver.minor}--${now}--card_${i}.png`,
+        name: `card_${i}.png`,
         mimeType: 'image/png',
-        // testing with hardcoded folder for now
-        parents: ['13GPJM7v_o0kkhjT_g09g9MGH_QyrPXIo']
+        parents: batchFolder.data.id ? [batchFolder.data.id] : []
       },
       media: {
         mimeType: 'image/png',

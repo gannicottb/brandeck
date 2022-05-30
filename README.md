@@ -45,7 +45,8 @@ This Project Structure:
 Config:
 SERVICE_ACCOUNT_EMAIL
 SERVICE_ACCOUNT_KEY
-ROOT_FOLDER_ID - the root Google Drive folder containing card spreadsheets in a known structure
+ROOT_FOLDER_ID = the root Google Drive folder containing card spreadsheets in a known structure
+EXPORT_FOLDER_ID = the folder to put card images in
 
 Pages:
 /cards/[Major].[Minor] - Renders the cards for vMajor.Minor using the appropriate templates

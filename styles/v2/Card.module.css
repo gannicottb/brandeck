@@ -6,20 +6,64 @@
   flex-direction: column;
 
   border: solid .25rem black;
+
+  white-space: pre-line;
 }
 
 .topbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+
+  padding: .5rem;
+  font-size: 2rem;
+
+  background-color: var(--quarterwhite);
+}
+
+.cost {
+  background: black;
+  color: white;
+  padding: .25em;
+  border-radius: .25em;
 }
 
 .art {
   width: 300px;
   height: 200px;
+
+  margin-left: auto;
+  margin-right: auto;
+
   background: goldenrod;
 }
 
+.text {
+  font-size: 1.5rem;
+  padding: 1rem;
+  background-color: var(--quarterwhite);
+}
+
 .bottombar {
+  height: 25%;
+  width: 100%;
   display: flex;
+  align-items: center;
   margin-top: auto;
+  height: 25%;
+}
+
+.type {
+  font-size: 1.25rem;
+  padding: .5rem;
+  margin-right: auto;
+  background-color: var(--quarterwhite);
+}
+
+.stat {
+  width: 20%;
+  padding: .5rem;
+  border: .05em solid black;
+  font-size: 2rem;
+  background-color: var(--quarterwhite);
 }

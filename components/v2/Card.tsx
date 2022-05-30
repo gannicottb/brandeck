@@ -1,24 +1,46 @@
 import React from "react";
+import { ParsedCard } from "../../lib/parse";
 import styles from '../../styles/v2/Card.module.css'
 
-export const Card: React.FC<any> = (props) => {
-  const stats = ["speed", "strength", "family", "psychic"]
+type Dict = {
+  [key: string]: string
+}
 
+const biomeColors: Dict = {
+  "D": "#FF4600",
+  "C": "#414345",
+  "O": "#33ccff",
+  "F": "#66ff66"
+}
+interface CardProps {
+  data: ParsedCard
+}
+
+export const Card: React.FC<CardProps> = ({ data, ...props }) => {
+  const stats = ["speed", "strength", "family", "psychic"]
+  const colors = data.biome.split("").map(b => biomeColors[b])
+  const biomeColor = colors.length == 1 ? colors[0] : `linear-gradient(to right, ${colors.join(",")})`
+  console.log(`color = ${biomeColor}`)
   return (
-    <div className={styles.card}>
+    <div className={styles.card}
+      style={{
+        background: biomeColor
+      }}
+      {...props}
+    >
       <div className={styles.topbar}>
-        <div className='cost'>{props.cost}</div>
-        <div className='name'>{props.name}</div>
-        <div className='biome'>{props.biome}</div>
+        <div className={styles.cost}>{data.cost}</div>
+        <div className={styles.name}>{data.name}</div>
+        <div className={styles.biome}>{data.biome}</div>
       </div>
       <div className={styles.art}></div>
-      <div className='text'>{props.text}</div>
+      <div className={styles.text}>{data.text}</div>
       <div className={styles.bottombar}>
-        <div className='type'>{props.type}</div>
+        <div className={styles.type}>{data.type}</div>
         {stats.map((s, i) =>
-          <div className='stat' key={i}>
-            <div>{s}</div>
-            <div>{props[s]}</div>
+          <div className={styles.stat} key={i}>
+            <div>{s.slice(0, 3)}</div>
+            <div>{data[s as keyof typeof data]}</div>
           </div>
         )}
       </div>
