@@ -9,7 +9,7 @@ export const getClient = () => {
   const jwtClient = new google.auth.JWT(
     process.env.SERVICE_ACCOUNT_EMAIL,
     undefined,
-    process.env.SERVICE_ACCOUNT_KEY,
+    JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED"),
     ['https://www.googleapis.com/auth/spreadsheets',
       'https://www.googleapis.com/auth/drive',
     ]
