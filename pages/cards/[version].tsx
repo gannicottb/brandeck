@@ -1,8 +1,8 @@
 import { GetServerSideProps, NextPage } from "next"
 import styles from '../../styles/Cards.module.css'
 import { Card as V2Card } from '../../components/v2/Card'
-import * as importer from '../../lib/import'
-import * as parser from '../../lib/parse'
+import { importer } from '../../lib/import'
+import { parser } from '../../lib/parse'
 import { ParsedCard } from '../../lib/parse'
 import { basicAuth, getVersion, Version } from "../../lib/utils"
 
@@ -16,14 +16,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let cached = cache.get(JSON.stringify(ver))
   if (cached == null) {
     console.log("cache miss!")
-    const fresh = await importer.default(ver)
+    const fresh = await importer(ver)
     cache.put(JSON.stringify(ver), fresh)
     cached = fresh
   } else {
     console.log("cache hit :)")
   }
 
-  const cards = await parser.default(cached).then((parsed) => parsed)
+  const cards = await parser(cached).then((parsed) => parsed)
 
   return {
     props: {

@@ -31,7 +31,7 @@ export const getClient = () => {
   return google.drive({ version: "v3", auth: jwtClient });
 }
 
-export default async (ver: Version): Promise<string> => {
+export const importer = async (ver: Version): Promise<string> => {
 
   const drive = getClient()
 

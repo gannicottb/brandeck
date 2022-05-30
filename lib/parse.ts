@@ -29,7 +29,7 @@ export type ParsedCard = {
   text: string;
 };
 
-export default (csv: string) => {
+export const parser = async (csv: string) => {
   return new Promise<ParsedCard[]>(resolve => {
     let result: ParsedCard[] = []
     parseString<CardRow, ParsedCard>(csv, { headers: true })
