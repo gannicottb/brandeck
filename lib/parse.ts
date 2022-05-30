@@ -1,4 +1,5 @@
 import { parseString } from '@fast-csv/parse';
+import { icon } from './utils';
 
 // starting from 2.0
 type CardRow = {
@@ -45,6 +46,18 @@ export const parser = async (csv: string) => {
         num: Number(data.Num),
         art: data.Art,
         text: data.Text
+          .replaceAll("(Spd)", icon("spd"))
+          .replaceAll("(Str)", icon("str"))
+          .replaceAll("(Fam)", icon("fam"))
+          .replaceAll("(Psy)", icon("psy"))
+          // .replaceAll("(Cave)", "🕳")
+          // .replaceAll("(Desert)", "🏜")
+          // .replaceAll("(Forest)", "🌲")
+          // .replaceAll("(Ocean)", "🌊")
+          .replaceAll("(Cave)", icon("cave"))
+          .replaceAll("(Desert)", icon("desert"))
+          .replaceAll("(Forest)", icon("forest"))
+          .replaceAll("(Ocean)", icon("ocean"))
       })
 
       )

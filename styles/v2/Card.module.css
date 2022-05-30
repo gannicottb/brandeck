@@ -10,6 +10,30 @@
   white-space: pre-line;
 }
 
+.card :global(span.icon) {
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  background-size: cover;
+  display: inline-block;
+}
+
+.card :global(span.icon.forest) {
+  background-image: url("/forest_icon.png");
+}
+
+.card :global(span.icon.cave) {
+  background-image: url("/cave_icon.jpg");
+}
+
+.card :global(span.icon.desert) {
+  background-image: url("/desert_icon.png");
+}
+
+.card :global(span.icon.ocean) {
+  background-image: url("/ocean_icon.png");
+}
+
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -28,7 +52,11 @@
   border-radius: .25em;
 }
 
-.art {
+.biome {
+  font-size: 2.5rem;
+}
+
+.card .art {
   width: 300px;
   height: 200px;
 
@@ -62,6 +90,10 @@
 
 .stat {
   width: 20%;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+
   padding: .5rem;
   border: .05em solid black;
   font-size: 2rem;
