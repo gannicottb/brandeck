@@ -6,10 +6,14 @@ import { Version } from "./utils";
 export const FolderType = "application/vnd.google-apps.folder"
 
 export const getClient = () => {
+  const key = process.env.NODE_ENV == "production" ?
+    JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED") :
+    process.env.SERVICE_ACCOUNT_KEY
+
   const jwtClient = new google.auth.JWT(
     process.env.SERVICE_ACCOUNT_EMAIL,
     undefined,
-    process.env.SERVICE_ACCOUNT_KEY,
+    key,
     ['https://www.googleapis.com/auth/spreadsheets',
       'https://www.googleapis.com/auth/drive',
     ]

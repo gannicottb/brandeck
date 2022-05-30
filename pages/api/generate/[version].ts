@@ -1,9 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as puppeteer from 'puppeteer'
-import { FolderType, getClient } from '../../lib/import'
+import { FolderType, getClient } from '../../../lib/import'
 import { Readable } from 'stream'
-import { basicAuth, ExportFolderId, getVersion, sleep } from '../../lib/utils'
+import { basicAuth, ExportFolderId, getVersion, sleep } from '../../../lib/utils'
 
 type Data = {
   name: string
@@ -23,7 +23,7 @@ export default async function handler(
   const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 2400 } });
   const page = await browser.newPage();
   await page.goto(`http://localhost:3000/cards/${ver.major}.${ver.minor}`);
-  await page.screenshot({ path: "screenshots/full.png" })
+  // await page.screenshot({ path: "screenshots/full.png" })
 
   const cardWidth = 375
   const cardHeight = 525
