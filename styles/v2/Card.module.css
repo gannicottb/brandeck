@@ -57,28 +57,38 @@
 }
 
 .card .art {
-  width: 300px;
-  height: 200px;
-
+  width: 100%;
+  height: 40%;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  justify-content: center;
+}
 
-  background: goldenrod;
+.card .art:empty {
+  background: silver;
+}
+
+.card .art img {
+  max-height: 100%;
+  max-width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .text {
-  font-size: 1.5rem;
+  height: 30%;
+  font-size: 1.3rem;
   padding: 1rem;
   background-color: var(--quarterwhite);
 }
 
 .bottombar {
-  height: 25%;
+  height: 19%;
   width: 100%;
   display: flex;
   align-items: center;
   margin-top: auto;
-  height: 25%;
 }
 
 .type {
@@ -89,6 +99,7 @@
 }
 
 .stat {
+  height: 100%;
   width: 20%;
   align-items: center;
   flex-direction: column;

@@ -30,6 +30,18 @@ export type ParsedCard = {
   text: string;
 };
 
+const interpolateIcons = (text: string) => {
+  return text
+    .replaceAll("(Spd)", icon("spd"))
+    .replaceAll("(Str)", icon("str"))
+    .replaceAll("(Fam)", icon("fam"))
+    .replaceAll("(Psy)", icon("psy"))
+    .replaceAll("(Cave)", icon("cave"))
+    .replaceAll("(Desert)", icon("desert"))
+    .replaceAll("(Forest)", icon("forest"))
+    .replaceAll("(Ocean)", icon("ocean"))
+}
+
 export const parser = async (csv: string) => {
   return new Promise<ParsedCard[]>(resolve => {
     let result: ParsedCard[] = []
@@ -45,19 +57,7 @@ export const parser = async (csv: string) => {
         psychic: Number(data.Psychic),
         num: Number(data.Num),
         art: data.Art,
-        text: data.Text
-          .replaceAll("(Spd)", icon("spd"))
-          .replaceAll("(Str)", icon("str"))
-          .replaceAll("(Fam)", icon("fam"))
-          .replaceAll("(Psy)", icon("psy"))
-          // .replaceAll("(Cave)", "🕳")
-          // .replaceAll("(Desert)", "🏜")
-          // .replaceAll("(Forest)", "🌲")
-          // .replaceAll("(Ocean)", "🌊")
-          .replaceAll("(Cave)", icon("cave"))
-          .replaceAll("(Desert)", icon("desert"))
-          .replaceAll("(Forest)", icon("forest"))
-          .replaceAll("(Ocean)", icon("ocean"))
+        text: interpolateIcons(data.Text)
       })
 
       )

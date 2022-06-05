@@ -36,7 +36,9 @@ export const Card: React.FC<CardProps> = ({ data, ...props }) => {
           dangerouslySetInnerHTML={{ __html: biomeIcons.join("") }}
         />
       </div>
-      <div className={styles.art}></div>
+      <div className={styles.art}>
+        {data.art != "unknown" && <img src={data.art}></img>}
+      </div>
       <div className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
@@ -47,19 +49,19 @@ export const Card: React.FC<CardProps> = ({ data, ...props }) => {
           <>
             <div className={styles.stat}>
               <div>{icon("Spd")}</div>
-              <div>{data.speed}</div>
+              <div>{data.speed || ""}</div>
             </div>
             <div className={styles.stat}>
               <div>{icon("Str")}</div>
-              <div>{data.strength}</div>
+              <div>{data.strength || ""}</div>
             </div>
             <div className={styles.stat}>
               <div>{icon("Fam")}</div>
-              <div>{data.family}</div>
+              <div>{data.family || ""}</div>
             </div>
             <div className={styles.stat}>
               <div>{icon("Psy")}</div>
-              <div>{data.psychic}</div>
+              <div>{data.psychic || ""}</div>
             </div>
           </>
         )}

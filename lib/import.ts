@@ -1,50 +1,45 @@
 
-import { google } from "googleapis";
 import { GaxiosPromise } from "gaxios";
-import { Version } from "./utils";
+import { drive_v3 } from "googleapis";
+import { DriveClient } from "./DriveClient";
+import { ReadThroughCache, Version } from "./utils";
 
 export const FolderType = "application/vnd.google-apps.folder"
-
-export const getClient = () => {
-  const key = process.env.NODE_ENV == "production" ?
-    JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED") :
-    process.env.SERVICE_ACCOUNT_KEY
-
-  const jwtClient = new google.auth.JWT(
-    process.env.SERVICE_ACCOUNT_EMAIL,
-    undefined,
-    key,
-    ['https://www.googleapis.com/auth/spreadsheets',
-      'https://www.googleapis.com/auth/drive',
-    ]
-  )
-
-  jwtClient.authorize(function (err, tokens) {
-    if (err) {
-      console.log(err);
-      return;
-    } else {
-      console.log("Successfully connected!");
-    }
+interface NameAndParentId {
+  name: string
+  parentId?: string
+}
+const folderIdMap = new ReadThroughCache<NameAndParentId, drive_v3.Schema$File>(async ({ name, parentId }) => {
+  const drive = DriveClient.getInstance().drive()
+  return await drive.files.list(
+    { q: `name = '${name}' and parents in '${parentId}' and mimeType = '${FolderType}'` }
+  ).then((r) => {
+    return (r.data.files || [])[0]
   })
+})
 
-  return google.drive({ version: "v3", auth: jwtClient });
+export const mapArtURL = async (artName: string): Promise<string> => {
+  const drive = DriveClient.getInstance().drive()
+
+  const art_folder = await folderIdMap.get({
+    name: "art",
+    parentId: process.env.ROOT_FOLDER_ID
+  })
+  return drive.files.list(
+    { q: `name = '${artName}' and parents in '${art_folder.id}'` }
+  ).then((r) => {
+    const id = (r.data.files || [])[0]?.id
+    return id ? `https://drive.google.com/uc?id=${id}&export=download` : "unknown"
+  })
 }
 
 export const importer = async (ver: Version): Promise<string> => {
+  const drive = DriveClient.getInstance().drive()
 
-  const drive = getClient()
-
-  const major_folder = await drive.files.list(
-    { q: `name = 'v${ver.major}' and parents in '${process.env.ROOT_FOLDER_ID}' and mimeType = '${FolderType}'` }
-  ).then((r) => (r.data.files || [])[0])
-
+  const major_folder = await folderIdMap.get({ name: `v${ver.major}`, parentId: process.env.ROOT_FOLDER_ID })
   console.log(`Major Folder: ${major_folder?.name} ${major_folder?.id}`)
 
-  const minor_folder = await drive.files.list(
-    { q: `name = '.${ver.minor}' and parents in '${major_folder.id}' and mimeType = '${FolderType}'` })
-    .then((r) => (r.data.files || [])[0])
-
+  const minor_folder = await folderIdMap.get({ name: `.${ver.minor}`, parentId: major_folder.id || "" })
   console.log(`Minor Folder: ${minor_folder?.name} ${minor_folder?.id}`)
 
   const sheet = await drive.files.list(
@@ -52,7 +47,6 @@ export const importer = async (ver: Version): Promise<string> => {
     .then((r) => (r.data.files || [])[0])
 
   if (!sheet) throw new Error(`Could not find the sheet for ${ver}`)
-
 
   // Weird typing is a workaround as described here
   // https://github.com/googleapis/google-api-nodejs-client/issues/1683

@@ -29,5 +29,8 @@
   },
   "cacheDirectories": [
     ".next/cache"
-  ]
+  ],
+  "browser":{
+    "child_process": false
+  }  
 }

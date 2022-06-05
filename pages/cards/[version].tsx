@@ -1,29 +1,27 @@
-import { GetServerSideProps, NextPage } from "next"
+import { GetServerSideProps, GetStaticProps, NextPage } from "next"
 import styles from '../../styles/Cards.module.css'
 import { Card as V2Card } from '../../components/v2/Card'
-import { importer } from '../../lib/import'
+import { importer, mapArtURL } from '../../lib/import'
 import { parser } from '../../lib/parse'
 import { ParsedCard } from '../../lib/parse'
-import { basicAuth, getVersion, Version } from "../../lib/utils"
+import { getVersion, ReadThroughCache, Version } from "../../lib/utils"
 
-var cache = require('memory-cache');
+const cardsCache = new ReadThroughCache<Version, string>((ver) => importer(ver))
+const artURLCache = new ReadThroughCache<string, string>((artName) => mapArtURL(artName))
 
 // This function gets called at request time
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const ver = getVersion(context.params?.version || [])
 
   console.log(`key = ${JSON.stringify(ver)}`)
-  let cached = cache.get(JSON.stringify(ver))
-  if (cached == null) {
-    console.log("cache miss!")
-    const fresh = await importer(ver)
-    cache.put(JSON.stringify(ver), fresh)
-    cached = fresh
-  } else {
-    console.log("cache hit :)")
-  }
+  let cached = await cardsCache.get(ver)
 
-  const cards = await parser(cached).then((parsed) => parsed)
+  const parsed = await parser(cached).then((parsed) => parsed)
+  const cards = await Promise.all(parsed.map(async (c) => {
+    const artURL = await artURLCache.get(c.art)
+    c.art = artURL
+    return c;
+  }))
 
   return {
     props: {
