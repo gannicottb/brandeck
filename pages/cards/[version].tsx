@@ -4,10 +4,11 @@ import { Card as V2Card } from '../../components/v2/Card'
 import { importer, mapArtURL } from '../../lib/import'
 import { parser } from '../../lib/parse'
 import { ParsedCard } from '../../lib/parse'
-import { getVersion, ReadThroughCache, Version } from "../../lib/utils"
+import { getVersion, Version } from "../../lib/utils"
+import { InMemoryRTC, RedisRTC } from "../../lib/ReadThroughCache"
 
-const cardsCache = new ReadThroughCache<Version, string>((ver) => importer(ver))
-const artURLCache = new ReadThroughCache<string, string>((artName) => mapArtURL(artName))
+const cardsCache = new RedisRTC<Version>((ver) => importer(ver))
+const artURLCache = new RedisRTC<string>((artName) => mapArtURL(artName))
 
 // This function gets called at request time
 export const getServerSideProps: GetServerSideProps = async (context) => {

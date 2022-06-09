@@ -2,14 +2,16 @@
 import { GaxiosPromise } from "gaxios";
 import { drive_v3 } from "googleapis";
 import { DriveClient } from "./DriveClient";
-import { ReadThroughCache, Version } from "./utils";
+import { InMemoryRTC } from "./ReadThroughCache";
+// import { ReadThroughCache, Version } from "./utils";
+import { Version } from "./utils";
 
 export const FolderType = "application/vnd.google-apps.folder"
 interface NameAndParentId {
   name: string
   parentId?: string
 }
-const folderIdMap = new ReadThroughCache<NameAndParentId, drive_v3.Schema$File>(async ({ name, parentId }) => {
+const folderIdMap = new InMemoryRTC<NameAndParentId, drive_v3.Schema$File>(async ({ name, parentId }) => {
   const drive = DriveClient.getInstance().drive()
   return await drive.files.list(
     { q: `name = '${name}' and parents in '${parentId}' and mimeType = '${FolderType}'` }

@@ -14,9 +14,10 @@
     "memory-cache": "^0.2.0",
     "next": "12.1.6",
     "nextjs-basic-auth": "^0.1.3",
+    "puppeteer": "^13.7.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "puppeteer": "^13.7.0"
+    "redis": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "17.0.31",
@@ -24,13 +25,12 @@
     "@types/react-dom": "18.0.3",
     "eslint": "8.15.0",
     "eslint-config-next": "12.1.6",
-    
     "typescript": "4.6.4"
   },
   "cacheDirectories": [
     ".next/cache"
   ],
-  "browser":{
+  "browser": {
     "child_process": false
-  }  
+  }
 }

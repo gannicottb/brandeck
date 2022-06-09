@@ -64,26 +64,3 @@ export const icon = (code: string): string => {
       return "unknown"
   }
 }
-
-export class ReadThroughCache<K, V> {
-  cache = require('memory-cache');
-  fn: (key: K) => Promise<V>
-
-  constructor(fn: (key: K) => Promise<V>) {
-    this.fn = fn
-  }
-
-  async get(key: K): Promise<V> {
-    const keyString = JSON.stringify(key)
-    let cached = this.cache.get(keyString)
-    if (cached == null) {
-      console.log(`cache miss! for ${keyString}`)
-      const fresh = await this.fn(key)
-      this.cache.put(keyString, fresh)
-      cached = fresh
-    } else {
-      console.log(`cache hit :) for ${keyString}`)
-    }
-    return cached
-  }
-}
