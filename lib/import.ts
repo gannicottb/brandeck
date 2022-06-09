@@ -3,7 +3,6 @@ import { GaxiosPromise } from "gaxios";
 import { drive_v3 } from "googleapis";
 import { DriveClient } from "./DriveClient";
 import { InMemoryRTC } from "./ReadThroughCache";
-// import { ReadThroughCache, Version } from "./utils";
 import { Version } from "./utils";
 
 export const FolderType = "application/vnd.google-apps.folder"

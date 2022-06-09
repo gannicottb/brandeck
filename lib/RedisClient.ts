@@ -9,7 +9,9 @@ export class RedisClient {
   private client: RedisClientType
 
   private constructor() {
-    const rc = createClient();
+    const rc = createClient({
+      url: process.env.REDIS_URL
+    });
 
     rc.on('error', (err) => console.log('Redis Client Error', err));
 
