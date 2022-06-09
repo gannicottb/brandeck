@@ -27,7 +27,9 @@ export default async function handler(
   // redirect error logs
   page.on('console', (msg) => msg.type() == "error" && console.log(msg))
   // Go to the appropriate cards page
-  await page.goto(`http://localhost:3000/cards/${ver.major}.${ver.minor}`,
+  // todo: needs to go to brandeck.herokuapp.com in production
+  const cardsUrl = `http://localhost:3000/cards/${ver.isLatest ? "latest" : `${ver.major}.${ver.minor}`}`
+  await page.goto(cardsUrl,
     { "waitUntil": "networkidle0" }
   );
 
