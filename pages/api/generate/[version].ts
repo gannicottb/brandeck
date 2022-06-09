@@ -1,9 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as puppeteer from 'puppeteer'
-import { FolderType } from '../../../lib/import'
+import { FolderType, getVersion } from '../../../lib/import'
 import { Readable } from 'stream'
-import { basicAuth, ExportFolderId, getVersion, sleep } from '../../../lib/utils'
+// import { basicAuth, ExportFolderId, getVersion, sleep } from '../../../lib/utils'
+import { basicAuth, ExportFolderId, sleep } from '../../../lib/utils'
 import { DriveClient } from '../../../lib/DriveClient'
 
 type Data = {
@@ -19,7 +20,7 @@ export default async function handler(
 ) {
   if (process.env.NODE_ENV == "production") await basicAuth(req, res)
 
-  const ver = getVersion(req.query.version)
+  const ver = await getVersion(req.query.version)
   const drive = DriveClient.getInstance().drive()
   const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 2400 } });
   const page = await browser.newPage();

@@ -20,6 +20,7 @@ export class RedisClient {
   public static async getInstance() {
     if (!RedisClient.instance) {
       RedisClient.instance = new RedisClient();
+      // connect only once
       await RedisClient.instance.redis().connect()
     }
     return RedisClient.instance;

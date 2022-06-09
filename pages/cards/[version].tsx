@@ -1,18 +1,18 @@
 import { GetServerSideProps, GetStaticProps, NextPage } from "next"
 import styles from '../../styles/Cards.module.css'
 import { Card as V2Card } from '../../components/v2/Card'
-import { importer, mapArtURL } from '../../lib/import'
+import { importer, mapArtURL, getVersion } from '../../lib/import'
 import { parser } from '../../lib/parse'
 import { ParsedCard } from '../../lib/parse'
-import { getVersion, Version } from "../../lib/utils"
-import { InMemoryRTC, RedisRTC } from "../../lib/ReadThroughCache"
+import { Version } from "../../lib/utils"
+import { RedisRTC } from "../../lib/RedisRTC"
 
 const cardsCache = new RedisRTC<Version>((ver) => importer(ver))
 const artURLCache = new RedisRTC<string>((artName) => mapArtURL(artName))
 
 // This function gets called at request time
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const ver = getVersion(context.params?.version || [])
+  const ver = await getVersion(context.params?.version || [])
 
   console.log(`key = ${JSON.stringify(ver)}`)
   let cached = await cardsCache.get(ver)

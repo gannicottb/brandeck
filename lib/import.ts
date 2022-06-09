@@ -1,9 +1,8 @@
-
 import { GaxiosPromise } from "gaxios";
 import { drive_v3 } from "googleapis";
 import { DriveClient } from "./DriveClient";
 import { InMemoryRTC } from "./ReadThroughCache";
-import { Version } from "./utils";
+import { parseVersion, RootFolderId, Version } from "./utils";
 
 export const FolderType = "application/vnd.google-apps.folder"
 interface NameAndParentId {
@@ -58,4 +57,35 @@ export const importer = async (ver: Version): Promise<string> => {
   }) as unknown) as GaxiosPromise<string>)
 
   return buf.data
+}
+
+export const findLatest = async (): Promise<Version> => {
+  let maxBy = require("lodash.maxby")
+  const parseMajor = (name: string | null | undefined) => Number(name?.split("v")[1])
+  const parseMinor = (name: string | null | undefined) => Number(name?.split(".")[1])
+  const drive = DriveClient.getInstance().drive()
+  // find all of the folders in ROOT_FOLDER_ID that start with "v"
+  const majorFolders = await drive.files.list({
+    q: `name contains 'v' and parents in '${RootFolderId}' and mimeType = '${FolderType}'`
+  })
+  // Choose the one with the highest v[n]
+  const highestMajor = maxBy(majorFolders.data.files, (f: drive_v3.Schema$File) => parseMajor(f.name))
+  // Then find all of the folders in that folder that start with "."
+  const minorFolders = await drive.files.list({
+    q: `name contains '.' and parents in '${highestMajor?.id}' and mimeType = '${FolderType}'`
+  })
+  // Choose the one with the highest .[n]
+  const highestMinor = maxBy(minorFolders.data.files, (f: drive_v3.Schema$File) => parseMinor(f.name))
+  // return the Version
+  return { "major": parseMajor(highestMajor?.name), "minor": parseMinor(highestMinor?.name) }
+}
+
+export const getVersion = async (query: string | string[]): Promise<Version> => {
+  const firstVersionParam = Array.isArray(query) ? query[0] : query
+  if (firstVersionParam != "latest") {
+    let x = new Promise<Version>((res) => res(parseVersion(firstVersionParam)))
+    return x
+  } else {
+    return findLatest()
+  }
 }
