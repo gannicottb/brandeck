@@ -77,14 +77,17 @@ export const findLatest = async (): Promise<Version> => {
   // Choose the one with the highest .[n]
   const highestMinor = maxBy(minorFolders.data.files, (f: drive_v3.Schema$File) => parseMinor(f.name))
   // return the Version
-  return { "major": parseMajor(highestMajor?.name), "minor": parseMinor(highestMinor?.name) }
+  return {
+    major: parseMajor(highestMajor?.name),
+    minor: parseMinor(highestMinor?.name),
+    isLatest: true
+  }
 }
 
 export const getVersion = async (query: string | string[]): Promise<Version> => {
   const firstVersionParam = Array.isArray(query) ? query[0] : query
   if (firstVersionParam != "latest") {
-    let x = new Promise<Version>((res) => res(parseVersion(firstVersionParam)))
-    return x
+    return new Promise<Version>((res) => res(parseVersion(firstVersionParam)))
   } else {
     return findLatest()
   }

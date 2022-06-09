@@ -15,7 +15,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const ver = await getVersion(context.params?.version || [])
 
   console.log(`key = ${JSON.stringify(ver)}`)
-  let cached = await cardsCache.get(ver)
+
+  let cached = ver.isLatest ? await importer(ver) : await cardsCache.get(ver)
 
   const parsed = await parser(cached).then((parsed) => parsed)
   const cards = await Promise.all(parsed.map(async (c) => {

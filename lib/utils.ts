@@ -2,7 +2,8 @@ import initializeBasicAuth from 'nextjs-basic-auth'
 
 export interface Version {
   major: Number,
-  minor: Number
+  minor: Number,
+  isLatest?: boolean
 }
 
 export const RootFolderId = process.env.ROOT_FOLDER_ID || "UNDEFINED"
