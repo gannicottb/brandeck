@@ -1,7 +1,7 @@
 import { GaxiosPromise } from "gaxios";
 import { drive_v3 } from "googleapis";
 import { DriveClient } from "./DriveClient";
-import { InMemoryRTC } from "./ReadThroughCache";
+import { RedisRTC } from "./RedisRTC";
 import { parseVersion, RootFolderId, Version } from "./utils";
 
 export const FolderType = "application/vnd.google-apps.folder"
@@ -9,24 +9,25 @@ interface NameAndParentId {
   name: string
   parentId?: string
 }
-const folderIdMap = new InMemoryRTC<NameAndParentId, drive_v3.Schema$File>(async ({ name, parentId }) => {
+
+const folderIdMap = new RedisRTC<NameAndParentId>(async ({ name, parentId }) => {
   const drive = DriveClient.getInstance().drive()
   return await drive.files.list(
     { q: `name = '${name}' and parents in '${parentId}' and mimeType = '${FolderType}'` }
   ).then((r) => {
-    return (r.data.files || [])[0]
+    return (r.data.files || [])[0]?.id || "unknown"
   })
 })
 
 export const mapArtURL = async (artName: string): Promise<string> => {
   const drive = DriveClient.getInstance().drive()
 
-  const art_folder = await folderIdMap.get({
+  const art_folder_id = await folderIdMap.get({
     name: "art",
     parentId: process.env.ROOT_FOLDER_ID
   })
   return drive.files.list(
-    { q: `name = '${artName}' and parents in '${art_folder.id}'` }
+    { q: `name = '${artName}' and parents in '${art_folder_id}'` }
   ).then((r) => {
     const id = (r.data.files || [])[0]?.id
     return id ? `https://drive.google.com/uc?id=${id}&export=download` : "unknown"
@@ -36,14 +37,14 @@ export const mapArtURL = async (artName: string): Promise<string> => {
 export const importer = async (ver: Version): Promise<string> => {
   const drive = DriveClient.getInstance().drive()
 
-  const major_folder = await folderIdMap.get({ name: `v${ver.major}`, parentId: process.env.ROOT_FOLDER_ID })
-  console.log(`Major Folder: ${major_folder?.name} ${major_folder?.id}`)
+  const major_folder_id = await folderIdMap.get({ name: `v${ver.major}`, parentId: process.env.ROOT_FOLDER_ID })
+  console.log(`Major Folder: v${ver.major}: ${major_folder_id}`)
 
-  const minor_folder = await folderIdMap.get({ name: `.${ver.minor}`, parentId: major_folder.id || "" })
-  console.log(`Minor Folder: ${minor_folder?.name} ${minor_folder?.id}`)
+  const minor_folder_id = await folderIdMap.get({ name: `.${ver.minor}`, parentId: major_folder_id })
+  console.log(`Minor Folder: .${ver.minor}: ${minor_folder_id}`)
 
   const sheet = await drive.files.list(
-    { q: `name contains 'cards' and parents in '${minor_folder.id}'` })
+    { q: `name contains 'cards' and parents in '${minor_folder_id}'` })
     .then((r) => (r.data.files || [])[0])
 
   if (!sheet) throw new Error(`Could not find the sheet for ${ver}`)
