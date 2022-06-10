@@ -7,7 +7,6 @@ import { ParsedCard } from '../../lib/parse'
 import { Version } from "../../lib/utils"
 import { RedisRTC } from "../../lib/RedisRTC"
 
-const cardsCache = new RedisRTC<Version>((ver) => importer(ver))
 const artURLCache = new RedisRTC<string>((artName) => mapArtURL(artName))
 
 // This function gets called at request time
@@ -16,9 +15,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   console.log(`key = ${JSON.stringify(ver)}`)
 
-  let cached = ver.isLatest ? await importer(ver) : await cardsCache.get(ver)
+  const raw = await importer(ver)
 
-  const parsed = await parser(cached).then((parsed) => parsed)
+  const parsed = await parser(raw).then((parsed) => parsed)
   const cards = await Promise.all(parsed.map(async (c) => {
     const artURL = await artURLCache.get(c.art)
     c.art = artURL
