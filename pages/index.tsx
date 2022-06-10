@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -20,11 +21,11 @@ const Home: NextPage = () => {
         <div>Winding Road Games card preview/generation utility.</div>
 
         <div className={styles.grid}>
-          <a href="/cards/latest" className={styles.card}>
-            <h2>Latest cards &rarr;</h2>
+          <div className={styles.card}>
+            <h2><Link href="/cards/latest">Latest cards &rarr;</Link></h2>
             <p>View the in progress patch.</p>
             <p>Note: this is slower than just going to /cards/X.Y.</p>
-          </a>
+          </div>
 
           <div
             className={styles.card}

@@ -37,7 +37,10 @@ export const Card: React.FC<CardProps> = ({ data, ...props }) => {
         />
       </div>
       <div className={styles.art}>
-        {data.art != "unknown" && <img src={data.art}></img>}
+        {data.art != "unknown" && <img
+          alt={data.name}
+          src={data.art}
+        />}
       </div>
       <div className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
