@@ -2,12 +2,27 @@
   width: 375px;
   height: 525px;
 
+  font-size: 16px;
+
   display: flex;
   flex-direction: column;
 
-  border: solid .25rem black;
+  border: solid .25em black;
 
   white-space: pre-line;
+
+  /* This doesn't seem to work :( */
+  break-inside: avoid;
+}
+
+@media print {
+  .card {
+    /* print size (750 * .3) and (1050 * .3) and (32 * .3) */
+    width: 225px;
+
+    height: 315px;
+    font-size: 10px;
+  }
 }
 
 .card :global(span.icon) {
@@ -20,9 +35,9 @@
 
 .card :global(span.circled) {
   background-color: var(--halfwhite);
-  border: solid .1rem silver;
+  border: solid .1em silver;
   border-radius: 50%;
-  padding: 0.1rem;
+  padding: 0.1em;
 }
 
 .card :global(span.icon.forest) {
@@ -46,8 +61,8 @@
   justify-content: space-between;
   align-items: center;
 
-  padding: .5rem;
-  font-size: 1.90rem;
+  padding: .5em;
+  font-size: 1.5em;
 
   background-color: var(--halfwhite);
 }
@@ -66,13 +81,13 @@
 
 .type {
   color: black;
-  font-size: .9rem;
+  font-size: .9em;
   font-variant-caps: all-small-caps;
   font-style: italic;
 }
 
 .biome {
-  font-size: 2.5rem;
+  font-size: 1.5em;
 }
 
 .card .art {
@@ -97,8 +112,8 @@
 
 .text {
   flex-grow: 2;
-  font-size: 1.3rem;
-  padding: .7rem;
+  font-size: 1.2em;
+  padding: .7em;
   background-color: var(--halfwhite);
 }
 
@@ -118,6 +133,6 @@
   display: flex;
 
   border: .05em solid black;
-  font-size: 2rem;
+  font-size: 2em;
   background-color: var(--halfwhite);
 }

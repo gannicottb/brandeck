@@ -39,14 +39,15 @@ const Cards: NextPage<CardsProps, {}> = ({ version, cards }: CardsProps) => {
   return (
     <div id='container' className={styles.container}>
       {cards.map((c, i) => {
-        if (version.major == 2) {
-          return <V2Card
+        return <>
+          {(version.major == 2) && <V2Card
             key={i}
             data={c}
-          />
-        }
-      }
-      )}
+          />}
+          {(i > 0 && i % 9 == 0) && <div className={styles.print_break} key={`pb-${i}`}></div>}
+        </>
+
+      })}
     </div>
   )
 }

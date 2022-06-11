@@ -4,9 +4,7 @@
   flex-wrap: wrap;
 }
 
-.card {
-  width: 375px;
-  height: 525px;
-
-  border: solid .25rem black;
+.print_break {
+  height: 1px;
+  break-before: always;
 }
