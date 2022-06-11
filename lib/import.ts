@@ -1,8 +1,7 @@
 import { GaxiosPromise } from "gaxios";
-import { drive_v3 } from "googleapis";
 import { DriveClient } from "./DriveClient";
 import { RedisRTC } from "./RedisRTC";
-import { parseVersion, RootFolderId, Version } from "./utils";
+import { parseVersion, Version } from "./utils";
 
 export const FolderType = "application/vnd.google-apps.folder"
 interface NameAndParentId {
@@ -15,7 +14,10 @@ const folderIdMap = new RedisRTC<NameAndParentId>(async ({ name, parentId }) => 
   return await drive.files.list(
     { q: `name = '${name}' and parents in '${parentId}' and mimeType = '${FolderType}'` }
   ).then((r) => {
-    return (r.data.files || [])[0]?.id || "unknown"
+    const fileId = (r.data.files || [])[0]?.id
+    if (fileId) { return fileId } else {
+      return Promise.reject(`item ${name} not found in ${parentId}`)
+    }
   })
 })
 
@@ -30,7 +32,9 @@ export const mapArtURL = async (artName: string): Promise<string> => {
     { q: `name = '${artName}' and parents in '${art_folder_id}'` }
   ).then((r) => {
     const id = (r.data.files || [])[0]?.id
-    return id ? `https://drive.google.com/uc?id=${id}&export=download` : "unknown"
+    if (id) { return `https://drive.google.com/uc?id=${id}&export=download` } else {
+      return Promise.reject(`image ${artName} not found in ${art_folder_id}`)
+    }
   })
 }
 
@@ -60,36 +64,35 @@ export const importer = async (ver: Version): Promise<string> => {
   return buf.data
 }
 
-export const findLatest = async (): Promise<Version> => {
-  let maxBy = require("lodash.maxby")
-  const parseMajor = (name: string | null | undefined) => Number(name?.split("v")[1])
-  const parseMinor = (name: string | null | undefined) => Number(name?.split(".")[1])
-  const drive = DriveClient.getInstance().drive()
-  // find all of the folders in ROOT_FOLDER_ID that start with "v"
-  const majorFolders = await drive.files.list({
-    q: `name contains 'v' and parents in '${RootFolderId}' and mimeType = '${FolderType}'`
-  })
-  // Choose the one with the highest v[n]
-  const highestMajor = maxBy(majorFolders.data.files, (f: drive_v3.Schema$File) => parseMajor(f.name))
-  // Then find all of the folders in that folder that start with "."
-  const minorFolders = await drive.files.list({
-    q: `name contains '.' and parents in '${highestMajor?.id}' and mimeType = '${FolderType}'`
-  })
-  // Choose the one with the highest .[n]
-  const highestMinor = maxBy(minorFolders.data.files, (f: drive_v3.Schema$File) => parseMinor(f.name))
-  // return the Version
-  return {
-    major: parseMajor(highestMajor?.name),
-    minor: parseMinor(highestMinor?.name),
-    isLatest: true
-  }
-}
+/*
+  No real reason to bother doing this. We're always going to know what version we want.
+*/
+// export const findLatest = async (): Promise<Version> => {
+//   let maxBy = require("lodash.maxby")
+//   const parseMajor = (name: string | null | undefined) => Number(name?.split("v")[1])
+//   const parseMinor = (name: string | null | undefined) => Number(name?.split(".")[1])
+//   const drive = DriveClient.getInstance().drive()
+//   // find all of the folders in ROOT_FOLDER_ID that start with "v"
+//   const majorFolders = await drive.files.list({
+//     q: `name contains 'v' and parents in '${RootFolderId}' and mimeType = '${FolderType}'`
+//   })
+//   // Choose the one with the highest v[n]
+//   const highestMajor = maxBy(majorFolders.data.files, (f: drive_v3.Schema$File) => parseMajor(f.name))
+//   // Then find all of the folders in that folder that start with "."
+//   const minorFolders = await drive.files.list({
+//     q: `name contains '.' and parents in '${highestMajor?.id}' and mimeType = '${FolderType}'`
+//   })
+//   // Choose the one with the highest .[n]
+//   const highestMinor = maxBy(minorFolders.data.files, (f: drive_v3.Schema$File) => parseMinor(f.name))
+//   // return the Version
+//   return {
+//     major: parseMajor(highestMajor?.name),
+//     minor: parseMinor(highestMinor?.name),
+//     isLatest: true
+//   }
+// }
 
 export const getVersion = async (query: string | string[]): Promise<Version> => {
   const firstVersionParam = Array.isArray(query) ? query[0] : query
-  if (firstVersionParam != "latest") {
-    return new Promise<Version>((res) => res(parseVersion(firstVersionParam)))
-  } else {
-    return findLatest()
-  }
+  return new Promise<Version>((res) => res(parseVersion(firstVersionParam)))
 }

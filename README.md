@@ -24,8 +24,6 @@ This Project Structure:
 /lib (these evolve, and are not versioned)
   import.ts
   parse.ts
-  generate.ts
-  export.ts
 /pages
   index.ts
   /api
@@ -50,13 +48,9 @@ EXPORT_FOLDER_ID = the folder to put card images in
 
 Pages:
 /cards/[Major].[Minor] - Renders the cards for vMajor.Minor using the appropriate templates
-/cards/latest - Highest version found in root folder
 
 API:
 /api/generate/[Major].[Minor] - import, parse, render, screenshot, and upload to a known location
-/api/generate/latest - Highest version found in root folder
-
-
 
 ===
 

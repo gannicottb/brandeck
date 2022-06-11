@@ -22,9 +22,13 @@ const Home: NextPage = () => {
 
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h2><Link href="/cards/latest">Latest cards &rarr;</Link></h2>
+            <h2><Link href="/cards/2.0">Last Patch &rarr;</Link></h2>
+            <p>View the last patch.</p>
+          </div>
+
+          <div className={styles.card}>
+            <h2><Link href="/cards/2.1">In Progress Patch &rarr;</Link></h2>
             <p>View the in progress patch.</p>
-            <p>Note: this is slower than just going to /cards/X.Y.</p>
           </div>
 
           <div
