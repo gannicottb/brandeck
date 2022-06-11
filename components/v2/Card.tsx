@@ -31,7 +31,10 @@ export const Card: React.FC<CardProps> = ({ data, ...props }) => {
     >
       <div className={styles.topbar}>
         <div className={styles.cost}>{data.cost}</div>
-        <div className={styles.name}>{data.name}</div>
+        <div>
+          <div className={styles.name}>{data.name}</div>
+          <div className={styles.type}>{data.type}</div>
+        </div>
         <div className={styles.biome}
           dangerouslySetInnerHTML={{ __html: biomeIcons.join("") }}
         />
@@ -45,9 +48,7 @@ export const Card: React.FC<CardProps> = ({ data, ...props }) => {
       <div className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
-      {/* <div className={styles.text}>{data.text}</div> */}
       <div className={styles.bottombar}>
-        <div className={styles.type}>{data.type}</div>
         {data.type == "Mon" && (
           <>
             <div className={styles.stat}>

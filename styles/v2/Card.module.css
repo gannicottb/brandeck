@@ -40,16 +40,28 @@
   align-items: center;
 
   padding: .5rem;
-  font-size: 2rem;
+  font-size: 1.90rem;
 
   background-color: var(--quarterwhite);
 }
 
 .cost {
+  display: flex;
+  flex-direction: column;
+
   background: black;
   color: white;
-  padding: .25em;
+  padding: .15em;
   border-radius: .25em;
+  align-items: center;
+  height: fit-content;
+}
+
+.type {
+  color: black;
+  font-size: .9rem;
+  font-variant-caps: all-small-caps;
+  font-style: italic;
 }
 
 .biome {
@@ -58,7 +70,7 @@
 
 .card .art {
   width: 100%;
-  height: 40%;
+  height: 38%;
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -84,28 +96,20 @@
 }
 
 .bottombar {
-  height: 19%;
+  height: 20%;
   width: 100%;
   display: flex;
   align-items: center;
   margin-top: auto;
 }
 
-.type {
-  font-size: 1.25rem;
-  padding: .5rem;
-  margin-right: auto;
-  background-color: var(--quarterwhite);
-}
-
 .stat {
   height: 100%;
-  width: 20%;
+  width: 25%;
   align-items: center;
   flex-direction: column;
   display: flex;
 
-  padding: .5rem;
   border: .05em solid black;
   font-size: 2rem;
   background-color: var(--quarterwhite);
