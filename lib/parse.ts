@@ -32,14 +32,16 @@ export type ParsedCard = {
 
 const interpolateIcons = (text: string) => {
   return text
-    .replaceAll("(Spd)", icon("spd"))
-    .replaceAll("(Str)", icon("str"))
-    .replaceAll("(Fam)", icon("fam"))
-    .replaceAll("(Psy)", icon("psy"))
-    .replaceAll("(Cave)", icon("cave"))
-    .replaceAll("(Desert)", icon("desert"))
-    .replaceAll("(Forest)", icon("forest"))
-    .replaceAll("(Ocean)", icon("ocean"))
+    .replaceAll("(Spd)", `<span class='circled'>${icon("spd")}</span>`)
+    .replaceAll("(Str)", `<span class='circled'>${icon("str")}</span>`)
+    .replaceAll("(Fam)", `<span class='circled'>${icon("fam")}</span>`)
+    .replaceAll("(Psy)", `<span class='circled'>${icon("psy")}</span>`)
+    .replaceAll("(Cave)", `<span class='circled'>${icon("cave")}</span>`)
+    .replaceAll("(Desert)", `<span class='circled'>${icon("desert")}</span>`)
+    .replaceAll("(Forest)", `<span class='circled'>${icon("forest")}</span>`)
+    .replaceAll("(Ocean)", `<span class='circled'>${icon("ocean")}</span>`)
+  // .replaceAll("Summer", `<span class='circled'>${icon("summer")}</span>`)
+  // .replaceAll("Winter", `<span class='circled'>${icon("winter")}</span>`)
 }
 
 export const parser = async (csv: string) => {

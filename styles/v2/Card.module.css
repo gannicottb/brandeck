@@ -18,6 +18,13 @@
   display: inline-block;
 }
 
+.card :global(span.circled) {
+  background-color: var(--halfwhite);
+  border: solid .1rem silver;
+  border-radius: 50%;
+  padding: 0.1rem;
+}
+
 .card :global(span.icon.forest) {
   background-image: url("/forest_icon.png");
 }
@@ -42,7 +49,7 @@
   padding: .5rem;
   font-size: 1.90rem;
 
-  background-color: var(--quarterwhite);
+  background-color: var(--halfwhite);
 }
 
 .cost {
@@ -89,10 +96,10 @@
 }
 
 .text {
-  height: 30%;
+  flex-grow: 2;
   font-size: 1.3rem;
-  padding: 1rem;
-  background-color: var(--quarterwhite);
+  padding: .7rem;
+  background-color: var(--halfwhite);
 }
 
 .bottombar {
@@ -112,5 +119,5 @@
 
   border: .05em solid black;
   font-size: 2rem;
-  background-color: var(--quarterwhite);
+  background-color: var(--halfwhite);
 }

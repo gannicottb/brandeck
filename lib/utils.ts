@@ -54,6 +54,10 @@ export const icon = (code: string): string => {
     case "o":
       return "🌊"
     // return "<span class='icon ocean'></span>"
+    case "summer":
+      return "☀️"
+    case "winter":
+      return "☃️"
     default:
       return "unknown"
   }

@@ -1,5 +1,7 @@
 :root {
-  --quarterwhite: rgba(255, 255, 255, 0.5);
+  --quarterwhite: rgba(255, 255, 255, 0.25);
+  --halfwhite: rgba(255, 255, 255, 0.5);
+  --threequarterwhite: rgba(255, 255, 255, 0.75)
 }
 
 html,
