@@ -4,12 +4,14 @@ import { ReadThroughCache } from "./ReadThroughCache"
 // Redis works in strings pretty exclusively, so if I really wanted
 // to be polymorphic in V, I would need a deserializing fn
 export class RedisRTC<K> extends ReadThroughCache<K, string> {
-  constructor(fn: (key: K) => Promise<string>) {
+  namespace: string
+  constructor(namespace: string, fn: (key: K) => Promise<string>) {
     super(fn)
+    this.namespace = namespace
   }
 
   async get(key: K): Promise<string> {
-    const keyString = JSON.stringify(key)
+    const keyString = `astromon:${this.namespace}:${JSON.stringify(key)}`
     const redis = await RedisClient.getInstance().then((c) => c.redis())
 
     let cached = await redis.get(keyString)

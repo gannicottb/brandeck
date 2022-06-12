@@ -7,7 +7,7 @@ import { ParsedCard } from '../../lib/parse'
 import { Version } from "../../lib/utils"
 import { RedisRTC } from "../../lib/RedisRTC"
 
-const artURLCache = new RedisRTC<string>((artName) => mapArtURL(artName))
+const artURLCache = new RedisRTC<string>("art", (artName) => mapArtURL(artName))
 
 // This function gets called at request time
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -40,13 +40,9 @@ const Cards: NextPage<CardsProps, {}> = ({ version, cards }: CardsProps) => {
     <div id='container' className={styles.container}>
       {cards.map((c, i) => {
         return <>
-          {(version.major == 2) && <V2Card
-            key={i}
-            data={c}
-          />}
+          {(version.major == 2) && <V2Card key={i} data={c} />}
           {(i > 0 && i % 9 == 0) && <div className={styles.print_break} key={`pb-${i}`}></div>}
         </>
-
       })}
     </div>
   )

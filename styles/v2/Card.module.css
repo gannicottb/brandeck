@@ -113,7 +113,7 @@
 
 .text {
   flex-grow: 2;
-  font-size: 1.2em;
+  font-size: 1.1em;
   padding: .7em;
   background-color: var(--halfwhite);
 }

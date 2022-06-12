@@ -9,7 +9,7 @@ interface NameAndParentId {
   parentId?: string
 }
 
-const folderIdMap = new RedisRTC<NameAndParentId>(async ({ name, parentId }) => {
+const folderIdMap = new RedisRTC<NameAndParentId>("folderIds", async ({ name, parentId }) => {
   const drive = DriveClient.getInstance().drive()
   return await drive.files.list(
     { q: `name = '${name}' and parents in '${parentId}' and mimeType = '${FolderType}'` }
