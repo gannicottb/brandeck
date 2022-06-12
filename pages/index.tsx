@@ -22,12 +22,12 @@ const Home: NextPage = () => {
 
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h2><Link href="/cards/2.0">Last Patch &rarr;</Link></h2>
+            <h2><Link href="/astromon/cards/2.0">Last Patch &rarr;</Link></h2>
             <p>View the last patch.</p>
           </div>
 
           <div className={styles.card}>
-            <h2><Link href="/cards/2.1">In Progress Patch &rarr;</Link></h2>
+            <h2><Link href="/astromon/cards/2.1">In Progress Patch &rarr;</Link></h2>
             <p>View the in progress patch.</p>
           </div>
 
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
             className={styles.card}
           >
             <h2>Other Versions</h2>
-            <p>Go to /cards/X.Y to view those cards.</p>
+            <p>Go to /game/cards/X.Y to view those cards.</p>
           </div>
 
           <div

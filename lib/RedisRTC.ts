@@ -18,11 +18,11 @@ export class RedisRTC<K> extends ReadThroughCache<K, string> {
     if (cached == null) {
       console.log(`cache miss! for ${keyString}`)
       await this.fn(key).then(
-        (v: string) => {
+        (v: string) => { // if the function resolved,
           redis.set(keyString, v) // set the new value
           cached = v // return the new value
         },
-        (reason) => {
+        (reason) => { // if the function was rejected, don't persist anything
           console.log(reason)
         }
       )

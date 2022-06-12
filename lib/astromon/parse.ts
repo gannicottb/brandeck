@@ -1,5 +1,5 @@
 import { parseString } from '@fast-csv/parse';
-import { icon } from './utils';
+import { icon } from 'lib/astromon/utils';
 
 // starting from 2.0
 type CardRow = {
@@ -44,7 +44,8 @@ const interpolateIcons = (text: string) => {
   // .replaceAll("Winter", `<span class='circled'>${icon("winter")}</span>`)
 }
 
-export const parser = async (csv: string) => {
+// could dry this up to allow for other games to easily use the same logic
+export const parser = (csv: string) => {
   return new Promise<ParsedCard[]>(resolve => {
     let result: ParsedCard[] = []
     parseString<CardRow, ParsedCard>(csv, { headers: true })

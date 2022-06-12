@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as puppeteer from 'puppeteer'
-import { FolderType, getVersion } from '../../../lib/import'
+import { FolderType, folderIdMap } from 'lib/import'
 import { Readable } from 'stream'
-// import { basicAuth, ExportFolderId, getVersion, sleep } from '../../../lib/utils'
-import { basicAuth, ExportFolderId, sleep } from '../../../lib/utils'
-import { DriveClient } from '../../../lib/DriveClient'
+import { basicAuth, getRootId, sleep } from 'lib/utils'
+import { DriveClient } from 'lib/DriveClient'
+import { parseVersion } from 'lib/utils'
 
 type Data = {
   name: string
@@ -20,7 +20,16 @@ export default async function handler(
 ) {
   if (process.env.NODE_ENV == "production") await basicAuth(req, res)
 
-  const ver = await getVersion(req.query.version)
+  const [game, version] = Object.keys(req.query || {})
+    .filter((k) => ["game", "version"].includes(k))
+    .map((k: string) => {
+      const v = req.query[k]
+      return Array.isArray(v) ? v[0] : v
+    })
+  if (!game || !version) { throw new Error(`Cannot render cards for unparseable game or version: ${req.query}`) }
+
+  const ver = parseVersion(version)
+
   const drive = DriveClient.getInstance().drive()
   const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 2400 } });
   const page = await browser.newPage();
@@ -28,7 +37,8 @@ export default async function handler(
   page.on('console', (msg) => msg.type() == "error" && console.log(msg))
   // Go to the appropriate cards page
   // todo: needs to go to brandeck.herokuapp.com in production
-  const cardsUrl = `http://localhost:3000/cards/${ver.isLatest ? "latest" : `${ver.major}.${ver.minor}`}`
+  // todo: /cards needs size controls so that we can ensure correctness
+  const cardsUrl = `http://localhost:3000/${game}/cards/${ver.isLatest ? "latest" : `${ver.major}.${ver.minor}`}`
   await page.goto(cardsUrl,
     { "waitUntil": "networkidle0" }
   );
@@ -44,11 +54,12 @@ export default async function handler(
 
   const now = Date.now()
 
+  const exportFolderId = await folderIdMap.get({ name: "generated", parentId: getRootId(game) })
   const batchFolder = await drive.files.create({
     requestBody: {
       name: `V${ver.major}.${ver.minor}-${now}`,
       mimeType: FolderType,
-      parents: [ExportFolderId]
+      parents: [exportFolderId]
     }
   })
   const cardIndexRange = Array.from(Array(result.total).keys())
