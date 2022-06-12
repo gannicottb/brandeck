@@ -1,10 +1,9 @@
 .container {
-  display: flex;
   max-width: 1125px;
-  flex-wrap: wrap;
+  display: block;
+  /* must be display: block, otherwise break-before doesn't work */
 }
 
 .print_break {
-  height: 1px;
   break-before: always;
 }
