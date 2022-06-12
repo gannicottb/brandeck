@@ -1,11 +1,8 @@
 import React from "react";
-import { ParsedCard } from "../../lib/parse";
-import { icon } from "../../lib/utils";
-import styles from '../../styles/v2/Card.module.css'
-
-type Dict = {
-  [key: string]: string
-}
+import { ParsedCard } from "lib/astromon/parse";
+import { icon } from "lib/astromon/utils";
+import styles from 'styles/astromon/v2/Card.module.css'
+import { Dict } from "lib/utils";
 
 const biomeColors: Dict = {
   "D": "#FF4600",
