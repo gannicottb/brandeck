@@ -49,7 +49,8 @@ export default async function handler(
 
   const result = await page.$eval('#container', (e: Element) => {
     const rect = e.getBoundingClientRect()
-    return { x: rect.x, y: rect.y, total: e.childElementCount }
+    const total = e.querySelectorAll("div[class*='card']").length
+    return { x: rect.x, y: rect.y, total }
   })
 
   const now = Date.now()
@@ -92,6 +93,7 @@ export default async function handler(
         body: readable
       }
     })
+    console.log(`Uploaded card_${i}.png`)
     // hack for rate limiting
     await sleep(300);
   }))
