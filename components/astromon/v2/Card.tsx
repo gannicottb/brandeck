@@ -45,28 +45,25 @@ export const Card: React.FC<CardProps> = ({ data, ...props }) => {
       <div className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
-      <div className={styles.bottombar}>
-        {data.type == "Mon" && (
-          <>
-            <div className={styles.stat}>
-              <div>{icon("Spd")}</div>
-              <div>{data.speed || ""}</div>
-            </div>
-            <div className={styles.stat}>
-              <div>{icon("Str")}</div>
-              <div>{data.strength || ""}</div>
-            </div>
-            <div className={styles.stat}>
-              <div>{icon("Fam")}</div>
-              <div>{data.family || ""}</div>
-            </div>
-            <div className={styles.stat}>
-              <div>{icon("Psy")}</div>
-              <div>{data.psychic || ""}</div>
-            </div>
-          </>
-        )}
-      </div>
+      {data.type == "Mon" &&
+        <div className={styles.bottombar}>
+          <div className={styles.stat}>
+            <div>{icon("Spd")}</div>
+            <div>{data.speed || ""}</div>
+          </div>
+          <div className={styles.stat}>
+            <div>{icon("Str")}</div>
+            <div>{data.strength || ""}</div>
+          </div>
+          <div className={styles.stat}>
+            <div>{icon("Fam")}</div>
+            <div>{data.family || ""}</div>
+          </div>
+          <div className={styles.stat}>
+            <div>{icon("Psy")}</div>
+            <div>{data.psychic || ""}</div>
+          </div>
+        </div>}
     </div>
   )
 }

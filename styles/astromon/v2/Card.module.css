@@ -18,11 +18,22 @@
 
 @media print {
   .card {
-    /* print size (750 * .3) and (1050 * .3) and (32 * .3) */
-    width: 225px;
+    /* This results in basically perfect prints at 100% zoom */
+    width: calc(750px * .31);
+    height: calc(1050px * .31);
+    font-size: 10px;
+  }
 
-    height: 315px;
-    font-size: 9px;
+  .card .art {
+    background-color: white;
+  }
+
+  .card .art img {
+    filter: grayscale(1);
+  }
+
+  .card .text {
+    background-color: white;
   }
 }
 
