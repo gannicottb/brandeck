@@ -8,7 +8,7 @@ import { DriveClient } from 'lib/DriveClient'
 import { parseVersion } from 'lib/utils'
 
 type Data = {
-  name: string
+  message: string
 }
 /*
   This endpoint performs a full generation of card images for the given version,
@@ -18,6 +18,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  if (req.method !== 'POST') {
+    res.status(405).send({ message: 'Only POST requests allowed' })
+    return
+  }
+
   if (process.env.NODE_ENV == "production") await basicAuth(req, res)
 
   const [game, version] = Object.keys(req.query || {})
@@ -37,15 +42,14 @@ export default async function handler(
   page.on('console', (msg) => msg.type() == "error" && console.log(msg))
   // Go to the appropriate cards page
   // todo: needs to go to brandeck.herokuapp.com in production
-  // todo: /cards needs size controls so that we can ensure correctness
-  const cardsUrl = `http://localhost:3000/${game}/cards/${ver.isLatest ? "latest" : `${ver.major}.${ver.minor}`}`
+  const cardsUrl = `http://localhost:3000/${game}/cards/${ver.major}.${ver.minor}?size=full`
   await page.goto(cardsUrl,
     { "waitUntil": "networkidle0" }
   );
 
-  const cardWidth = 375
-  const cardHeight = 525
-  const cardsPerRow = 3
+  const cardWidth = 750
+  const cardHeight = 1050
+  const cardsPerRow = 1
 
   const result = await page.$eval('#container', (e: Element) => {
     const rect = e.getBoundingClientRect()
@@ -94,11 +98,9 @@ export default async function handler(
       }
     })
     console.log(`Uploaded card_${i}.png`)
-    // hack for rate limiting
-    await sleep(300);
   }))
 
   await browser.close();
   console.log(`Finished generating images in ${batchFolder.data.name}`)
-  res.status(200).json({ name: JSON.stringify(result) })
+  res.status(200).json({ message: `${result.total} generated.` })
 }

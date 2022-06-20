@@ -1,6 +1,6 @@
 import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
-import styles from 'styles/astromon/v2/Card.module.css'
+import styles from 'styles/astromon/v2/Card.module.scss'
 
 interface CardProps {
   data: ParsedCard
