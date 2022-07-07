@@ -1,7 +1,7 @@
 import { GaxiosPromise } from "gaxios";
 import { DriveClient } from "./DriveClient";
 import { RedisRTC } from "./RedisRTC";
-import { getRootId, parseVersion, Version } from "./utils";
+import { first, getRootId, parseVersion, Version } from "./utils";
 
 export const FolderType = "application/vnd.google-apps.folder"
 interface NameAndParentId {
@@ -68,7 +68,6 @@ export const importer = async (game: string, ver: Version): Promise<string> => {
 }
 
 export const getVersion = (query: string | string[]): Version => {
-  const firstVersionParam = Array.isArray(query) ? query[0] : query
+  const firstVersionParam = first(query)
   return parseVersion(firstVersionParam)
-  // return new Promise<Version>((res) => res(parseVersion(firstVersionParam)))
 }

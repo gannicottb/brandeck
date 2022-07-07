@@ -1,10 +1,7 @@
+// V2
+
 .card {
-  width: 375px;
-  height: 525px;
   float: left;
-
-  font-size: 16px;
-
   display: flex;
   flex-direction: column;
 
@@ -16,24 +13,57 @@
   break-inside: avoid;
 }
 
+.small {
+
+  composes: card;
+
+  width: calc(750px * .24);
+  height: calc(1050px * .24);
+  font-size: 8px;
+}
+
+.medium {
+  composes: card;
+
+  width: 375px;
+  height: 525px;
+  font-size: 16px;
+}
+
+.full {
+  composes: card;
+
+  width: 750px;
+  height: 1050px;
+  font-size: 32px;
+}
+
+.print {
+  composes: card;
+  width: calc(750px * .31);
+  height: calc(1050px * .31);
+  font-size: 10px;
+}
+
 @media print {
   .card {
     /* This results in basically perfect prints at 100% zoom */
-    width: calc(750px * .31);
-    height: calc(1050px * .31);
-    font-size: 10px;
-  }
+    // width: calc(750px * .31);
+    // height: calc(1050px * .31);
+    // font-size: 10px;
+    composes: print;
 
-  .card .art {
-    background-color: white;
-  }
+    .art {
+      background-color: white;
 
-  .card .art img {
-    filter: grayscale(1);
-  }
+      img {
+        filter: grayscale(1);
+      }
+    }
 
-  .card .text {
-    background-color: white;
+    .text {
+      background-color: white;
+    }
   }
 }
 

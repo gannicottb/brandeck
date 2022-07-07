@@ -5,8 +5,7 @@ import initializeBasicAuth from 'nextjs-basic-auth'
  */
 export interface Version {
   major: Number,
-  minor: Number,
-  isLatest?: boolean
+  minor: Number
 }
 export type Dict = {
   [key: string]: string
@@ -14,7 +13,7 @@ export type Dict = {
 
 export const getRootId = (game: string) => process.env[`${game.toUpperCase()}_ROOT_ID`]
 
-export const parseVersion = (version: String): Version => {
+export const parseVersion = (version: string): Version => {
   const [major, minor] = version.split(".").map((s) => Number(s))
   return { major, minor }
 }
@@ -32,3 +31,7 @@ const users = process.env.ADMIN_SECRET ? [
 export const basicAuth = initializeBasicAuth({
   users: users
 })
+
+export const first = (stringOrArray: string | string[]) => {
+  return Array.isArray(stringOrArray) ? stringOrArray[0] : stringOrArray
+}

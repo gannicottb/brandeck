@@ -1,11 +1,11 @@
 import { GetServerSideProps, NextPage } from "next"
-import styles from 'styles/Cards.module.css'
+import styles from 'styles/Cards.module.scss'
 import { Card as V2Card } from 'components/astromon/v2/Card'
 import { Card as V3Card } from 'components/astromon/v3/Card'
 import { importer, mapArtURL, getVersion } from 'lib/import'
 import { parser } from 'lib/astromon/parse'
 import { ParsedCard } from 'lib/astromon/parse'
-import { Version } from "lib/utils"
+import { first, Version } from "lib/utils"
 import { RedisRTC } from "lib/RedisRTC"
 import React from "react"
 
@@ -31,19 +31,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       version: ver,
       cards,
+      size: first(context.query.size || []) || null
     },
   }
 }
 interface CardsProps {
   version: Version,
-  cards: ParsedCard[]
+  cards: ParsedCard[],
+  size?: string
 }
-const Cards: NextPage<CardsProps, {}> = ({ version, cards }: CardsProps) => {
+const Cards: NextPage<CardsProps, {}> = ({ version, cards, size }: CardsProps) => {
   return (
     <div id='container' className={styles.container}>
       {cards.map((c, i) => {
         return <React.Fragment key={i}>
-          {(version.major == 2) && <V2Card data={c} />}
+          {(version.major == 2) && <V2Card data={c} size={size} />}
           {(version.major == 3) && <V3Card data={c} />}
           {(i > 0 && i % 9 == 0) && <div className={styles.print_break} />}
         </React.Fragment>

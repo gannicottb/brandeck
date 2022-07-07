@@ -1,7 +1,7 @@
 import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
 import { icon } from "lib/astromon/utils";
-import styles from 'styles/astromon/v2/Card.module.css'
+import styles from 'styles/astromon/v2/Card.module.scss'
 import { Dict } from "lib/utils";
 
 const biomeColors: Dict = {
@@ -11,16 +11,18 @@ const biomeColors: Dict = {
   "F": "#66ff66"
 }
 interface CardProps {
-  data: ParsedCard
+  data: ParsedCard,
+  size?: string
 }
 
-export const Card: React.FC<CardProps> = ({ data, ...props }) => {
+export const Card: React.FC<CardProps> = ({ data, size, ...props }) => {
   const biomes = data.biome.split("")
   const colors = biomes.map(b => biomeColors[b])
   const biomeColor = colors.length == 1 ? colors[0] : `linear-gradient(to right, ${colors.join(",")})`
   const biomeIcons = biomes.map(b => icon(b))
+  const cardSize = size || "medium"
   return (
-    <div className={styles.card}
+    <div className={styles[cardSize]}
       style={{
         background: biomeColor
       }}
@@ -40,6 +42,7 @@ export const Card: React.FC<CardProps> = ({ data, ...props }) => {
         {data.art != "unknown" && <img
           alt={data.name}
           src={data.art}
+          referrerPolicy="no-referrer"
         />}
       </div>
       <div className={styles.text}
