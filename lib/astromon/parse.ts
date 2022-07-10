@@ -40,6 +40,7 @@ const interpolateIcons = (text: string) => {
     .replaceAll("(Desert)", `<span class='circled'>${icon("desert")}</span>`)
     .replaceAll("(Forest)", `<span class='circled'>${icon("forest")}</span>`)
     .replaceAll("(Ocean)", `<span class='circled'>${icon("ocean")}</span>`)
+    .replaceAll("(Any)", `<span class='circled'>${icon("any")}</span>`)
   // .replaceAll("Summer", `<span class='circled'>${icon("summer")}</span>`)
   // .replaceAll("Winter", `<span class='circled'>${icon("winter")}</span>`)
 }
