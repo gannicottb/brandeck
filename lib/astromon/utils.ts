@@ -34,6 +34,8 @@ export const icon = (code: string): string => {
       return "☃️"
     case "any":
       return "❓"
+    case "action":
+      return "►"
     default:
       return "unknown"
   }
