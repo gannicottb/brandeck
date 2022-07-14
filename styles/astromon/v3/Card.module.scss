@@ -1,4 +1,4 @@
-// V2
+// V3
 
 .card {
   float: left;
@@ -40,6 +40,7 @@
 
 .print {
   composes: card;
+
   width: calc(750px * .31);
   height: calc(1050px * .31);
   font-size: 10px;

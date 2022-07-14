@@ -14,7 +14,7 @@ export const Reference: React.FC<CardProps> = ({ data }) => {
       <div className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
-      {data.name == "Turns" && <div className={styles.legend}>
+      {data.name == "Competitions" && <div className={styles.legend}>
         <div className={styles.column}>
           <span>Desert {icon("desert")}</span>
           <span>Cave {icon("cave")}</span>
@@ -26,7 +26,6 @@ export const Reference: React.FC<CardProps> = ({ data }) => {
           <span>Strength {icon("str")}</span>
           <span>Family {icon("fam")}</span>
           <span>Psychic {icon("psy")}</span>
-          <span>Any {icon("any")}</span>
         </div>
       </div>}
     </>

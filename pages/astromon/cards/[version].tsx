@@ -46,7 +46,7 @@ const Cards: NextPage<CardsProps, {}> = ({ version, cards, size }: CardsProps) =
       {cards.map((c, i) => {
         return <React.Fragment key={i}>
           {(version.major == 2) && <V2Card data={c} size={size} />}
-          {(version.major == 3) && <V3Card data={c} />}
+          {(version.major == 3) && <V3Card data={c} size={size} />}
           {(i > 0 && i % 9 == 0) && <div className={styles.print_break} />}
         </React.Fragment>
       })}
