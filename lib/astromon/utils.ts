@@ -2,15 +2,22 @@
  * Astromon-specific utilities
  */
 
+export const iconCircled = (code: string): string => {
+  return `<span class='circled'>${icon(code)}</span>`
+}
 export const icon = (code: string): string => {
   switch (code.toLowerCase()) {
     case "spd":
-      return "💨"
+    case "speed":
+      return "🏁"
     case "str":
+    case "strength":
       return "💪"
     case "fam":
-      return "👩‍👧‍👦"
+    case "family":
+      return "🫂"
     case "psy":
+    case "psychic":
       return "🧠"
     case "cave":
     case "c":
@@ -26,7 +33,7 @@ export const icon = (code: string): string => {
     // return "<span class='icon forest'></span>"
     case "ocean":
     case "o":
-      return "🌊"
+      return "💧"
     // return "<span class='icon ocean'></span>"
     case "summer":
       return "☀️"
@@ -35,7 +42,7 @@ export const icon = (code: string): string => {
     case "any":
       return "❓"
     case "action":
-      return "►"
+      return "▶"
     default:
       return "unknown"
   }

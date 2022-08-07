@@ -1,5 +1,5 @@
 import { parseString } from '@fast-csv/parse';
-import { icon } from 'lib/astromon/utils';
+import { icon, iconCircled } from 'lib/astromon/utils';
 
 // starting from 2.0
 type CardRow = {
@@ -32,14 +32,14 @@ export type ParsedCard = {
 
 const interpolateIcons = (text: string) => {
   return text
-    .replaceAll("(Spd)", `<span class='circled'>${icon("spd")}</span>`)
-    .replaceAll("(Str)", `<span class='circled'>${icon("str")}</span>`)
-    .replaceAll("(Fam)", `<span class='circled'>${icon("fam")}</span>`)
-    .replaceAll("(Psy)", `<span class='circled'>${icon("psy")}</span>`)
-    .replaceAll("(Cave)", `<span class='circled'>${icon("cave")}</span>`)
-    .replaceAll("(Desert)", `<span class='circled'>${icon("desert")}</span>`)
-    .replaceAll("(Forest)", `<span class='circled'>${icon("forest")}</span>`)
-    .replaceAll("(Ocean)", `<span class='circled'>${icon("ocean")}</span>`)
+    .replaceAll("(Spd)", iconCircled("spd"))
+    .replaceAll("(Str)", iconCircled("str"))
+    .replaceAll("(Fam)", iconCircled("fam"))
+    .replaceAll("(Psy)", iconCircled("psy"))
+    .replaceAll("(Cave)", iconCircled("cave"))
+    .replaceAll("(Desert)", iconCircled("desert"))
+    .replaceAll("(Forest)", iconCircled("forest"))
+    .replaceAll("(Ocean)", iconCircled("ocean"))
     .replaceAll("(A)", icon("action"))
   // .replaceAll("Summer", `<span class='circled'>${icon("summer")}</span>`)
   // .replaceAll("Winter", `<span class='circled'>${icon("winter")}</span>`)
@@ -66,7 +66,7 @@ export const parser = (csv: string) => {
 
       )
       .on('error', error => console.error(error))
-      .on('data', row => result.push(row))
+      .on('data', (row: ParsedCard) => [...Array(row.num)].forEach((_, i) => result.push(row)))
       .on('end', (rowCount: number) => {
         console.log(`Parsed ${rowCount} rows`)
         resolve(result)

@@ -1,7 +1,7 @@
 import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
 import styles from 'styles/astromon/v3/Reference.module.scss'
-import { icon } from "lib/astromon/utils";
+import { icon, iconCircled } from "lib/astromon/utils";
 
 interface CardProps {
   data: ParsedCard,
@@ -16,16 +16,20 @@ export const Reference: React.FC<CardProps> = ({ data }) => {
       ></div>
       {data.name == "Competitions" && <div className={styles.legend}>
         <div className={styles.column}>
-          <span>Desert {icon("desert")}</span>
-          <span>Cave {icon("cave")}</span>
-          <span>Ocean {icon("ocean")}</span>
-          <span>Forest {icon("forest")}</span>
+          {["Desert", "Cave", "Ocean", "Forest"].map(b =>
+            <div className={styles.row}>
+              <span>{b}</span>
+              <span dangerouslySetInnerHTML={{ __html: icon(b) }} />
+            </div>
+          )}
         </div>
         <div className={styles.column}>
-          <span>Speed {icon("spd")}</span>
-          <span>Strength {icon("str")}</span>
-          <span>Family {icon("fam")}</span>
-          <span>Psychic {icon("psy")}</span>
+          {["Speed", "Strength", "Family", "Psychic"].map(s =>
+            <div className={styles.row}>
+              <span>{s}</span>
+              <span dangerouslySetInnerHTML={{ __html: icon(s) }} />
+            </div>
+          )}
         </div>
       </div>}
     </>
