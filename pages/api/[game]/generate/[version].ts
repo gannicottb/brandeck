@@ -36,13 +36,16 @@ export default async function handler(
   const ver = parseVersion(version)
 
   const drive = DriveClient.getInstance().drive()
-  const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 2400 } });
+  const browser = await puppeteer.launch({
+    defaultViewport: { width: 1200, height: 2400 },
+    args: ['--no-sandbox']
+  });
   const page = await browser.newPage();
   // redirect error logs
   page.on('console', (msg) => msg.type() == "error" && console.log(msg))
   // Go to the appropriate cards page
-  // todo: needs to go to brandeck.herokuapp.com in production
-  const cardsUrl = `http://localhost:3000/${game}/cards/${ver.major}.${ver.minor}?size=full`
+  const host = `${process.env.HOST}`
+  const cardsUrl = `${host}/${game}/cards/${ver.major}.${ver.minor}?size=full`
   await page.goto(cardsUrl,
     { "waitUntil": "networkidle0" }
   );
