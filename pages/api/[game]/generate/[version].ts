@@ -71,6 +71,7 @@ export default async function handler(
     }
   })
   const cardIndexRange = Array.from(Array(result.total).keys())
+  res.status(200).json({ message: `Rendered cards. Will generate and upload ${cardIndexRange.length} cards.` })
   await Promise.all(cardIndexRange.map(async (i) => {
     const offsetX = cardWidth * (i % cardsPerRow)
     const offsetY = cardHeight * Math.floor(i / cardsPerRow)
@@ -105,5 +106,4 @@ export default async function handler(
 
   await browser.close();
   console.log(`Finished generating images in ${batchFolder.data.name}`)
-  res.status(200).json({ message: `${result.total} generated.` })
 }
