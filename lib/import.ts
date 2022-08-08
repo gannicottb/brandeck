@@ -68,6 +68,6 @@ export const importer = async (game: string, ver: Version): Promise<string> => {
 }
 
 export const getVersion = (query: string | string[]): Version => {
-  const firstVersionParam = first(query)
+  const firstVersionParam = first(query) || "1.0"
   return parseVersion(firstVersionParam)
 }

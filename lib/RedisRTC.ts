@@ -27,7 +27,7 @@ export class RedisRTC<K> extends ReadThroughCache<K, string> {
         }
       )
     } else {
-      console.log(`cache hit :) for ${keyString}`)
+      // console.log(`cache hit :) for ${keyString}`)
     }
     return (cached || "unknown")
   }

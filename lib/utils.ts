@@ -32,6 +32,6 @@ export const basicAuth = initializeBasicAuth({
   users: users
 })
 
-export const first = (stringOrArray: string | string[]) => {
+export const first = (stringOrArray: string | string[]): string | undefined => {
   return Array.isArray(stringOrArray) ? stringOrArray[0] : stringOrArray
 }

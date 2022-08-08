@@ -2,6 +2,10 @@
  * Astromon-specific utilities
  */
 
+import { first } from "lib/utils"
+import { ParsedUrlQuery } from "querystring"
+import { ParsedCard } from "./parse"
+
 export const iconCircled = (code: string): string => {
   return `<span class='circled'>${icon(code)}</span>`
 }
@@ -46,4 +50,29 @@ export const icon = (code: string): string => {
     default:
       return "unknown"
   }
+}
+
+export interface FilterProps {
+  types: string[]
+}
+export interface Filters extends FilterProps { }
+export class Filters {
+  constructor({ types }: FilterProps = { types: [] }) {
+    this.types = types
+  }
+  allows(card: ParsedCard): boolean {
+    let isAllowed = true
+
+    if (this.types.length > 0) {
+      isAllowed &&= this.types.includes(card.type.toLowerCase())
+    }
+
+    return isAllowed
+  }
+}
+
+export const getFilters = (query: ParsedUrlQuery): FilterProps => {
+  const types = (first(query.filterType || [])?.split(",") || []).map(t => t.toLowerCase())
+
+  return { types }
 }
