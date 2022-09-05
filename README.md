@@ -57,6 +57,13 @@ Pages:
 API:
 /api/[game]/generate/[Major].[Minor] - import, parse, render, screenshot, and upload to a known location
 
+# Add a new version
+
+1. Duplicate components/gameName/v[last] -> components/gameName/v[last+1]
+2. Rename all references to v[last]
+3. Duplicate styles/gameName/v[last] -> styles/gameName/v[last+1]
+4. Add a line to pages/gameName/cards/[version].tsx for the new version
+
 ===
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

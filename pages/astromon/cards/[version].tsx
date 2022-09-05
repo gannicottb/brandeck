@@ -2,6 +2,7 @@ import { GetServerSideProps, NextPage } from "next"
 import styles from 'styles/Cards.module.scss'
 import { Card as V2Card } from 'components/astromon/v2/Card'
 import { Card as V3Card } from 'components/astromon/v3/Card'
+import { Card as V4Card } from 'components/astromon/v4/Card'
 import { importer, mapArtURL, getVersion } from 'lib/import'
 import { parser } from 'lib/astromon/parse'
 import { ParsedCard } from 'lib/astromon/parse'
@@ -53,6 +54,7 @@ const Cards: NextPage<CardsProps, {}> = ({ version, cards, size, filters }: Card
           return <React.Fragment key={i}>
             {(version.major == 2) && <V2Card data={c} size={size} />}
             {(version.major == 3) && <V3Card data={c} size={size} />}
+            {(version.major == 4) && <V4Card data={c} size={size} />}
             {(i > 0 && i % 9 == 0) && <div className={styles.print_break} />}
           </React.Fragment>
         })}
