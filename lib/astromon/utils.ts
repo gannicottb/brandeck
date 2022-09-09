@@ -19,7 +19,7 @@ export const icon = (code: string): string => {
       return "💪"
     case "fam":
     case "family":
-      return "🫂"
+      return "💜"
     case "psy":
     case "psychic":
       return "🧠"

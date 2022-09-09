@@ -32,7 +32,7 @@ export const Card: React.FC<CardProps> = ({ data, size, ...props }) => {
       {data.type == "Reference" && <Reference data={data} />}
       {data.type != "Reference" && <>
         <div className={styles.topbar}>
-          <div className={data.type == "Event" ? styles.storyCost : styles.cost}>{data.cost}</div>
+          <div className={data.type == "Story" ? styles.storyCost : styles.cost}>{data.cost}</div>
           <div>
             <div className={styles.name}>{data.name}</div>
             <div className={styles.type}>{data.type}</div>

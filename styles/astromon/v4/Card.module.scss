@@ -40,7 +40,7 @@
 
 .print {
   composes: card;
-
+  /* This results in basically perfect prints at 100% zoom */
   width: calc(750px * .31);
   height: calc(1050px * .31);
   font-size: 10px;
@@ -48,18 +48,14 @@
 
 @media print {
   .card {
-    /* This results in basically perfect prints at 100% zoom */
-    // width: calc(750px * .31);
-    // height: calc(1050px * .31);
-    // font-size: 10px;
     composes: print;
 
     .art {
       background-color: white;
 
-      img {
-        filter: grayscale(1);
-      }
+      // img {
+      //   filter: grayscale(1);
+      // }
     }
 
     .text {
