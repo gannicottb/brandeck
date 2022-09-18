@@ -1,10 +1,66 @@
+import { drive_v3 } from 'googleapis'
+import { DriveClient } from 'lib/DriveClient'
+import { FolderType } from 'lib/import'
+import { getRootId, Version } from 'lib/utils'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.scss'
 
-const Home: NextPage = () => {
+
+interface Folder {
+  id: string
+  name: string
+}
+
+async function getVersionsFor(drive: drive_v3.Drive, gameName: string) {
+  // find the latest version for astromon
+  const allMajorVersions = await drive.files.list({
+    q: `name contains 'v' and mimeType = '${FolderType}' and parents in '${getRootId(gameName)}'`
+  })
+
+  const majors: Folder[] = (allMajorVersions.data.files || []).map(f => {
+    return { id: f.id || "", name: f.name || "" }
+  })
+
+  const allVersions = await Promise.all(majors.map(async major => {
+    const minorVersions = await drive.files.list({
+      q: `name contains '.' and mimeType = '${FolderType}' and parents in '${major.id}'`
+    })
+
+    const names = (minorVersions.data.files || []).map(f => f.name || "").filter(s => s != "")
+    return names.map<Version>(minor => {
+      return { major: Number(major.name.replace("v", "")), minor: Number(minor.replace(".", "")) }
+    })
+  })).then(x => x.flat(1))
+
+  return allVersions
+}
+
+export async function getServerSideProps(context) {
+
+  const drive = DriveClient.getInstance().drive()
+
+  const gameVersions: GameVersionMap = {
+    "astromon": await getVersionsFor(drive, "astromon")
+  }
+
+  return {
+    props: {
+      gameVersions
+    }, // will be passed to the page component as props
+  }
+}
+
+type GameVersionMap = {
+  [key: string]: Version[]
+}
+interface HomeProps {
+  gameVersions: GameVersionMap
+}
+
+const Home: NextPage<HomeProps, {}> = ({ gameVersions }: HomeProps) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -21,15 +77,16 @@ const Home: NextPage = () => {
         <div>Winding Road Games card preview/generation utility.</div>
 
         <div className={styles.grid}>
-          <div className={styles.card}>
-            <h2><Link href="/astromon/cards/3.0">Last Patch &rarr;</Link></h2>
-            <p>View the last patch.</p>
-          </div>
+          {Object.keys(gameVersions).flatMap(gameName => {
+            const versions = gameVersions[gameName]
 
-          <div className={styles.card}>
-            <h2><Link href="/astromon/cards/3.0">In Progress Patch &rarr;</Link></h2>
-            <p>View the in progress patch.</p>
-          </div>
+            return versions.map(v => <div className={styles.card}>
+              <h3>{gameName}</h3>
+              <h2><Link href={`/astromon/cards/${v.major}.${v.minor}`}>{`${v.major}.${v.minor}`}</Link></h2>
+              <p>View this version.</p>
+            </div>)
+          }
+          )}
 
           <div
             className={styles.card}
