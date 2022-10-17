@@ -2,7 +2,7 @@ import { drive_v3 } from 'googleapis'
 import { DriveClient } from 'lib/DriveClient'
 import { FolderType } from 'lib/import'
 import { getRootId, Version } from 'lib/utils'
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -38,7 +38,7 @@ async function getVersionsFor(drive: drive_v3.Drive, gameName: string) {
   return allVersions
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const drive = DriveClient.getInstance().drive()
 
