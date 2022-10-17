@@ -80,11 +80,12 @@ const Home: NextPage<HomeProps, {}> = ({ gameVersions }: HomeProps) => {
           {Object.keys(gameVersions).flatMap(gameName => {
             const versions = gameVersions[gameName]
 
-            return versions.map(v => <div className={styles.card}>
-              <h3>{gameName}</h3>
-              <h2><Link href={`/astromon/cards/${v.major}.${v.minor}`}>{`${v.major}.${v.minor}`}</Link></h2>
-              <p>View this version.</p>
-            </div>)
+            return versions.map(v =>
+              <div className={styles.card} key={`${v.major}.${v.minor}`}>
+                <h3>{gameName}</h3>
+                <h2><Link href={`/astromon/cards/${v.major}.${v.minor}`}>{`${v.major}.${v.minor}`}</Link></h2>
+                <p>View this version.</p>
+              </div>)
           }
           )}
 

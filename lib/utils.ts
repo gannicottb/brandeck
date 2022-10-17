@@ -4,8 +4,8 @@ import initializeBasicAuth from 'nextjs-basic-auth'
  * Shared utilities for all of brandeck
  */
 export interface Version {
-  major: Number,
-  minor: Number
+  major: number,
+  minor: number
 }
 export type Dict = {
   [key: string]: string
