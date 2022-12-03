@@ -11,6 +11,8 @@
 
   /* This doesn't seem to work :( */
   break-inside: avoid;
+
+  position: relative;
 }
 
 .small {
@@ -107,34 +109,11 @@
   background-color: var(--halfwhite);
 }
 
-.cost {
-  display: flex;
-  flex-direction: column;
-
-  background: black;
-  color: white;
-  padding: .5em;
-  border-radius: .25em;
-  align-items: center;
-  height: fit-content;
-}
-
-.storyCost {
-  composes: cost;
-  border: 2px dashed black;
-  background: white;
-  color: black;
-}
-
 .type {
   color: black;
   font-size: .9em;
   font-variant-caps: all-small-caps;
   font-style: italic;
-}
-
-.biome {
-  font-size: 1.5em;
 }
 
 .card .art {
@@ -161,25 +140,5 @@
   flex-grow: 2;
   font-size: 1.1em;
   padding: .7em;
-  background-color: var(--halfwhite);
-}
-
-.bottombar {
-  height: 20%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin-top: auto;
-}
-
-.stat {
-  height: 100%;
-  width: 25%;
-  align-items: center;
-  flex-direction: column;
-  display: flex;
-
-  border: .05em solid black;
-  font-size: 2em;
   background-color: var(--halfwhite);
 }

@@ -25,7 +25,8 @@ export const icon = (code: string): string => {
       return "🧠"
     case "cave":
     case "c":
-      return "🕳"
+      return "🦇"
+    // return "🕳"
     // return "<span class='icon cave'></span>"
     case "desert":
     case "d":
@@ -51,6 +52,14 @@ export const icon = (code: string): string => {
       return "⭐️"
     case "side-action":
       return "♢"
+    case "draw":
+      return "+🃏"
+    case "retrieve":
+      return "+🚮"
+    case "side":
+      return "+♢"
+    case "discount":
+      return "[-1]"
     default:
       return "unknown"
   }

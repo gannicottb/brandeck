@@ -1,7 +1,9 @@
 :root {
   --quarterwhite: rgba(255, 255, 255, 0.25);
   --halfwhite: rgba(255, 255, 255, 0.5);
-  --threequarterwhite: rgba(255, 255, 255, 0.75)
+  --threequarterwhite: rgba(255, 255, 255, 0.75);
+  --quarterdark: rgba(0, 0, 0, 0.25);
+  --halfdark: rgba(0, 0, 0, 0.5);
 }
 
 html,

@@ -1,20 +1,22 @@
 import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
+import cardStyles from 'styles/astromon/v5/Card.module.scss'
 import styles from 'styles/astromon/v5/Reference.module.scss'
 import { icon, iconCircled } from "lib/astromon/utils";
 
 interface CardProps {
   data: ParsedCard,
+  size: string
 }
 
-export const Reference: React.FC<CardProps> = ({ data }) => {
+export const Reference: React.FC<CardProps> = ({ data, size }) => {
   return (
-    <>
+    <div className={cardStyles[size]}>
       <div className={styles.name}>{data.name}</div>
       <div className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
-      {data.name == "Competitions" && <div className={styles.legend}>
+      {data.name == "Harvest" && <div className={styles.legend}>
         <div className={styles.column}>
           {["Desert", "Cave", "Ocean", "Forest"].map(b =>
             <div className={styles.row} key={b}>
@@ -32,6 +34,6 @@ export const Reference: React.FC<CardProps> = ({ data }) => {
           )}
         </div>
       </div>}
-    </>
+    </div>
   )
 }
