@@ -24,9 +24,16 @@ export const Resource: React.FC<CardProps> = ({ data, size }) => {
           referrerPolicy="no-referrer"
         />}
       </div>
-      <div className={styles.text}
-        dangerouslySetInnerHTML={{ __html: data.text }}
-      ></div>
+      {data.text &&
+        <div className={styles.text}
+          dangerouslySetInnerHTML={{ __html: data.text }}
+        ></div>}
+      {(data.text && data.bonusStars > 0) && <hr style={{ width: "80%" }} />}
+      {(data.bonusStars > 0) &&
+        <div className={styles.reward}>
+          <div>{data.bonusStars}{icon("star")}</div>
+        </div>
+      }
     </div>
   )
 }

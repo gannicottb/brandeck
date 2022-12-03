@@ -16,7 +16,7 @@ export const Reference: React.FC<CardProps> = ({ data, size }) => {
       <div className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
-      {data.name == "Harvest" && <div className={styles.legend}>
+      {data.name == "First Player" && <div className={styles.legend}>
         <div className={styles.column}>
           {["Desert", "Cave", "Ocean", "Forest"].map(b =>
             <div className={styles.row} key={b}>
