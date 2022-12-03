@@ -11,6 +11,9 @@ type CardRow = {
   Strength: string;
   Family: string;
   Psychic: string;
+  BonusEffect: string;
+  BonusStars: number;
+  BonusStat: number;
   Num: string;
   Art: string;
   Text: string;
@@ -25,6 +28,9 @@ export type ParsedCard = {
   strength: number;
   family: number;
   psychic: number;
+  bonusEffect: string;
+  bonusStars: number;
+  bonusStat: number;
   num: number;
   art: string;
   text: string;
@@ -43,8 +49,10 @@ const interpolateIcons = (text: string) => {
     .replaceAll("(A)", icon("action"))
     .replaceAll("(S)", icon("side-action"))
     .replaceAll("(Star)", icon("star"))
-  // .replaceAll("Summer", `<span class='circled'>${icon("summer")}</span>`)
-  // .replaceAll("Winter", `<span class='circled'>${icon("winter")}</span>`)
+    .replaceAll("(Draw)", icon("draw"))
+    .replaceAll("(Retrieve)", icon("retrieve"))
+    .replaceAll("(Side)", icon("side"))
+    .replaceAll("(Discount)", icon("discount"))
 }
 
 // could dry this up to allow for other games to easily use the same logic
@@ -61,6 +69,9 @@ export const parser = (csv: string) => {
         strength: Number(data.Strength),
         family: Number(data.Family),
         psychic: Number(data.Psychic),
+        bonusEffect: interpolateIcons(data.BonusEffect || ""),
+        bonusStars: Number(data.BonusStars),
+        bonusStat: Number(data.BonusStat),
         num: Number(data.Num),
         art: data.Art,
         text: interpolateIcons(data.Text)

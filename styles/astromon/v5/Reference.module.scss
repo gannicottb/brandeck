@@ -1,0 +1,31 @@
+//v5
+.name {
+  padding: .5em;
+  font-size: 2em;
+  text-align: center;
+
+  background-color: var(--halfwhite);
+
+  border-bottom: .1em solid black;
+}
+
+.text {
+  padding: .5em;
+  font-size: 1.2em;
+}
+
+.legend {
+  display: flex;
+  font-size: 1.2em;
+  justify-content: space-around;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
