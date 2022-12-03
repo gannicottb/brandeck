@@ -1,5 +1,6 @@
 import { parseString } from '@fast-csv/parse';
 import { icon, iconCircled } from 'lib/astromon/utils';
+import { customFormat } from 'lib/utils';
 
 // starting from 2.0
 type CardRow = {
@@ -74,7 +75,7 @@ export const parser = (csv: string) => {
         bonusStat: Number(data.BonusStat),
         num: Number(data.Num),
         art: data.Art,
-        text: interpolateIcons(data.Text)
+        text: interpolateIcons(customFormat(data.Text))
       })
 
       )

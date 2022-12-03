@@ -16,7 +16,7 @@ export class RedisRTC<K> extends ReadThroughCache<K, string> {
 
     let cached = await redis.get(keyString)
     if (cached == null) {
-      console.log(`cache miss! for ${keyString}`)
+      // console.log(`cache miss! for ${keyString}`)
       await this.fn(key).then(
         (v: string) => { // if the function resolved,
           redis.set(keyString, v) // set the new value

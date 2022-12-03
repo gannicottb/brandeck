@@ -35,3 +35,14 @@ export const basicAuth = initializeBasicAuth({
 export const first = (stringOrArray: string | string[]): string | undefined => {
   return Array.isArray(stringOrArray) ? stringOrArray[0] : stringOrArray
 }
+
+// Provide custom markdown-esque parsing for basic layouts (like columns)
+export const customFormat = (text: string) => {
+  const fmt = text
+    .replaceAll("[columns]", `<div style="display:flex;justify-content:space-around;">`)
+    .replaceAll("[col]", `<div style="display:flex; flex-direction:column">`)
+    .replaceAll("[row]", `<div style="display: flex;justify-content: space-between;height: fit-content;">`)
+    .replaceAll(/\[\/.*\]/g, "</div>")
+
+  return fmt
+}

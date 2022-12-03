@@ -19,12 +19,12 @@ export class InMemoryRTC<K, V> extends ReadThroughCache<K, V> {
     const keyString = JSON.stringify(key)
     let cached = this.cache.get(keyString)
     if (cached == null) {
-      console.log(`cache miss! for ${keyString}`)
+      // console.log(`cache miss! for ${keyString}`)
       const fresh = await this.fn(key)
       this.cache.put(keyString, fresh)
       cached = fresh
     } else {
-      console.log(`cache hit :) for ${keyString}`)
+      // console.log(`cache hit :) for ${keyString}`)
     }
     return cached
   }

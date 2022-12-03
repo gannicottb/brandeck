@@ -34,7 +34,7 @@ export const mapArtURL = async (game: string, artName: string): Promise<string> 
   ).then((r) => {
     const id = (r.data.files || [])[0]?.id
     if (id) { return `https://drive.google.com/uc?id=${id}&export=download` } else {
-      return Promise.reject(`image ${artName} not found in ${art_folder_id}`)
+      return Promise.reject(`image '${artName}' not found in ${art_folder_id}`)
     }
   })
 }
