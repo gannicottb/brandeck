@@ -60,6 +60,8 @@ export const icon = (code: string): string => {
       return "+♢"
     case "discount":
       return "[-1]"
+    case "interrupt":
+      return "❗️"
     default:
       return "unknown"
   }

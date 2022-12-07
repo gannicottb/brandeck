@@ -11,5 +11,26 @@
 
 .text {
   padding: .5em;
-  font-size: 1.2em;
+  font-size: 1.1em;
+}
+
+.text :global(td) {
+  padding-right: .5em;
+  border: 1px gray solid;
+}
+
+.text :global(.columns) {
+  display: flex;
+  justify-content: space-around;
+}
+
+.text :global(.col) {
+  display: flex;
+  flex-direction: column;
+}
+
+.text :global(.row) {
+  display: flex;
+  justify-content: space-between;
+  height: fit-content;
 }

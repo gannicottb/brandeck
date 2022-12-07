@@ -16,8 +16,6 @@
 
 .baseStat {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
 
   position: absolute;
   right: 0;
@@ -28,9 +26,12 @@
   font-size: 2em;
   background-color: var(--halfwhite);
 
-  width: 22%;
+  width: 27%;
   text-align: center;
 
+  >* {
+    padding-left: .3em;
+  }
 
 }
 

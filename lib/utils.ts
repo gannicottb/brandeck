@@ -39,9 +39,9 @@ export const first = (stringOrArray: string | string[]): string | undefined => {
 // Provide custom markdown-esque parsing for basic layouts (like columns)
 export const customFormat = (text: string) => {
   const fmt = text
-    .replaceAll("[columns]", `<div style="display:flex;justify-content:space-around;">`)
-    .replaceAll("[col]", `<div style="display:flex; flex-direction:column">`)
-    .replaceAll("[row]", `<div style="display: flex;justify-content: space-between;height: fit-content;">`)
+    .replaceAll("[columns]", `<div class="columns">`)
+    .replaceAll("[col]", `<div class="col">`)
+    .replaceAll("[row]", `<div class="row">`)
     .replaceAll(/\[\/.*\]/g, "</div>")
 
   return fmt

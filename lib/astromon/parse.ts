@@ -54,6 +54,7 @@ const interpolateIcons = (text: string) => {
     .replaceAll("(Retrieve)", icon("retrieve"))
     .replaceAll("(Side)", icon("side"))
     .replaceAll("(Discount)", icon("discount"))
+    .replaceAll("(!)", icon("interrupt"))
 }
 
 // could dry this up to allow for other games to easily use the same logic
