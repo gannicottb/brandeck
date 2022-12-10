@@ -12,11 +12,15 @@
 .text {
   padding: .5em;
   font-size: 1em;
+  line-height: 1.3em;
 }
 
 .text :global(td) {
-  padding-right: .5em;
-  border: 1px gray solid;
+  padding-right: .3em;
+}
+
+.text :global(table) {
+  border: 1px solid black;
 }
 
 .text :global(.columns) {
