@@ -53,11 +53,11 @@ export const icon = (code: string): string => {
     case "side-action":
       return "♢"
     case "draw":
-      return "+🃏"
+      return "▶🃏🃏🃏"
     case "retrieve":
-      return "+🚮"
+      return "♢🚮🚮"
     case "side":
-      return "+♢"
+      return "♢♢"
     case "discount":
       return "[-1]"
     case "interrupt":
