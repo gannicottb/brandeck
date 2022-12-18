@@ -68,12 +68,14 @@ export const icon = (code: string): string => {
 }
 
 export interface FilterProps {
-  types: string[]
+  types: string[],
+  names: string[]
 }
 export interface Filters extends FilterProps { }
 export class Filters {
-  constructor({ types }: FilterProps = { types: [] }) {
+  constructor({ types, names }: FilterProps = { types: [], names: [] }) {
     this.types = types
+    this.names = names
   }
   allows(card: ParsedCard): boolean {
     let isAllowed = true
@@ -82,12 +84,18 @@ export class Filters {
       isAllowed &&= this.types.includes(card.type.toLowerCase())
     }
 
+    if (this.names.length > 0) {
+      isAllowed &&= this.names.includes(card.name.toLowerCase())
+    }
+
     return isAllowed
   }
 }
 
 export const getFilters = (query: ParsedUrlQuery): FilterProps => {
+  // Use string delimited lists rather than repeated params
   const types = (first(query.filterType || [])?.split(",") || []).map(t => t.toLowerCase())
+  const names = (first(query.filterName || [])?.split(",") || []).map(t => t.toLowerCase())
 
-  return { types }
+  return { types, names }
 }

@@ -3,6 +3,7 @@
 This is the data-driven card generator tool used for Winding Road Games projects.
 
 Google Drive structure (per game):
+```
 root_folder
   /generated
     /v1.0-timestamped
@@ -19,8 +20,9 @@ root_folder
     /.0
       cards*
     ...
-
+```
 This Project Structure:
+```
 /lib (these evolve, and are not versioned)
   import.ts
   /[game]
@@ -45,16 +47,19 @@ This Project Structure:
     /v1
     /v2
     /v...
-
+```
 Config:
+```
 SERVICE_ACCOUNT_EMAIL
 SERVICE_ACCOUNT_KEY
 (GAMENAME)_ROOT_ID = the root Google Drive folder containing card spreadsheets in a known structure
-
+```
 Pages:
+
 /[game]/cards/[Major].[Minor] - Renders the cards for vMajor.Minor using the appropriate templates
 
 API:
+
 /api/[game]/generate/[Major].[Minor] - import, parse, render, screenshot, and upload to a known location
 
 # Add a new version
