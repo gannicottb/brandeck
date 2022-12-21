@@ -19,7 +19,7 @@
 
   position: absolute;
   right: 0;
-  bottom: 15%;
+  bottom: 18.5%;
 
   border: .05em solid black;
   border-radius: .5em 0em 0em 0em;
@@ -33,6 +33,13 @@
     padding-left: .3em;
   }
 
+}
+
+.mergeHeader {
+  width: 100%;
+  background: gold;
+  text-align: center;
+  font-style: italic;
 }
 
 .bottombar {
@@ -51,7 +58,7 @@
   flex-direction: column;
   display: flex;
 
-  border: .05em solid black;
+  border: .05em solid gold;
   font-size: 2em;
   background-color: var(--quarterdark);
   color: white;

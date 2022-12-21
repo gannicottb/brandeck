@@ -64,6 +64,7 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       <div className={cardStyles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
+      <div className={styles.mergeHeader}>▼ Merge to Unlock ▼</div>
       <div className={styles.bottombar}>
         <div className={styles.stat}>
           <div>{data.bonusEffect || ""}</div>
