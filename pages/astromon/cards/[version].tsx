@@ -46,8 +46,7 @@ interface CardsProps {
   size?: string,
   filters: FilterProps
 }
-// todo: Now I remember why I didn't want to version parse.ts
-// this gets really messy if there are multiple versions of ParsedCard
+
 const Cards: NextPage<CardsProps, {}> = ({ version, cards, size, filters }: CardsProps) => {
   const allFilters = new Filters(filters)
   return (
