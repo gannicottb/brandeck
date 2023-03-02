@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+echo $BASH_VERSION
+set -eo pipefail
+
+#1. Duplicate components/gameName/v[last] -> components/gameName/v[last+1]
+#2. Rename all references to v[last]
+#3. Duplicate styles/gameName/v[last] -> styles/gameName/v[last+1]
+#4. Add a line to pages/gameName/cards/[version].tsx for the new version
+
+
+getLatest () {
+  local root=${1}
+  dirs=($(find $root/$game -mindepth 1 -maxdepth 1 -type d | sort -r))
+  latest=${dirs[0]}
+  echo $latest
+}
+
+duplicateFolder () {
+  local root=${1}
+  local latest=${2}
+  echo "copying from latest: $latest to new v$version"
+  
+  cp -R $latest $root/$game/v$version
+}
+
+renameReferences () {
+  local root=${1}
+  local previousFolder=${2}
+  echo "renaming references for $version"
+
+  previousFolderParts=($(echo $previousFolder | tr "/" "\n"))
+  previousVersion=${previousFolderParts[-1]}
+  echo "Previous: $previousVersion"
+
+  latest=$(getLatest $root)
+
+  files=($(find $latest -type f))
+
+  # For each file in our new directory, replace vPrevious with vNew
+  for f in ${files[@]}
+  do
+    echo "$f: $previousVersion --> v$version"
+    sed -i "" -e "s/$previousVersion/v$version/g" $f
+  done
+}
+
+main () {
+  local previousComponents=$(getLatest components)
+  if [[ "$previousComponents" == "components/$game/v$version" ]]; then
+    echo "v$version already exists!"
+    return
+  fi
+
+  duplicateFolder "components" $previousComponents
+  renameReferences "components" $previousComponents
+
+  local previousStyles=$(getLatest styles)
+  duplicateFolder "styles" $previousStyles
+  renameReferences "styles" $previousStyles
+
+  echo "Now add necessary imports to pages/$game/cards/[version].tsx!"
+}
+
+game=${1}
+version=${2}
+
+main
+
