@@ -1,5 +1,5 @@
 import React from "react";
-import { ParsedCard } from "lib/astromon/parse";
+import { ParsedCard } from "lib/astromon/v6/parse";
 import { icon, iconCircled } from "lib/astromon/utils";
 import cardStyles from 'styles/astromon/v6/Card.module.scss'
 import styles from 'styles/astromon/v6/Mon.module.scss'

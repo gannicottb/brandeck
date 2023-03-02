@@ -7,6 +7,7 @@ import { Card as V5Card } from 'components/astromon/v5/Card'
 import { Card as V6Card } from 'components/astromon/v6/Card'
 import { importer, mapArtURL, getVersion } from 'lib/import'
 import { parser } from 'lib/astromon/parse'
+import { parser as V6parser } from 'lib/astromon/v6/parse'
 import { ParsedCard } from 'lib/astromon/parse'
 import { first, Version } from "lib/utils"
 import { RedisRTC } from "lib/RedisRTC"
@@ -22,7 +23,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const raw = await importer("astromon", ver)
 
-  const parsed = await parser(raw)
+  const parsed = (ver.major == 6) ? (
+    await V6parser(raw)
+  ) : await parser(raw)
 
   // Resolve art names to urls (cached)
   const cards = await Promise.all(parsed.map(async (c) => {

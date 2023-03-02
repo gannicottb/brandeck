@@ -11,13 +11,8 @@ type CardRow = {
   SkillType: string;
   SkillValue: string;
   BonusSkill: string;
-  Speed: string;
-  Strength: string;
-  Family: string;
-  Psychic: string;
   BonusEffect: string;
   BonusStars: number;
-  BonusStat: number;
   Num: string;
   Art: string;
   Text: string;
@@ -28,13 +23,11 @@ export type ParsedCard = {
   cost: number;
   type: string;
   biome: string;
-  speed: number;
-  strength: number;
-  family: number;
-  psychic: number;
+  skillType: string;
+  skillValue: number;
+  bonusSkill: number;
   bonusEffect: string;
   bonusStars: number;
-  bonusStat: number;
   num: number;
   art: string;
   text: string;
@@ -50,8 +43,6 @@ const interpolateIcons = (text: string) => {
     .replaceAll("(Desert)", iconCircled("desert"))
     .replaceAll("(Forest)", iconCircled("forest"))
     .replaceAll("(Ocean)", iconCircled("ocean"))
-    .replaceAll("(A)", icon("action"))
-    .replaceAll("(S)", icon("side-action"))
     .replaceAll("(Star)", icon("star"))
     .replaceAll("(Draw)", icon("draw"))
     .replaceAll("(Retrieve)", icon("retrieve"))
@@ -71,13 +62,11 @@ export const parser = (csv: string) => {
         cost: Number(data.Cost),
         type: data.Type,
         biome: data.Biome,
-        speed: Number(data.Speed),
-        strength: Number(data.Strength),
-        family: Number(data.Family),
-        psychic: Number(data.Psychic),
+        skillType: data.SkillType,
+        skillValue: Number(data.SkillValue),
+        bonusSkill: Number(data.BonusSkill),
         bonusEffect: interpolateIcons(data.BonusEffect || ""),
         bonusStars: Number(data.BonusStars),
-        bonusStat: Number(data.BonusStat),
         num: Number(data.Num),
         art: data.Art,
         text: interpolateIcons(customFormat(data.Text))
