@@ -21,21 +21,6 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
   const colors = biomes.map(b => biomeColors[b])
   const biomeColor = colors.length == 1 ? colors[0] : `linear-gradient(to right, ${colors.join(",")})`
   const biomeIcons = biomes.map(b => iconCircled(b))
-
-  // const ifNonZero = (value: number) => (value || 0) > 0
-  // const x: [string, number][] = [
-  //   ["speed", data.speed],
-  //   ["strength", data.strength],
-  //   ["psychic", data.psychic],
-  //   ["family", data.family]
-  // ]
-
-  // // Find the combination of name and value that are defined for this mon
-  // const stat = (x.map(tuple => ifNonZero(tuple[1]) ? tuple : undefined)
-  //   .filter(x => x != undefined) as [string, number][])[0] || ["unknown", 0]
-
-  // if (stat[0] == "unknown") { console.log(`Could not parse ${data.name}: "${x}"`) }
-
   const [statType, statValue] = [data.skillType, data.skillValue]
 
   return (

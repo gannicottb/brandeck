@@ -2,7 +2,7 @@ import { parseString } from '@fast-csv/parse';
 import { icon, iconCircled } from 'lib/astromon/utils';
 import { customFormat } from 'lib/utils';
 
-// starting from 2.0
+// Exactly what's in the spreadsheet
 type CardRow = {
   Name: string;
   Cost: string;
