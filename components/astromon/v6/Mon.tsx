@@ -22,21 +22,21 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
   const biomeColor = colors.length == 1 ? colors[0] : `linear-gradient(to right, ${colors.join(",")})`
   const biomeIcons = biomes.map(b => iconCircled(b))
 
-  const ifNonZero = (value: number) => (value || 0) > 0
-  const x: [string, number][] = [
-    ["speed", data.speed],
-    ["strength", data.strength],
-    ["psychic", data.psychic],
-    ["family", data.family]
-  ]
+  // const ifNonZero = (value: number) => (value || 0) > 0
+  // const x: [string, number][] = [
+  //   ["speed", data.speed],
+  //   ["strength", data.strength],
+  //   ["psychic", data.psychic],
+  //   ["family", data.family]
+  // ]
 
-  // Find the combination of name and value that are defined for this mon
-  const stat = (x.map(tuple => ifNonZero(tuple[1]) ? tuple : undefined)
-    .filter(x => x != undefined) as [string, number][])[0] || ["unknown", 0]
+  // // Find the combination of name and value that are defined for this mon
+  // const stat = (x.map(tuple => ifNonZero(tuple[1]) ? tuple : undefined)
+  //   .filter(x => x != undefined) as [string, number][])[0] || ["unknown", 0]
 
-  if (stat[0] == "unknown") { console.log(`Could not parse ${data.name}: "${x}"`) }
+  // if (stat[0] == "unknown") { console.log(`Could not parse ${data.name}: "${x}"`) }
 
-  const [statType, statValue] = [stat[0], stat[1]]
+  const [statType, statValue] = [data.skillType, data.skillValue]
 
   return (
     <div className={cardStyles[size]}
@@ -74,8 +74,8 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
         </div>
         <div className={styles.bonusStat}>
           <div>
-            <span>{data.bonusStat ? "+" : ""}</span>
-            <div>{data.bonusStat || ""}</div>
+            <span>{data.bonusSkill ? "+" : ""}</span>
+            <div>{data.bonusSkill || ""}</div>
           </div>
         </div>
         <div className={styles.baseStat}>

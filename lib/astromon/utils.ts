@@ -51,6 +51,7 @@ export const icon = (code: string): string => {
     case "star":
       return "⭐️"
     case "side-action":
+    case "energy":
       return "♢"
     case "draw":
       return "▶3🃏"
