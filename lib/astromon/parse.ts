@@ -8,6 +8,9 @@ type CardRow = {
   Cost: string;
   Type: string;
   Biome: string;
+  SkillType: string;
+  SkillValue: string;
+  BonusSkill: string;
   Speed: string;
   Strength: string;
   Family: string;
@@ -25,6 +28,9 @@ export type ParsedCard = {
   cost: number;
   type: string;
   biome: string;
+  skillType: string;
+  skillValue: number;
+  bonusSkill: number;
   speed: number;
   strength: number;
   family: number;
@@ -55,6 +61,7 @@ const interpolateIcons = (text: string) => {
     .replaceAll("(Side)", icon("side"))
     .replaceAll("(Discount)", icon("discount"))
     .replaceAll("(!)", iconCircled("interrupt"))
+    .replaceAll("(E)", icon("energy"))
 }
 
 // could dry this up to allow for other games to easily use the same logic
@@ -67,6 +74,9 @@ export const parser = (csv: string) => {
         cost: Number(data.Cost),
         type: data.Type,
         biome: data.Biome,
+        skillType: data.SkillType || "",
+        skillValue: Number(data.SkillValue),
+        bonusSkill: Number(data.BonusSkill),
         speed: Number(data.Speed),
         strength: Number(data.Strength),
         family: Number(data.Family),

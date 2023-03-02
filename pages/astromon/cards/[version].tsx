@@ -4,6 +4,7 @@ import { Card as V2Card } from 'components/astromon/v2/Card'
 import { Card as V3Card } from 'components/astromon/v3/Card'
 import { Card as V4Card } from 'components/astromon/v4/Card'
 import { Card as V5Card } from 'components/astromon/v5/Card'
+import { Card as V6Card } from 'components/astromon/v6/Card'
 import { importer, mapArtURL, getVersion } from 'lib/import'
 import { parser } from 'lib/astromon/parse'
 import { ParsedCard } from 'lib/astromon/parse'
@@ -45,6 +46,7 @@ interface CardsProps {
   size?: string,
   filters: FilterProps
 }
+
 const Cards: NextPage<CardsProps, {}> = ({ version, cards, size, filters }: CardsProps) => {
   const allFilters = new Filters(filters)
   return (
@@ -57,6 +59,7 @@ const Cards: NextPage<CardsProps, {}> = ({ version, cards, size, filters }: Card
             {(version.major == 3) && <V3Card data={c} size={size} />}
             {(version.major == 4) && <V4Card data={c} size={size} />}
             {(version.major == 5) && <V5Card data={c} size={size} />}
+            {(version.major == 6) && <V6Card data={c} size={size} />}
             {(i > 0 && i % 9 == 0) && <div className={styles.print_break} />}
           </React.Fragment>
         })}
