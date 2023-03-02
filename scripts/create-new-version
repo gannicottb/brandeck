@@ -58,7 +58,11 @@ main () {
   duplicateFolder "styles" $previousStyles
   renameReferences "styles" $previousStyles
 
-  echo "Now add necessary imports to pages/$game/cards/[version].tsx!"
+  local previousLib=$(getLatest lib)
+  duplicateFolder "lib" $previousLib
+  renameReferences "lib" $previousLib
+
+  echo "Now add necessary imports to pages/$game/cards/[version].ts!"
 }
 
 game=${1}
