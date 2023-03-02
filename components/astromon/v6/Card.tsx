@@ -1,5 +1,5 @@
 import React from "react";
-import { ParsedCard } from "lib/astromon/v6/parse";
+import { ParsedCard } from "lib/astromon/parse";
 import { Reference } from "./Reference";
 import { Mon } from "./Mon"
 import { Resource } from "./Resource"

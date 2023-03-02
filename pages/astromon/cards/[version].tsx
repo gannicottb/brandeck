@@ -7,8 +7,6 @@ import { Card as V5Card } from 'components/astromon/v5/Card'
 import { Card as V6Card } from 'components/astromon/v6/Card'
 import { importer, mapArtURL, getVersion } from 'lib/import'
 import { parser } from 'lib/astromon/parse'
-import { parser as V6parser } from 'lib/astromon/v6/parse'
-import { ParsedCard as V6ParsedCard } from 'lib/astromon/v6/parse'
 import { ParsedCard } from 'lib/astromon/parse'
 import { first, Version } from "lib/utils"
 import { RedisRTC } from "lib/RedisRTC"
@@ -24,9 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const raw = await importer("astromon", ver)
 
-  const parsed = (ver.major == 6) ? (
-    await V6parser(raw)
-  ) : await parser(raw)
+  const parsed = await parser(raw)
 
   // Resolve art names to urls (cached)
   const cards = await Promise.all(parsed.map(async (c) => {
@@ -46,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 interface CardsProps {
   version: Version,
-  cards: (ParsedCard | V6ParsedCard)[],
+  cards: ParsedCard[],
   size?: string,
   filters: FilterProps
 }
@@ -60,11 +56,11 @@ const Cards: NextPage<CardsProps, {}> = ({ version, cards, size, filters }: Card
         .filter((c) => allFilters.allows(c))
         .map((c, i) => {
           return <React.Fragment key={i}>
-            {(version.major == 2) && <V2Card data={c as ParsedCard} size={size} />}
-            {(version.major == 3) && <V3Card data={c as ParsedCard} size={size} />}
-            {(version.major == 4) && <V4Card data={c as ParsedCard} size={size} />}
-            {(version.major == 5) && <V5Card data={c as ParsedCard} size={size} />}
-            {(version.major == 6) && <V6Card data={c as V6ParsedCard} size={size} />}
+            {(version.major == 2) && <V2Card data={c} size={size} />}
+            {(version.major == 3) && <V3Card data={c} size={size} />}
+            {(version.major == 4) && <V4Card data={c} size={size} />}
+            {(version.major == 5) && <V5Card data={c} size={size} />}
+            {(version.major == 6) && <V6Card data={c} size={size} />}
             {(i > 0 && i % 9 == 0) && <div className={styles.print_break} />}
           </React.Fragment>
         })}

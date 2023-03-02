@@ -28,6 +28,9 @@ export type ParsedCard = {
   cost: number;
   type: string;
   biome: string;
+  skillType: string;
+  skillValue: number;
+  bonusSkill: number;
   speed: number;
   strength: number;
   family: number;
@@ -71,6 +74,9 @@ export const parser = (csv: string) => {
         cost: Number(data.Cost),
         type: data.Type,
         biome: data.Biome,
+        skillType: data.SkillType || "",
+        skillValue: Number(data.SkillValue),
+        bonusSkill: Number(data.BonusSkill),
         speed: Number(data.Speed),
         strength: Number(data.Strength),
         family: Number(data.Family),
