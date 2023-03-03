@@ -30,7 +30,11 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       }}
     >
       <div className={cardStyles.topbar}>
-        <div className={styles.cost}>{data.cost}</div>
+        <div className={styles.cost}>
+          {data.cost}
+          <span className={styles.cost_icon}>{icon("energy")}</span>
+        </div>
+
         <div>
           <div className={cardStyles.name}>{data.name}</div>
           <div className={cardStyles.type}>{data.type}</div>
