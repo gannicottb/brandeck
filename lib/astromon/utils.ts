@@ -63,6 +63,14 @@ export const icon = (code: string): string => {
       return "[-1]"
     case "interrupt":
       return "❗️"
+    case "double":
+      return "✌️"
+    case "draw1st":
+      return "+🃏!"
+    case "retrieve1st":
+      return "+🚮!"
+    case "discount-energy":
+      return "[-♢]"
     default:
       return "unknown"
   }

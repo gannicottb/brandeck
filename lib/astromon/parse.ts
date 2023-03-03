@@ -1,6 +1,6 @@
 import { parseString } from '@fast-csv/parse';
 import { icon, iconCircled } from 'lib/astromon/utils';
-import { customFormat } from 'lib/utils';
+import { customFormat, Version } from 'lib/utils';
 
 // starting from 2.0
 type CardRow = {
@@ -43,7 +43,7 @@ export type ParsedCard = {
   text: string;
 };
 
-const interpolateIcons = (text: string) => {
+const interpolateIcons = (text: string, version: Version) => {
   return text
     .replaceAll("(Spd)", iconCircled("spd"))
     .replaceAll("(Str)", iconCircled("str"))
@@ -56,16 +56,26 @@ const interpolateIcons = (text: string) => {
     .replaceAll("(A)", icon("action"))
     .replaceAll("(S)", icon("side-action"))
     .replaceAll("(Star)", icon("star"))
-    .replaceAll("(Draw)", icon("draw"))
-    .replaceAll("(Retrieve)", icon("retrieve"))
+    .replaceAll(
+      "(Draw)",
+      version.major == 6 ? icon("draw1st") : icon("draw")
+    )
+    .replaceAll(
+      "(Retrieve)",
+      version.major == 6 ? icon("retrieve1st") : icon("retrieve")
+    )
     .replaceAll("(Side)", icon("side"))
-    .replaceAll("(Discount)", icon("discount"))
+    .replaceAll("(Double)", icon("double"))
+    .replaceAll(
+      "(Discount)",
+      version.major == 6 ? icon("discount-energy") : icon("discount")
+    )
     .replaceAll("(!)", iconCircled("interrupt"))
     .replaceAll("(E)", icon("energy"))
 }
 
 // could dry this up to allow for other games to easily use the same logic
-export const parser = (csv: string) => {
+export const parser = (csv: string, version: Version) => {
   return new Promise<ParsedCard[]>(resolve => {
     let result: ParsedCard[] = []
     parseString<CardRow, ParsedCard>(csv, { headers: true })
@@ -81,12 +91,12 @@ export const parser = (csv: string) => {
         strength: Number(data.Strength),
         family: Number(data.Family),
         psychic: Number(data.Psychic),
-        bonusEffect: interpolateIcons(data.BonusEffect || ""),
+        bonusEffect: interpolateIcons(data.BonusEffect || "", version),
         bonusStars: Number(data.BonusStars),
         bonusStat: Number(data.BonusStat),
         num: Number(data.Num),
         art: data.Art,
-        text: interpolateIcons(customFormat(data.Text))
+        text: interpolateIcons(customFormat(data.Text), version)
       })
 
       )

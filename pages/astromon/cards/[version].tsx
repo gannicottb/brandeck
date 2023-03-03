@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const raw = await importer("astromon", ver)
 
-  const parsed = await parser(raw)
+  const parsed = await parser(raw, ver)
 
   // Resolve art names to urls (cached)
   const cards = await Promise.all(parsed.map(async (c) => {
