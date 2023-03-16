@@ -51,8 +51,9 @@ export const icon = (code: string): string => {
     case "star":
       return "⭐️"
     case "side-action":
-    case "energy":
       return "♢"
+    case "energy":
+      return "♦︎"
     case "draw":
       return "▶3🃏"
     case "retrieve":
@@ -70,7 +71,7 @@ export const icon = (code: string): string => {
     case "retrieve1st":
       return "+🚮!"
     case "discount-energy":
-      return "[-♢]"
+      return "[-♦︎]"
     default:
       return "unknown"
   }

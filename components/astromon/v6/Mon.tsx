@@ -63,7 +63,7 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
         </div>
         <div className={styles.bonusStat}>
           <div>
-            <span>{data.bonusSkill ? "+" : ""}</span>
+            <span>{data.bonusSkill > 0 ? "+" : ""}</span>
             <div>{data.bonusSkill || ""}</div>
           </div>
         </div>
