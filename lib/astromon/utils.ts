@@ -22,7 +22,7 @@ export const icon = (code: string): string => {
       return "💜"
     case "psy":
     case "psychic":
-      return "🧠"
+      return "🌀"
     case "cave":
     case "c":
       return "🦇"
