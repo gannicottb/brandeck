@@ -1,0 +1,140 @@
+// v7
+
+.card {
+  float: left;
+  display: flex;
+  flex-direction: column;
+
+  border: solid .25em black;
+
+  white-space: pre-line;
+
+  /* This doesn't seem to work :( */
+  break-inside: avoid;
+
+  position: relative;
+}
+
+.small {
+
+  composes: card;
+
+  width: calc(750px * .24);
+  height: calc(1050px * .24);
+  font-size: 8px;
+}
+
+.medium {
+  composes: card;
+
+  width: 375px;
+  height: 525px;
+  font-size: 16px;
+}
+
+.full {
+  composes: card;
+
+  width: 750px;
+  height: 1050px;
+  font-size: 32px;
+}
+
+.print {
+  composes: card;
+  /* This results in basically perfect prints at 100% zoom */
+  width: calc(750px * .31);
+  height: calc(1050px * .31);
+  font-size: 10px;
+}
+
+@media print {
+  .card {
+    composes: print;
+
+    .art {
+      background-color: white;
+    }
+
+    .text {
+      background-color: white;
+    }
+  }
+}
+
+.card :global(span.icon) {
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  background-size: cover;
+  display: inline-block;
+}
+
+.card :global(span.circled) {
+  background-color: var(--halfwhite);
+  border: solid .1em silver;
+  border-radius: 50%;
+  padding: 0.1em;
+  font-size: 1.2em;
+}
+
+.card :global(span.icon.forest) {
+  background-image: url("/forest_icon.png");
+}
+
+.card :global(span.icon.cave) {
+  background-image: url("/cave_icon.jpg");
+}
+
+.card :global(span.icon.desert) {
+  background-image: url("/desert_icon.png");
+}
+
+.card :global(span.icon.ocean) {
+  background-image: url("/ocean_icon.png");
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: .5em;
+  font-size: 1.5em;
+
+  background-color: var(--halfwhite);
+}
+
+.type {
+  color: black;
+  font-size: .9em;
+  font-variant-caps: all-small-caps;
+  font-style: italic;
+}
+
+.card .art {
+  width: 100%;
+  height: 38%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.card .art:empty {
+  background: silver;
+}
+
+.card .art img {
+  max-height: 100%;
+  max-width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.text {
+  flex-grow: 2;
+  font-size: 1.1em;
+  padding: .7em;
+  background-color: var(--halfwhite);
+}

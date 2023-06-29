@@ -1,0 +1,98 @@
+// v7
+
+.cost {
+  display: flex;
+  flex-direction: column;
+
+  background: black;
+  color: white;
+  padding: .5em;
+  border-radius: 1em;
+  align-items: center;
+  height: fit-content;
+
+  .cost_icon {
+    position: absolute;
+    top: 3%;
+    left: 11%;
+    font-size: .7em;
+    border-radius: 10em;
+    background: black;
+    padding: 0.3em;
+  }
+
+}
+
+
+.biome {
+  font-size: 1.5em;
+}
+
+.baseStat {
+  display: flex;
+
+  position: absolute;
+  right: 0;
+  bottom: 18.5%;
+
+  border: .05em solid black;
+  border-radius: .5em 0em 0em 0em;
+  font-size: 2em;
+  background-color: var(--halfwhite);
+
+  width: 26.5%;
+  text-align: center;
+
+  >* {
+    padding-left: .3em;
+  }
+
+}
+
+.mergeHeader {
+  width: 100%;
+  background: gold;
+  text-align: center;
+  font-style: italic;
+}
+
+.bottombar {
+  height: 15%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+}
+
+.stat {
+  height: 100%;
+  flex-grow: 2;
+  width: 33%;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+
+  border: .05em solid gold;
+  font-size: 2em;
+  background-color: var(--quarterdark);
+  color: white;
+
+  >* {
+    margin: auto;
+  }
+}
+
+.bonusStat {
+  composes: stat;
+  width: 15%;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  span {
+    font-size: .6em;
+  }
+}

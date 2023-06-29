@@ -64,10 +64,9 @@ API:
 
 # Add a new version
 
-1. Duplicate components/gameName/v[last] -> components/gameName/v[last+1]
-2. Rename all references to v[last]
-3. Duplicate styles/gameName/v[last] -> styles/gameName/v[last+1]
-4. Add a line to pages/gameName/cards/[version].tsx for the new version
+1. npm run newver [game] [version] 
+  ex: npm run newver astromon 7
+2. Add a line (and imports) to pages/gameName/cards/[version].tsx for the new version
 
 ===
 
