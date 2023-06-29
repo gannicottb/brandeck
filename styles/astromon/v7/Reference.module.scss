@@ -1,0 +1,41 @@
+// v7
+
+.name {
+  padding: .2em;
+  font-size: 1.5em;
+  text-align: center;
+
+  background-color: var(--halfwhite);
+
+  border-bottom: .1em solid black;
+}
+
+.text {
+  padding: .5em;
+  font-size: 1em;
+  line-height: 1.3em;
+}
+
+.text :global(td) {
+  padding-right: .3em;
+}
+
+.text :global(table) {
+  border: 1px solid black;
+}
+
+.text :global(.columns) {
+  display: flex;
+  justify-content: space-around;
+}
+
+.text :global(.col) {
+  display: flex;
+  flex-direction: column;
+}
+
+.text :global(.row) {
+  display: flex;
+  justify-content: space-between;
+  height: fit-content;
+}
