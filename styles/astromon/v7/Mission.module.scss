@@ -1,0 +1,46 @@
+// v7
+
+.text {
+  flex-grow: 2;
+  font-size: 1.5em;
+  padding: .7em;
+  background-color: var(--halfwhite);
+  text-align: center;
+}
+
+.reward {
+  display: flex;
+  flex-grow: 2;
+  font-size: 3em;
+  padding: .7em;
+  background-color: var(--halfwhite);
+  text-align: center;
+
+  >* {
+    margin: auto;
+  }
+}
+
+.corners {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  font-size: 2em;
+  flex-direction: column;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    padding: .1em;
+    justify-content: space-between;
+  }
+}
+
+@media print {
+
+  .reward {
+    background-color: white;
+  }
+
+}

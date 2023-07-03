@@ -24,8 +24,34 @@
 }
 
 
-.biome {
+// .biome {
+//   font-size: 1.5em;
+// }
+
+.biomeAndSkill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-size: 1.5em;
+  justify-content: space-between;
+  height: 2.75em;
+
+  border-radius: .5em;
+  border: .1em gold solid;
+}
+
+.biomeAndSkillLeft {
+  composes: biomeAndSkill;
+  position: absolute;
+  left: .25em;
+  top: .25em;
+}
+
+.biomeAndSkillRight {
+  composes: biomeAndSkill;
+  position: absolute;
+  right: .25em;
+  top: .25em;
 }
 
 .baseStat {

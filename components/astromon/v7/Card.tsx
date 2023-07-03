@@ -2,11 +2,20 @@ import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
 import { Reference } from "./Reference";
 import { Mon } from "./Mon"
-import { Resource } from "./Resource"
+import { Mission } from "./Mission"
+import { Dict } from "lib/utils";
 
 interface CardProps {
   data: ParsedCard,
   size?: string
+}
+
+export const biomeColors: Dict = {
+  "C": "#414345",
+  "D": "#FF4600",
+  "O": "#33ccff",
+  "F": "#66ff66",
+  "T": "#FFFFFF"
 }
 
 export const Card: React.FC<CardProps> = ({ data, size, ...props }) => {
@@ -24,7 +33,7 @@ export const Card: React.FC<CardProps> = ({ data, size, ...props }) => {
         size={cardSize}
         {...props}
       />}
-      {data.type == "Resource" && <Resource
+      {data.type == "Mission" && <Mission
         data={data}
         size={cardSize}
         {...props}
