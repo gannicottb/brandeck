@@ -10,10 +10,11 @@ interface CardProps {
   size: string
 }
 
-const overlayRow = (icon: string) =>
-  <div>
-    <div dangerouslySetInnerHTML={{ __html: iconCircled(icon) }} />
-    <div dangerouslySetInnerHTML={{ __html: iconCircled(icon) }} />
+const cornerOverlay = (icon: string) =>
+  <div className={cardStyles.overlay} style={{ "fontSize": "2em" }}>
+    {["topLeft", "topRight", "bottomLeft", "bottomRight"].map(c =>
+      <div className={cardStyles[c]} key={c} dangerouslySetInnerHTML={{ __html: iconCircled(icon) }} />
+    )}
   </div>
 
 export const Mission: React.FC<CardProps> = ({ data, size }) => {
@@ -23,10 +24,7 @@ export const Mission: React.FC<CardProps> = ({ data, size }) => {
         background: biomeColors[data.biome]
       }}
     >
-      <div className={styles.corners}>
-        {overlayRow(data.biome)}
-        {overlayRow(data.biome)}
-      </div>
+      {cornerOverlay(data.biome)}
       <div className={cardStyles.topbar}>
         <div className={cardStyles.name}>{data.name}</div>
         <div className={cardStyles.type}>{data.type}</div>

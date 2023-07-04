@@ -23,10 +23,12 @@
 
 }
 
-
-// .biome {
-//   font-size: 1.5em;
-// }
+.mask {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--halfwhite);
+}
 
 .biomeAndSkill {
   display: flex;
@@ -35,9 +37,10 @@
   font-size: 1.5em;
   justify-content: space-between;
   height: 2.75em;
+  overflow: hidden;
 
   border-radius: .5em;
-  border: .1em gold solid;
+  border: .1em var(--quarterwhite) solid;
 }
 
 .biomeAndSkillLeft {

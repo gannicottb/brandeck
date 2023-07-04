@@ -19,12 +19,22 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
 
   const biomeAndSkill = (style: string) =>
     <div className={style}
-      style={{
-        background: biomeColor
-      }}
+      style={{ background: biomeColor }}
     >
-      <div dangerouslySetInnerHTML={{ __html: biomeIcons.join("") }} />
-      <div dangerouslySetInnerHTML={{ __html: icon(statType) }} />
+      <div className={styles.mask}>
+        <div dangerouslySetInnerHTML={{ __html: biomeIcons.join("") }} />
+        <div dangerouslySetInnerHTML={{ __html: icon(statType) }} />
+      </div>
+    </div>
+
+  const cornerOverlay =
+    <div className={cardStyles.overlay} style={{ "fontSize": "2em" }}>
+      {["topLeft", "bottomRight"].map(c =>
+        <div className={cardStyles[c]} key={c} dangerouslySetInnerHTML={{ __html: iconCircled(statType) }} />
+      )}
+      {["topRight", "bottomLeft"].map(c =>
+        <div className={cardStyles[c]} key={c} dangerouslySetInnerHTML={{ __html: iconCircled(biomes[0]) }} />
+      )}
     </div>
 
   return (
@@ -33,13 +43,14 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
         background: biomeColor
       }}
     >
+      {cornerOverlay}
       <div className={cardStyles.topbar}>
-        {biomeAndSkill(styles.biomeAndSkillLeft)}
+        {/* {biomeAndSkill(styles.biomeAndSkillLeft)} */}
         <div>
           <div className={cardStyles.name}>{data.name}</div>
           <div className={cardStyles.type}>{data.type}</div>
         </div>
-        {biomeAndSkill(styles.biomeAndSkillRight)}
+        {/* {biomeAndSkill(styles.biomeAndSkillRight)} */}
       </div>
       <div className={cardStyles.art}>
         {data.art != "unknown" && <img
@@ -53,9 +64,9 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       ></div>
 
       <div className={styles.bottombar}>
-        <div className={styles.stat}>
+        {/* <div className={styles.stat}>
           <div dangerouslySetInnerHTML={{ __html: iconCircled(statType) }} />
-        </div>
+        </div> */}
       </div>
     </div >
   )

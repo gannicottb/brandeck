@@ -139,3 +139,34 @@
   padding: .7em;
   background-color: var(--halfwhite);
 }
+
+.card .overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  .topLeft {
+    position: absolute;
+    top: .3em;
+    left: .3em;
+  }
+
+  .topRight {
+    position: absolute;
+    top: .3em;
+    right: .3em;
+  }
+
+  .bottomLeft {
+    position: absolute;
+    bottom: .3em;
+    left: .3em;
+  }
+
+  .bottomRight {
+    position: absolute;
+    bottom: .3em;
+    right: .3em;
+  }
+
+}
