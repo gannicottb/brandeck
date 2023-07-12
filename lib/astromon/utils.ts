@@ -23,6 +23,9 @@ export const icon = (code: string): string => {
     case "psy":
     case "psychic":
       return "🌀"
+    case "spc":
+    case "special":
+      return "🌟"
     case "cave":
     case "c":
       return "🦇"
@@ -40,6 +43,9 @@ export const icon = (code: string): string => {
     case "o":
       return "💧"
     // return "<span class='icon ocean'></span>"
+    case "tundra":
+    case "t":
+      return "❄️"
     case "summer":
       return "☀️"
     case "winter":

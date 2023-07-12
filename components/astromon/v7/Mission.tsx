@@ -1,17 +1,30 @@
 import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
 import cardStyles from 'styles/astromon/v7/Card.module.scss'
-import styles from 'styles/astromon/v7/Resource.module.scss'
-import { icon } from "lib/astromon/utils";
+import styles from 'styles/astromon/v7/Mission.module.scss'
+import { icon, iconCircled } from "lib/astromon/utils";
+import { biomeColors } from "./Card";
 
 interface CardProps {
   data: ParsedCard,
   size: string
 }
 
-export const Resource: React.FC<CardProps> = ({ data, size }) => {
+const cornerOverlay = (icon: string) =>
+  <div className={cardStyles.overlay} style={{ "fontSize": "2em" }}>
+    {["topLeft", "topRight", "bottomLeft", "bottomRight"].map(c =>
+      <div className={cardStyles[c]} key={c} dangerouslySetInnerHTML={{ __html: iconCircled(icon) }} />
+    )}
+  </div>
+
+export const Mission: React.FC<CardProps> = ({ data, size }) => {
   return (
-    <div className={cardStyles[size]}>
+    <div className={cardStyles[size]}
+      style={{
+        background: biomeColors[data.biome]
+      }}
+    >
+      {cornerOverlay(data.biome)}
       <div className={cardStyles.topbar}>
         <div className={cardStyles.name}>{data.name}</div>
         <div className={cardStyles.type}>{data.type}</div>

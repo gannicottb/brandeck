@@ -53,6 +53,7 @@ const interpolateIcons = (text: string, version: Version) => {
     .replaceAll("(Desert)", iconCircled("desert"))
     .replaceAll("(Forest)", iconCircled("forest"))
     .replaceAll("(Ocean)", iconCircled("ocean"))
+    .replaceAll("(Tundra)", iconCircled("tundra"))
     .replaceAll("(A)", icon("action"))
     .replaceAll("(S)", icon("side-action"))
     .replaceAll("(Star)", icon("star"))
@@ -72,6 +73,7 @@ const interpolateIcons = (text: string, version: Version) => {
     )
     .replaceAll("(!)", iconCircled("interrupt"))
     .replaceAll("(E)", icon("energy"))
+
 }
 
 // could dry this up to allow for other games to easily use the same logic
