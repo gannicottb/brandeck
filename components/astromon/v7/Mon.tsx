@@ -2,6 +2,7 @@ import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
 import { iconCircled } from "lib/astromon/utils";
 import cardStyles from 'styles/astromon/v7/Card.module.scss'
+import styles from 'styles/astromon/v7/Mon.module.scss'
 import { biomeColors } from "./Card";
 
 interface CardProps {
@@ -48,6 +49,7 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       <div className={cardStyles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
+      <div className={styles.bottombar} />
     </div >
   )
 }
