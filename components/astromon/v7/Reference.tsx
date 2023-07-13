@@ -19,7 +19,8 @@ export const Reference: React.FC<CardProps> = ({ data, size }) => {
           referrerPolicy="no-referrer"
         />
       </div>}
-      <div className={styles.text}
+      <div
+        className={styles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
     </div>

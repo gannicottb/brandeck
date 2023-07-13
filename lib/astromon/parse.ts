@@ -49,6 +49,7 @@ const interpolateIcons = (text: string, version: Version) => {
     .replaceAll("(Str)", iconCircled("str"))
     .replaceAll("(Fam)", iconCircled("fam"))
     .replaceAll("(Psy)", iconCircled("psy"))
+    .replaceAll("(Spc)", iconCircled("special"))
     .replaceAll("(Cave)", iconCircled("cave"))
     .replaceAll("(Desert)", iconCircled("desert"))
     .replaceAll("(Forest)", iconCircled("forest"))
