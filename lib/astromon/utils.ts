@@ -78,6 +78,10 @@ export const icon = (code: string): string => {
       return "+🚮!"
     case "discount-energy":
       return "[-♦︎]"
+    case "draw-icon":
+      return "🃏"
+    case "retrieve-icon":
+      return "🚮"
     default:
       return "unknown"
   }

@@ -60,11 +60,15 @@ const interpolateIcons = (text: string, version: Version) => {
     .replaceAll("(Star)", icon("star"))
     .replaceAll(
       "(Draw)",
-      version.major == 6 ? icon("draw1st") : icon("draw")
+      version.major == 6 ? icon("draw1st") : (
+        version.major == 8 ? icon("draw-icon") : icon("draw")
+      )
     )
     .replaceAll(
       "(Retrieve)",
-      version.major == 6 ? icon("retrieve1st") : icon("retrieve")
+      version.major == 6 ? icon("retrieve1st") : (
+        version.major == 8 ? icon("retrieve-icon") : icon("retrieve")
+      )
     )
     .replaceAll("(Side)", icon("side"))
     .replaceAll("(Double)", icon("double"))

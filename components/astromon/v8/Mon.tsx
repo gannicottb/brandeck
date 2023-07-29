@@ -30,18 +30,19 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       }}
     >
       <div className={cardStyles.topbar}>
-        <div className={styles.cost}>
-          {data.cost}
-          <span className={styles.cost_icon}>{icon("energy")}</span>
-        </div>
-
         <div>
           <div className={cardStyles.name}>{data.name}</div>
           <div className={cardStyles.type}>{data.type}</div>
         </div>
-        <div className={styles.biome}
-          dangerouslySetInnerHTML={{ __html: biomeIcons.join("") }}
-        />
+        <div style={{ display: "flex" }}>
+          <div className={styles.cost}>
+            {data.cost}
+            <span className={styles.cost_icon}>{icon("energy")}</span>
+          </div>
+          <div className={styles.biome}
+            dangerouslySetInnerHTML={{ __html: biomeIcons.join("") }}
+          />
+        </div>
       </div>
       <div className={cardStyles.art}>
         {data.art != "unknown" && <img
@@ -53,7 +54,7 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       <div className={cardStyles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
-      <div className={styles.mergeHeader}>▼ Merge to Unlock ▼</div>
+
       <div className={styles.bottombar}>
         <div className={styles.stat}>
           <div>{data.bonusEffect || ""}</div>
@@ -61,7 +62,7 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
         <div className={styles.stat}>
           <div>{data.bonusStars ? `${data.bonusStars}${icon("star")}` : ""}</div>
         </div>
-        <div className={styles.bonusStat}>
+        <div className={styles.stat}>
           <div>
             <span>{data.bonusSkill > 0 ? "+" : ""}</span>
             <div>{data.bonusSkill || ""}</div>

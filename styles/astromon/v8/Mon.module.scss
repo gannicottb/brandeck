@@ -4,6 +4,8 @@
   display: flex;
   flex-direction: column;
 
+  position: relative;
+
   background: black;
   color: white;
   padding: .5em;
@@ -14,7 +16,7 @@
   .cost_icon {
     position: absolute;
     top: 3%;
-    left: 11%;
+    left: -40%;
     font-size: .7em;
     border-radius: 10em;
     background: black;
@@ -33,7 +35,7 @@
 
   position: absolute;
   right: 0;
-  bottom: 18.5%;
+  bottom: 14.5%;
 
   border: .05em solid black;
   border-radius: .5em 0em 0em 0em;
