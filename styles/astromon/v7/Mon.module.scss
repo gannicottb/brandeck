@@ -61,6 +61,28 @@
   background-color: var(--quarterwhite);
 }
 
+.bronzeBorder {
+  border: .2em solid #CD7F32;
+}
+
+.silverBorder {
+  border: .2em solid silver;
+}
+
+.goldBorder {
+  border: .2em solid gold;
+}
+
+.evolveCost {
+  font-size: 1.5em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: .3em;
+
+  border-radius: .5em;
+  background-color: var(--quarterwhite);
+}
+
 .stat {
   height: 100%;
   flex-grow: 2;

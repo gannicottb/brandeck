@@ -33,6 +33,11 @@ export const Card: React.FC<CardProps> = ({ data, size, ...props }) => {
         size={cardSize}
         {...props}
       />}
+      {data.type == "EvolvedMon" && <Mon
+        data={data}
+        size={cardSize}
+        {...props}
+      />}
       {data.type == "Mission" && <Mission
         data={data}
         size={cardSize}

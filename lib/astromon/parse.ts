@@ -7,10 +7,12 @@ type CardRow = {
   Name: string;
   Cost: string;
   Type: string;
+  Subtype: string;
   Biome: string;
   SkillType: string;
   SkillValue: string;
   BonusSkill: string;
+  EvolveCost: string;
   Speed: string;
   Strength: string;
   Family: string;
@@ -27,10 +29,12 @@ export type ParsedCard = {
   name: string;
   cost: number;
   type: string;
+  subtype: string;
   biome: string;
   skillType: string;
   skillValue: number;
   bonusSkill: number;
+  evolveCost: string;
   speed: number;
   strength: number;
   family: number;
@@ -55,6 +59,10 @@ const interpolateIcons = (text: string, version: Version) => {
     .replaceAll("(Forest)", iconCircled("forest"))
     .replaceAll("(Ocean)", iconCircled("ocean"))
     .replaceAll("(Tundra)", iconCircled("tundra"))
+    .replaceAll("(C)", iconCircled("cave"))
+    .replaceAll("(D)", iconCircled("desert"))
+    .replaceAll("(F)", iconCircled("forest"))
+    .replaceAll("(O)", iconCircled("ocean"))
     .replaceAll("(A)", icon("action"))
     .replaceAll("(S)", icon("side-action"))
     .replaceAll("(Star)", icon("star"))
@@ -78,6 +86,7 @@ const interpolateIcons = (text: string, version: Version) => {
     )
     .replaceAll("(!)", iconCircled("interrupt"))
     .replaceAll("(E)", icon("energy"))
+    .replaceAll("(?)", iconCircled("any"))
 
 }
 
@@ -90,10 +99,12 @@ export const parser = (csv: string, version: Version) => {
         name: data.Name,
         cost: Number(data.Cost),
         type: data.Type,
+        subtype: data.Subtype,
         biome: data.Biome,
         skillType: data.SkillType || "",
         skillValue: Number(data.SkillValue),
         bonusSkill: Number(data.BonusSkill),
+        evolveCost: interpolateIcons(data.EvolveCost, version),
         speed: Number(data.Speed),
         strength: Number(data.Strength),
         family: Number(data.Family),

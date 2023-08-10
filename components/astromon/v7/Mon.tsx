@@ -26,17 +26,34 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       )}
     </div>
 
+  const evolvedCornerOverlay =
+    <div className={cardStyles.overlay} style={{ "fontSize": "2em" }}>
+      <div className={cardStyles["topLeft"]} dangerouslySetInnerHTML={{ __html: iconCircled(biomes[0]) }} />
+      <div className={cardStyles["topRight"]} dangerouslySetInnerHTML={{ __html: iconCircled(statType) }} />
+    </div>
+
+  const addLevelStyle = (baseStyle: string) => [
+    styles.bottombar,
+    data.subtype == "I" ? styles.bronzeBorder : null,
+    data.subtype == "II" ? styles.silverBorder : null,
+    data.subtype == "III" ? styles.goldBorder : null
+  ].filter(c => c != null).join(" ")
+
+  const bottomBarStyle = addLevelStyle(styles.bottombar)
+
+  const evolveCostStyle = addLevelStyle(styles.evolveCost)
+
   return (
     <div className={cardStyles[size]}
       style={{
         background: biomeColor
       }}
     >
-      {cornerOverlay}
+      {data.type == "Mon" ? cornerOverlay : evolvedCornerOverlay}
       <div className={cardStyles.topbar}>
         <div>
           <div className={cardStyles.name}>{data.name}</div>
-          <div className={cardStyles.type}>{data.type}</div>
+          <div className={cardStyles.type}>{data.type} - {data.subtype}</div>
         </div>
       </div>
       <div className={cardStyles.art}>
@@ -49,7 +66,12 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       <div className={cardStyles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
-      <div className={styles.bottombar} />
+      <div className={bottomBarStyle}>
+        {data.type == "EvolvedMon" &&
+          <div className={evolveCostStyle}
+            dangerouslySetInnerHTML={{ __html: data.evolveCost }} />
+        }
+      </div>
     </div >
   )
 }
