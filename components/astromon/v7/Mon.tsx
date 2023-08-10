@@ -34,9 +34,9 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
 
   const addLevelStyle = (baseStyle: string) => [
     baseStyle,
-    data.subtype == "I" ? styles.bronzeBorder : null,
-    data.subtype == "II" ? styles.silverBorder : null,
-    data.subtype == "III" ? styles.goldBorder : null
+    data.subtype == "Level I" ? styles.bronzeBorder : null,
+    data.subtype == "Level II" ? styles.silverBorder : null,
+    data.subtype == "Level III" ? styles.goldBorder : null
   ].filter(c => c != null).join(" ")
 
   const bottomBarStyle = addLevelStyle(styles.bottombar)
@@ -67,7 +67,7 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
         dangerouslySetInnerHTML={{ __html: data.text }}
       ></div>
       <div className={bottomBarStyle}>
-        {data.type == "EvolvedMon" &&
+        {data.type == "Evolution" &&
           <div className={evolveCostStyle}
             dangerouslySetInnerHTML={{ __html: data.evolveCost }} />
         }
