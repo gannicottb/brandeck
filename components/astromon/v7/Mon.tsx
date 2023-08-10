@@ -33,7 +33,7 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
     </div>
 
   const addLevelStyle = (baseStyle: string) => [
-    styles.bottombar,
+    baseStyle,
     data.subtype == "I" ? styles.bronzeBorder : null,
     data.subtype == "II" ? styles.silverBorder : null,
     data.subtype == "III" ? styles.goldBorder : null
