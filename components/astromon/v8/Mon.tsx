@@ -30,19 +30,17 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
       }}
     >
       <div className={cardStyles.topbar}>
+        <div className={styles.cost}>
+          {data.cost}
+          <span className={styles.cost_icon}>{icon("energy")}</span>
+        </div>
         <div>
           <div className={cardStyles.name}>{data.name}</div>
-          <div className={cardStyles.type}>{data.type}</div>
+          <div className={cardStyles.type}>{data.type} - {data.subtype}</div>
         </div>
-        <div style={{ display: "flex" }}>
-          <div className={styles.cost}>
-            {data.cost}
-            <span className={styles.cost_icon}>{icon("energy")}</span>
-          </div>
-          <div className={styles.biome}
-            dangerouslySetInnerHTML={{ __html: biomeIcons.join("") }}
-          />
-        </div>
+        <div className={styles.biome}
+          dangerouslySetInnerHTML={{ __html: biomeIcons.join("") }}
+        />
       </div>
       <div className={cardStyles.art}>
         {data.art != "unknown" && <img
@@ -57,20 +55,23 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
 
       <div className={styles.bottombar}>
         <div className={styles.stat}>
-          <div>{data.bonusEffect || ""}</div>
+          <div>{data.draw ? `${data.draw}${icon("draw-icon")}` : ""}</div>
         </div>
         <div className={styles.stat}>
-          <div>{data.bonusStars ? `${data.bonusStars}${icon("star")}` : ""}</div>
+          <div>{data.recruit ? `${data.recruit}${icon("side-action")}` : ""}</div>
         </div>
         <div className={styles.stat}>
           <div>
-            <span>{data.bonusSkill > 0 ? "+" : ""}</span>
-            <div>{data.bonusSkill || ""}</div>
+            <div>{data.build ? `${data.build}${icon("build")}` : ""}</div>
           </div>
         </div>
         <div className={styles.baseStat}>
           <div>{icon(statType)}</div>
           <div>{statValue}</div>
+        </div>
+        <div className={styles.baseStars}>
+          <div>{data.bonusStars}</div>
+          <div>{icon("star")}</div>
         </div>
       </div>
     </div >

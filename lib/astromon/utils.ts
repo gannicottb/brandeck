@@ -82,6 +82,8 @@ export const icon = (code: string): string => {
       return "🃏"
     case "retrieve-icon":
       return "🚮"
+    case "build":
+      return "🛠"
     default:
       return "unknown"
   }

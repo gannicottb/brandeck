@@ -20,6 +20,9 @@ type CardRow = {
   BonusEffect: string;
   BonusStars: number;
   BonusStat: number;
+  Draw: number;
+  Build: number;
+  Recruit: number;
   Num: string;
   Art: string;
   Text: string;
@@ -42,6 +45,9 @@ export type ParsedCard = {
   bonusEffect: string;
   bonusStars: number;
   bonusStat: number;
+  draw: number;
+  build: number;
+  recruit: number;
   num: number;
   art: string;
   text: string;
@@ -112,6 +118,9 @@ export const parser = (csv: string, version: Version) => {
         bonusEffect: interpolateIcons(data.BonusEffect || "", version),
         bonusStars: Number(data.BonusStars),
         bonusStat: Number(data.BonusStat),
+        draw: Number(data.Draw),
+        build: Number(data.Build),
+        recruit: Number(data.Recruit),
         num: Number(data.Num),
         art: data.Art,
         text: interpolateIcons(customFormat(data.Text), version)

@@ -1,7 +1,8 @@
 import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
 import cardStyles from 'styles/astromon/v8/Card.module.scss'
-import styles from 'styles/astromon/v8/Resource.module.scss'
+import monStyles from 'styles/astromon/v8/Mon.module.scss'
+import styles from 'styles/astromon/v8/Upgrade.module.scss'
 import { icon } from "lib/astromon/utils";
 
 interface CardProps {
@@ -9,12 +10,19 @@ interface CardProps {
   size: string
 }
 
-export const Resource: React.FC<CardProps> = ({ data, size }) => {
+export const Upgrade: React.FC<CardProps> = ({ data, size }) => {
   return (
     <div className={cardStyles[size]}>
       <div className={cardStyles.topbar}>
-        <div className={cardStyles.name}>{data.name}</div>
-        <div className={cardStyles.type}>{data.type}</div>
+        <div className={monStyles.cost}>
+          {data.cost}
+          <span className={monStyles.cost_icon}>{icon("build")}</span>
+        </div>
+        <div>
+          <div className={cardStyles.name}>{data.name}</div>
+          <div className={cardStyles.type}>{data.type}</div>
+        </div>
+        <div></div>
       </div>
 
       <div className={cardStyles.art}>
@@ -28,12 +36,10 @@ export const Resource: React.FC<CardProps> = ({ data, size }) => {
         <div className={styles.text}
           dangerouslySetInnerHTML={{ __html: data.text }}
         ></div>}
-      {(data.text && data.bonusStars > 0) && <hr style={{ width: "80%" }} />}
-      {(data.bonusStars > 0) &&
-        <div className={styles.reward}>
-          <div>{data.bonusStars}{icon("star")}</div>
-        </div>
-      }
+      <div className={monStyles.baseStars}>
+        <div>{data.bonusStars}</div>
+        <div>{icon("star")}</div>
+      </div>
     </div>
   )
 }

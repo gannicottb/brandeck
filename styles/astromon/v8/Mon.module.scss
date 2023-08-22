@@ -4,8 +4,6 @@
   display: flex;
   flex-direction: column;
 
-  position: relative;
-
   background: black;
   color: white;
   padding: .5em;
@@ -16,7 +14,7 @@
   .cost_icon {
     position: absolute;
     top: 3%;
-    left: -40%;
+    left: 11%;
     font-size: .7em;
     border-radius: 10em;
     background: black;
@@ -49,6 +47,13 @@
     padding-left: .3em;
   }
 
+}
+
+.baseStars {
+  composes: baseStat;
+  left: 0;
+
+  border-radius: 0em .5em 0em 0em;
 }
 
 .mergeHeader {

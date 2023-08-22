@@ -2,7 +2,7 @@ import React from "react";
 import { ParsedCard } from "lib/astromon/parse";
 import { Reference } from "./Reference";
 import { Mon } from "./Mon"
-import { Resource } from "./Resource"
+import { Upgrade } from "./Upgrade"
 
 interface CardProps {
   data: ParsedCard,
@@ -24,7 +24,7 @@ export const Card: React.FC<CardProps> = ({ data, size, ...props }) => {
         size={cardSize}
         {...props}
       />}
-      {data.type == "Resource" && <Resource
+      {data.type == "Upgrade" && <Upgrade
         data={data}
         size={cardSize}
         {...props}
