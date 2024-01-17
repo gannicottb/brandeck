@@ -7,7 +7,8 @@ import { Card as V5Card } from 'components/astromon/v5/Card'
 import { Card as V6Card } from 'components/astromon/v6/Card'
 import { Card as V7Card } from 'components/astromon/v7/Card'
 import { Card as V8Card } from 'components/astromon/v8/Card'
-import { importer, mapArtURL, getVersion } from 'lib/import'
+import { getVersion } from 'lib/import'
+import { mapArtURL, downloadSheet } from "@/app/lib/Utils"
 import { parser } from 'lib/astromon/parse'
 import { ParsedCard } from 'lib/astromon/parse'
 import { first, Version } from "lib/utils"
@@ -22,7 +23,7 @@ const artURLCache = new RedisRTC<string>("art", (artName) => mapArtURL("astromon
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const ver = getVersion(context.params?.version || [])
 
-  const raw = await importer("astromon", ver)
+  const raw = await downloadSheet("astromon", ver)
 
   const parsed = await parser(raw, ver)
 

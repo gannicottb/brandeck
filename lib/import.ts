@@ -1,4 +1,4 @@
-import { GaxiosPromise } from "gaxios";
+import { GaxiosPromise } from "@googleapis/drive";
 import { DriveClient } from "./DriveClient";
 import { RedisRTC } from "./RedisRTC";
 import { first, getRootId, parseVersion, Version } from "./utils";
@@ -21,23 +21,6 @@ export const folderIdMap = new RedisRTC<NameAndParentId>("folderIds", async ({ n
     }
   })
 })
-
-export const mapArtURL = async (game: string, artName: string): Promise<string> => {
-  const drive = DriveClient.getInstance().drive()
-  const parentId = getRootId(game)
-  const art_folder_id = await folderIdMap.get({
-    name: "art",
-    parentId
-  })
-  return drive.files.list(
-    { q: `name = '${artName}' and parents in '${art_folder_id}'` }
-  ).then((r) => {
-    const id = (r.data.files || [])[0]?.id
-    if (id) { return `https://drive.google.com/uc?id=${id}&export=download` } else {
-      return Promise.reject(`image '${artName}' not found in ${art_folder_id}`)
-    }
-  })
-}
 
 export const importer = async (game: string, ver: Version): Promise<string> => {
   const drive = DriveClient.getInstance().drive()
@@ -62,9 +45,11 @@ export const importer = async (game: string, ver: Version): Promise<string> => {
   const buf = await ((drive.files.export({
     fileId: sheetId,
     mimeType: "text/csv"
-  }) as unknown) as GaxiosPromise<string>)
+  }) as unknown) as GaxiosPromise<Blob>).then((blob) =>
+    blob.data.text()
+  )
 
-  return buf.data
+  return buf
 }
 
 export const getVersion = (query: string | string[]): Version => {
