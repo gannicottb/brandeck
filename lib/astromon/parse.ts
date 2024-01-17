@@ -1,6 +1,7 @@
 import { parseString } from '@fast-csv/parse';
 import { icon, iconCircled } from 'lib/astromon/utils';
-import { customFormat, Version } from 'lib/utils';
+import { customFormat } from 'lib/utils';
+import { Version } from '@/app/lib/Version'
 
 // starting from 2.0
 type CardRow = {

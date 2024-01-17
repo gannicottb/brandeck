@@ -8,11 +8,11 @@ import { Card as V6Card } from 'components/astromon/v6/Card'
 import { Card as V7Card } from 'components/astromon/v7/Card'
 import { Card as V8Card } from 'components/astromon/v8/Card'
 import { getVersion } from 'lib/import'
-import { mapArtURL, downloadSheet } from "@/app/lib/Utils"
+import { mapArtURL, downloadSheet, first } from "@/app/lib/Utils"
 import { parser } from 'lib/astromon/parse'
 import { ParsedCard } from 'lib/astromon/parse'
-import { first, Version } from "lib/utils"
-import { RedisRTC } from "lib/RedisRTC"
+import { Version } from "@/app/lib/Version"
+import { RedisRTC } from "@/app/lib/RedisRTC"
 import React from "react"
 import { FilterProps, Filters, getFilters } from "lib/astromon/utils"
 

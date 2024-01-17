@@ -2,7 +2,7 @@
  * Astromon-specific utilities
  */
 
-import { first } from "lib/utils"
+import { first } from "@/app/lib/Utils"
 import { ParsedUrlQuery } from "querystring"
 import { ParsedCard } from "./parse"
 

@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as puppeteer from 'puppeteer'
-import { FolderType, folderIdMap } from 'lib/import'
+import { FolderType, folderIdMap } from '@/app/lib/Utils'
 import { Readable } from 'stream'
-import { basicAuth, getRootId, sleep } from 'lib/utils'
-import { DriveClient } from 'lib/DriveClient'
-import { parseVersion } from 'lib/utils'
+import { basicAuth } from 'lib/utils'
+import { DriveClient } from '@/app/lib/DriveClient'
+import { parseVersion, getRootId } from '@/app/lib/Utils'
 
 type Data = {
   message: string
@@ -23,7 +23,7 @@ export default async function handler(
     return
   }
 
-  if (process.env.NODE_ENV == "production") await basicAuth(req, res)
+  if (process.env.NODE_ENV == "production") basicAuth(req, res)
 
   const [game, version] = Object.keys(req.query || {})
     .filter((k) => ["game", "version"].includes(k))
