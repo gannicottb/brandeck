@@ -3,9 +3,18 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import * as puppeteer from 'puppeteer'
 import { FolderType, folderIdMap } from '@/app/lib/Utils'
 import { Readable } from 'stream'
-import { basicAuth } from 'lib/utils'
+import initializeBasicAuth from 'nextjs-basic-auth'
 import { DriveClient } from '@/app/lib/DriveClient'
 import { parseVersion, getRootId } from '@/app/lib/Utils'
+
+const users = process.env.ADMIN_SECRET ? [
+  { user: 'admin', password: process.env.ADMIN_SECRET }
+] : []
+
+export const basicAuth = initializeBasicAuth({
+  users: users
+})
+
 
 type Data = {
   message: string

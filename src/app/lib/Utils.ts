@@ -4,6 +4,7 @@ import { RedisRTC } from "./RedisRTC"
 import { Version } from "./Version"
 import { CardRow } from "./CardRow"
 import { parseString } from "@fast-csv/parse"
+import camelCase from "lodash.camelcase"
 
 interface NameAndParentId {
   name: string
@@ -69,7 +70,7 @@ export async function parseSheet<C extends CardRow>(csv: string, transformFn: (c
   return new Promise<C[]>(resolve => {
     let result: C[] = []
     parseString<C, C>(csv,
-      { headers: headers => headers.map(h => h?.toLowerCase()), trim: true }
+      { headers: headers => headers.map(h => camelCase(h || "")), trim: true }
     )
       .transform((data: C) => {
         return transformFn(data)
