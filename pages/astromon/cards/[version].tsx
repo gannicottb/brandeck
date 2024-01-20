@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const ver = getVersion(context.params?.version || [])
 
   const raw = await downloadSheet("astromon", ver)
-
+  // The problem is that this is in pages and can't use 'fs'
   const parsed = await parser(raw, ver)
 
   // Resolve art names to urls (cached)

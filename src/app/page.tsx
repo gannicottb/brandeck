@@ -1,8 +1,7 @@
 import { drive_v3 } from '@googleapis/drive'
-import { DriveClient } from 'lib/DriveClient'
-import { FolderType } from 'lib/import'
-import { Dict, Version, getRootId } from 'lib/utils'
-import Image from 'next/image'
+import { DriveClient } from '@/app/lib/DriveClient'
+import { getRootId, FolderType } from '@/app/lib/Utils'
+import { Version } from '@/app/lib/Version'
 import Link from 'next/link'
 
 interface Folder {
@@ -11,8 +10,6 @@ interface Folder {
 }
 
 async function getVersionsFor(drive: drive_v3.Drive, gameName: string) {
-  console.log("gVF gN: " + gameName)
-  // find the latest version for the game
   const allMajorVersions = await drive.files.list({
     q: `name contains 'v' and mimeType = '${FolderType}' and parents in '${getRootId(gameName)}'`
   })
@@ -41,7 +38,6 @@ export default async function Home() {
   const drive = DriveClient.getInstance().drive()
 
   let gameVersions: GameVersionMap = {} as GameVersionMap
-  // ["astromon", "demo"].forEach(async (gameName) => {
   for (const gameName of ["astromon", "demo"]) {
     gameVersions[gameName] = await getVersionsFor(drive, gameName)
   }
@@ -65,8 +61,6 @@ export default async function Home() {
         }
         )}
       </div>
-
-
     </main>
   )
 }
