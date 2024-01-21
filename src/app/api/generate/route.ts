@@ -8,9 +8,9 @@ export async function POST(request: Request) {
   const gameVer: GameVersion = { gameName: res["gameName"], version: res["version"] }
   const fullName = `${gameVer.gameName} v${gameVer.version.major}.${gameVer.version.minor}`
 
-  const numGenerated = await generateAndUpload(gameVer)
+  generateAndUpload(gameVer)
 
   return NextResponse.json({
-    message: `Rendered cards for ${fullName}. ${numGenerated} generated and uploaded.`
+    message: `Generating cards for ${fullName}.`
   })
 }

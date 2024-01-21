@@ -35,12 +35,12 @@ export default async function generateAndUpload(gameVer: GameVersion) {
     return { x: rect.x, y: rect.y, total }
   })
 
-  const now = Date.now()
+  const now = new Date()
 
   const exportFolderId = await folderIdMap.get({ name: "generated", parentId: getRootId(gameName) })
   const batchFolder = await drive.files.create({
     requestBody: {
-      name: `V${version.major}.${version.minor}-${now}`,
+      name: `V${version.major}.${version.minor}-${now.toISOString()}`,
       mimeType: FolderType,
       parents: [exportFolderId]
     }
