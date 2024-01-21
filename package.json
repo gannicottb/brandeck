@@ -42,5 +42,9 @@
   ],
   "browser": {
     "child_process": false
+  },
+  "engines" : { 
+    "npm" : ">=10.3.0",
+    "node" : ">=20.11.0"
   }
 }
