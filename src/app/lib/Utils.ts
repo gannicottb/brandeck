@@ -19,6 +19,12 @@ export const FolderType = "application/vnd.google-apps.folder"
 
 export const getRootId = (game: string) => process.env[`${game.toUpperCase()}_ROOT_ID`]
 
+export const getGameNames = (): string[] => {
+  return Object.keys(process.env)
+    .filter(key => key.endsWith("_ROOT_ID"))
+    .map(key => key.replace("_ROOT_ID", "").toLowerCase())
+}
+
 export const folderIdMap = new RedisRTC<NameAndParentId>("folderIds", async ({ name, parentId }) => {
   const drive = DriveClient.getInstance().drive()
   return await drive.files.list(
