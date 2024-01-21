@@ -20,33 +20,7 @@ root_folder
     /.0
       cards*
     ...
-```
-This Project Structure:
-```
-/lib (these evolve, and are not versioned)
-  import.ts
-  /[game]
-    parse.ts
-
-/pages
-  index.tsx
-  /api
-    /[game]/generate
-      [version].ts
-  /[game]/cards
-    [version].tsx
-/components (loaded dynamically as appropriate)
-  /[game]
-    /v1
-    /v2
-    /v...
-/styles (loaded dynamically as appropriate)
-  globals.css
-  Cards.module.css
-  /[game]
-    /v1
-    /v2
-    /v...
+  /art
 ```
 Config:
 ```
