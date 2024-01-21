@@ -12,7 +12,8 @@ export default async function generateAndUpload(gameVer: GameVersion) {
   const drive = DriveClient.getInstance().drive()
   const browser = await puppeteer.launch({
     defaultViewport: { width: 1200, height: 2400 },
-    args: ['--no-sandbox']
+    args: ['--no-sandbox'],
+    executablePath: process.env.NODE_ENV == "production" ? process.env.PUPPETEER_EXECUTABLE_PATH : undefined
   });
   const page = await browser.newPage();
   // redirect error logs
