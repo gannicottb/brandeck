@@ -1,49 +1,14 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { DriveClient } from "./DriveClient";
+import { GameVersion } from "./GameVersion";
 import * as puppeteer from 'puppeteer'
-import { FolderType, folderIdMap } from '@/app/lib/Utils'
-import { Readable } from 'stream'
-import initializeBasicAuth from 'nextjs-basic-auth'
-import { DriveClient } from '@/app/lib/DriveClient'
-import { parseVersion, getRootId } from '@/app/lib/Utils'
-
-const users = process.env.ADMIN_SECRET ? [
-  { user: 'admin', password: process.env.ADMIN_SECRET }
-] : []
-
-export const basicAuth = initializeBasicAuth({
-  users: users
-})
-
-
-type Data = {
-  message: string
-}
+import { FolderType, folderIdMap, getRootId } from "./Utils";
+import { Readable } from "stream";
 /*
-  This endpoint performs a full generation of card images for the given version,
+  This function performs a full generation of card images for the given version,
   and automatically uploads them to EXPORT_FOLDER_ID
 */
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  if (req.method !== 'POST') {
-    res.status(405).send({ message: 'Only POST requests allowed' })
-    return
-  }
-
-  if (process.env.NODE_ENV == "production") basicAuth(req, res)
-
-  const [game, version] = Object.keys(req.query || {})
-    .filter((k) => ["game", "version"].includes(k))
-    .map((k: string) => {
-      const v = req.query[k]
-      return Array.isArray(v) ? v[0] : v
-    })
-  if (!game || !version) { throw new Error(`Cannot render cards for unparseable game or version: ${req.query}`) }
-
-  const ver = parseVersion(version)
-
+export default async function generateAndUpload(gameVer: GameVersion) {
+  const { gameName, version } = gameVer
   const drive = DriveClient.getInstance().drive()
   const browser = await puppeteer.launch({
     defaultViewport: { width: 1200, height: 2400 },
@@ -54,7 +19,7 @@ export default async function handler(
   page.on('console', (msg) => msg.type() == "error" && console.log(msg))
   // Go to the appropriate cards page
   const host = `${process.env.HOST}`
-  const cardsUrl = `${host}/${game}/cards/${ver.major}.${ver.minor}?size=full`
+  const cardsUrl = `${host}/${gameName}/cards/${version.major}.${version.minor}?size=full`
   await page.goto(cardsUrl,
     { "waitUntil": "networkidle0" }
   );
@@ -71,16 +36,16 @@ export default async function handler(
 
   const now = Date.now()
 
-  const exportFolderId = await folderIdMap.get({ name: "generated", parentId: getRootId(game) })
+  const exportFolderId = await folderIdMap.get({ name: "generated", parentId: getRootId(gameName) })
   const batchFolder = await drive.files.create({
     requestBody: {
-      name: `V${ver.major}.${ver.minor}-${now}`,
+      name: `V${version.major}.${version.minor}-${now}`,
       mimeType: FolderType,
       parents: [exportFolderId]
     }
   })
   const cardIndexRange = Array.from(Array(result.total).keys())
-  res.status(200).json({ message: `Rendered cards. Will generate and upload ${cardIndexRange.length} cards.` })
+
   await Promise.all(cardIndexRange.map(async (i) => {
     const offsetX = cardWidth * (i % cardsPerRow)
     const offsetY = cardHeight * Math.floor(i / cardsPerRow)
@@ -112,7 +77,7 @@ export default async function handler(
     })
     console.log(`Uploaded card_${i}.png`)
   }))
-
   await browser.close();
   console.log(`Finished generating images in ${batchFolder.data.name}`)
+  return cardIndexRange.length
 }

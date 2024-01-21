@@ -1,5 +1,5 @@
 import { CardRow } from "@/app/lib/CardRow";
-import { parseSheet } from "@/app/lib/Utils";
+import { parseSheet } from "@/app/lib/ParseSheet";
 import { Version } from "@/app/lib/Version";
 import { icon, iconCircled } from "./utils";
 

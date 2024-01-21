@@ -15,6 +15,7 @@ export default function Card({ data, size }: { data: CardData, size: string }) {
       whitespace-pre-line
       box-border
       break-inside-avoid
+      card
     `}>
       <CardOfType data={data} />
     </div>

@@ -1,5 +1,5 @@
 import { CardRow } from "@/app/lib/CardRow";
-import { parseSheet } from "@/app/lib/Utils";
+import { parseSheet } from "@/app/lib/ParseSheet";
 
 export interface CardData extends CardRow {
   name: string

@@ -13,6 +13,7 @@ export default function Basic({ data }: { data: CardData }) {
           fill={true}
           alt="art"
           referrerPolicy="no-referrer"
+          priority={true}
         /></div>
       <div className="text-xl font-medium text-black">{data.text}</div>
     </>
