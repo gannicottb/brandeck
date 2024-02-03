@@ -13,7 +13,8 @@ export default function Basic({ data }: { data: CardData }) {
           fill={true}
           alt="art"
           referrerPolicy="no-referrer"
-          priority={true}
+          priority
+          sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         /></div>
       <div className="text-xl font-medium text-black">{data.text}</div>
     </>
