@@ -1,5 +1,7 @@
 import { CardData } from "../parse";
 import Image from "next/image"
+import ReactMarkdown from "react-markdown";
+import iconFor from "../icons";
 
 export default function Basic({ data }: { data: CardData }) {
   return (
@@ -16,7 +18,17 @@ export default function Basic({ data }: { data: CardData }) {
           priority
           sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         /></div>
-      <div className="text-xl font-medium text-black">{data.text}</div>
+      <div className="text-xl font-medium text-black">
+        <ReactMarkdown
+          components={{
+            code(props) {
+              //Get the value of what's in the backticks, pass that to iconFor
+              const { children } = props
+              return iconFor(String(children))
+            }
+          }}
+        >{data.text}</ReactMarkdown>
+      </div>
     </>
   )
 }

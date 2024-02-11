@@ -22,7 +22,7 @@ export const getRootId = (game: string) => process.env[`${game.toUpperCase()}_RO
 export const getGameNames = (): string[] => {
   return Object.keys(process.env)
     .filter(key => key.endsWith("_ROOT_ID"))
-    .map(key => key.replace("_ROOT_ID", "").toLowerCase())
+    .map(key => key.replace("_ROOT_ID", "").replace("_", " ").toLowerCase())
 }
 
 export const folderIdMap = new RedisRTC<NameAndParentId>("folderIds", async ({ name, parentId }) => {

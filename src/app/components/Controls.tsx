@@ -17,7 +17,7 @@ export default function Controls({ gameVer }: { gameVer: GameVersion }) {
   const [isLoading, setLoading] = useState(false)
 
   return (
-    <div>
+    <div className="print:hidden">
       <Link className="p-1" href={"/"}>{"<= Home"}</Link>
       <button
         className="border-2 bg-white text-black p-1"

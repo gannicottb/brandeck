@@ -6,7 +6,8 @@ import dynamic from "next/dynamic";
 export default function Card({ data, size }: { data: CardData, size: string }) {
   const CardOfType: ComponentType<CardProps> = dynamic<CardProps>(() => import(`./templates/${data.type}`))
   return (
-    <div className={`
+    <>
+      <div className={`
       ${CardSizes[size]}
       bg-white
       flex flex-col
@@ -17,7 +18,8 @@ export default function Card({ data, size }: { data: CardData, size: string }) {
       break-inside-avoid
       card
     `}>
-      <CardOfType data={data} />
-    </div>
+        <CardOfType data={data} />
+      </div>
+    </>
   )
 }
