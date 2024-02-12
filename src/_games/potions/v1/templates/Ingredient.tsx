@@ -1,10 +1,8 @@
-import ReactMarkdown from "react-markdown";
 import { ingredientColors } from "../colors";
 import iconFor from "../icons";
 import { CardData } from "../parse";
 import Image from "next/image"
-
-
+import { MarkdownWithIcons } from "../MarkdownWithIcons";
 
 export default function Ingredient({ data }: { data: CardData }) {
   const myColor = ingredientColors[data.subType.toLowerCase()]
@@ -18,10 +16,9 @@ export default function Ingredient({ data }: { data: CardData }) {
   }
 
   return (
-    <>
-      <div className="absolute top-0 w-full h-full m-0 -z-10 bg-black">
+    <div className="flex flex-end flex-col h-full">
+      <div className={`absolute top-0 w-full h-full m-0 -z-10 ${myColor}`}>
         <Image
-          className="max-w-full max-h-full mb-auto object-cover"
           src={data.art}
           fill={true}
           alt="art"
@@ -33,26 +30,19 @@ export default function Ingredient({ data }: { data: CardData }) {
       <div className="relative flex text-4xl justify-between">
         {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade)}
       </div>
-      <div className={`relative mt-1 ml-auto mr-auto p-1 text-m ${myColor} font-medium text-black rounded-lg`}>
-        {data.name}
-      </div>
+
       <div className="absolute top-[45%] w-full flex text-4xl justify-between">
         {glyphBubble(data.subType)}{glyphBubble(data.subType)}
       </div>
-      <div className="empty:hidden relative mt-auto ml-auto mr-auto p-2 text-3xl bg-white font-medium text-black rounded-lg">
-        <ReactMarkdown
-          components={{
-            code(props) {
-              //Get the value of what's in the backticks, pass that to iconFor
-              const { children } = props
-              return iconFor(String(children))
-            }
-          }}
-        >{data.text}</ReactMarkdown>
+      <div className="empty:bg-transparent relative mt-auto ml-auto mr-auto p-2 text-3xl bg-white font-medium text-black rounded-lg">
+        <MarkdownWithIcons content={data.text} />
       </div>
-      <div className="relative flex text-4xl justify-between mt-auto">
+      <div className={`relative mt-1 ml-auto mr-auto p-1 text-m ${myColor} font-medium text-black rounded-lg`}>
+        {data.name}
+      </div>
+      <div className="relative flex text-4xl justify-between mt-1">
         {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade)}
       </div>
-    </>
+    </div>
   )
 }

@@ -8,6 +8,6 @@ export default async function Cards({ gameVer, size }: CardPageProps) {
   const raw = await downloadSheet(gameVer.gameName, gameVer.version)
   const parsed = await _parseSheet(raw)
   return (
-    <Container cards={parsed.slice(0, 55).map((r, i) => <Card data={r} key={i} size={size} />)} />
+    <Container cards={parsed.map((r, i) => <Card data={r} key={i} size={size} />)} />
   )
 }
