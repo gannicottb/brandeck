@@ -9,15 +9,15 @@ export default function Ingredient({ data }: { data: CardData }) {
 
   function glyphBubble(iconKey: string) {
     return (
-      <div className={`${myColor} rounded-xl`}>
+      <div className={`${myColor} rounded-xl p-0.5`}>
         {iconFor(iconKey)}
       </div>
     )
   }
 
   return (
-    <div className="flex flex-end flex-col h-full">
-      <div className={`absolute top-0 w-full h-full m-0 -z-10 ${myColor}`}>
+    <div className={`flex flex-end flex-col h-full ${myColor} -z-20`}>
+      <div className={`absolute left-[5%] top-[5%] w-[90%] h-[90%] m-0 -z-10`}>
         <Image
           src={data.art}
           fill={true}
