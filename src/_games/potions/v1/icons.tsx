@@ -19,33 +19,35 @@ import {
   PiNumberCircleThreeBold, PiNumberCircleTwoBold
 } from "react-icons/pi";
 
+const props = { style: { display: "unset" } }
+
 export default function iconFor(iconKey: string) {
   switch (iconKey.toLowerCase().replaceAll("`", "")) {
-    case "potion": return <GiAcid style={{ display: "unset" }} />
-    case "ask": return <GiChatBubble style={{ display: "unset" }} />
-    case "gold": return <PiCoinBold style={{ display: "unset" }} />
-    case "grade-1": return <PiNumberCircleOneBold style={{ display: "unset" }} />
-    case "grade-2": return <PiNumberCircleTwoBold style={{ display: "unset" }} />
-    case "grade-3": return <PiNumberCircleThreeBold style={{ display: "unset" }} />
-    case "grade-4": return <PiNumberCircleFourBold style={{ display: "unset" }} />
-    case "grade-5": return <PiNumberCircleFiveBold style={{ display: "unset" }} />
-    case "grade-6": return <PiNumberCircleSixBold style={{ display: "unset" }} />
-    case "fungus": return <GiMushroomGills style={{ display: "unset" }} />
-    case "slime": return <GiAcidBlob style={{ display: "unset" }} />
-    case "offal": return <GiAnimalHide style={{ display: "unset" }} />
-    case "mineral": return <GiMinerals style={{ display: "unset" }} />
-    case "flora": return <GiAgave style={{ display: "unset" }} />
-    case "terroir": return <GiCoalPile style={{ display: "unset" }} />
-    case "draw": return <GiCardDraw style={{ display: "unset" }} />
-    case "antidote": return <FcCancel style={{ display: "unset" }} />
-    case "diff-grades": return <GiCardPick style={{ display: "unset" }} />
-    case "explode": return <GiMineExplosion style={{ display: "unset" }} />
-    case "no": return <ImCross style={{ display: "unset" }} />
-    case "plus": return <FaPlus style={{ display: "unset" }} />
-    case "wholesaler": return <GiHood style={{ display: "unset" }} />
-    case "wild": return <GiCardRandom style={{ display: "unset" }} />
-    case "hold-card": return <GiCardPlay style={{ display: "unset" }} />
-    case "rainbow": return <GiRainbowStar style={{ display: "unset" }} />
+    case "potion": return <GiAcid {...props} />
+    case "ask": return <GiChatBubble {...props} />
+    case "gold": return <PiCoinBold {...props} />
+    case "grade-1": return <PiNumberCircleOneBold {...props} />
+    case "grade-2": return <PiNumberCircleTwoBold {...props} />
+    case "grade-3": return <PiNumberCircleThreeBold {...props} />
+    case "grade-4": return <PiNumberCircleFourBold {...props} />
+    case "grade-5": return <PiNumberCircleFiveBold {...props} />
+    case "grade-6": return <PiNumberCircleSixBold {...props} />
+    case "fungus": return <GiMushroomGills {...props} />
+    case "slime": return <GiAcidBlob {...props} />
+    case "offal": return <GiAnimalHide {...props} />
+    case "mineral": return <GiMinerals {...props} />
+    case "flora": return <GiAgave {...props} />
+    case "terroir": return <GiCoalPile {...props} />
+    case "draw": return <GiCardDraw {...props} />
+    case "antidote": return <FcCancel {...props} />
+    case "diff-grades": return <GiCardPick {...props} />
+    case "explode": return <GiMineExplosion {...props} />
+    case "no": return <ImCross {...props} />
+    case "plus": return <FaPlus {...props} />
+    case "wholesaler": return <GiHood {...props} />
+    case "wild": return <GiCardRandom {...props} />
+    case "hold-card": return <GiCardPlay {...props} />
+    case "rainbow": return <GiRainbowStar {...props} />
     default:
       return <span>No Icon Found</span>
   }
