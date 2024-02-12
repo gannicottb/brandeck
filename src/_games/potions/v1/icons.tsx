@@ -1,20 +1,28 @@
-import { BsChat } from 'react-icons/bs';
+
 import { FaPlus } from 'react-icons/fa';
-import { GiAcid, GiAcidBlob, GiAgave, GiAnimalHide, GiCardDraw, GiCardPick, GiCardPlay, GiCardRandom, GiChatBubble, GiCoalPile, GiHood, GiMineExplosion, GiMinerals, GiMushroomGills, GiRainbowStar } from 'react-icons/gi';
-import { IoArrowUndoCircleOutline } from 'react-icons/io5';
+import { FcCancel } from 'react-icons/fc';
+import {
+  GiAcid, GiAcidBlob,
+  GiAgave, GiAnimalHide,
+  GiCardDraw, GiCardPick,
+  GiCardPlay, GiCardRandom,
+  GiChatBubble, GiCoalPile,
+  GiHood, GiMineExplosion,
+  GiMinerals, GiMushroomGills,
+  GiRainbowStar
+} from 'react-icons/gi';
+import { ImCross } from 'react-icons/im';
 import {
   PiCoinBold,
   PiNumberCircleFiveBold, PiNumberCircleFourBold,
   PiNumberCircleOneBold, PiNumberCircleSixBold,
   PiNumberCircleThreeBold, PiNumberCircleTwoBold
 } from "react-icons/pi";
-import { TiCancel } from 'react-icons/ti';
 
 export default function iconFor(iconKey: string) {
   switch (iconKey.toLowerCase().replaceAll("`", "")) {
     case "potion": return <GiAcid style={{ display: "unset" }} />
     case "ask": return <GiChatBubble style={{ display: "unset" }} />
-    // case "ask": return <BsChat style={{ display: "unset" }} />
     case "gold": return <PiCoinBold style={{ display: "unset" }} />
     case "grade-1": return <PiNumberCircleOneBold style={{ display: "unset" }} />
     case "grade-2": return <PiNumberCircleTwoBold style={{ display: "unset" }} />
@@ -29,10 +37,10 @@ export default function iconFor(iconKey: string) {
     case "flora": return <GiAgave style={{ display: "unset" }} />
     case "terroir": return <GiCoalPile style={{ display: "unset" }} />
     case "draw": return <GiCardDraw style={{ display: "unset" }} />
-    case "antidote": return <IoArrowUndoCircleOutline style={{ display: "unset" }} />
+    case "antidote": return <FcCancel style={{ display: "unset" }} />
     case "diff-grades": return <GiCardPick style={{ display: "unset" }} />
     case "explode": return <GiMineExplosion style={{ display: "unset" }} />
-    case "no": return <TiCancel style={{ display: "unset" }} />
+    case "no": return <ImCross style={{ display: "unset" }} />
     case "plus": return <FaPlus style={{ display: "unset" }} />
     case "wholesaler": return <GiHood style={{ display: "unset" }} />
     case "wild": return <GiCardRandom style={{ display: "unset" }} />
