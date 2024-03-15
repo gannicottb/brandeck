@@ -1,3 +1,4 @@
+import { FilterProps } from "@/app/lib/Filters"
 import { GameVersion } from "./GameVersion"
 import { Dict } from "./Utils"
 
@@ -10,4 +11,5 @@ export const CardSizes: Dict = {
 export interface CardPageProps {
   gameVer: GameVersion
   size: string
+  filters: FilterProps
 }
