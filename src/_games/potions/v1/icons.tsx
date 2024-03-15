@@ -4,19 +4,20 @@ import { FcCancel } from 'react-icons/fc';
 import {
   GiAcid, GiAcidBlob,
   GiAgave, GiAnimalHide,
-  GiCardDraw, GiCardPick,
+  GiCardDraw, GiCardExchange, GiCardPick,
   GiCardPlay, GiCardRandom,
   GiChatBubble, GiCoalPile,
   GiHood, GiMineExplosion,
   GiMinerals, GiMushroomGills,
-  GiRainbowStar
+  GiRainbowStar,
+  GiTeePipe
 } from 'react-icons/gi';
 import { ImCross } from 'react-icons/im';
 import {
   PiCoinBold,
   PiNumberCircleFiveBold, PiNumberCircleFourBold,
   PiNumberCircleOneBold, PiNumberCircleSixBold,
-  PiNumberCircleThreeBold, PiNumberCircleTwoBold
+  PiNumberCircleThreeBold, PiNumberCircleTwoBold, PiQuestionBold
 } from "react-icons/pi";
 
 const props = { style: { display: "unset" } }
@@ -26,6 +27,7 @@ export default function iconFor(iconKey: string) {
     case "potion": return <GiAcid {...props} />
     case "ask": return <GiChatBubble {...props} />
     case "gold": return <PiCoinBold {...props} />
+    case "grade": return <PiQuestionBold {...props} />
     case "grade-1": return <PiNumberCircleOneBold {...props} />
     case "grade-2": return <PiNumberCircleTwoBold {...props} />
     case "grade-3": return <PiNumberCircleThreeBold {...props} />
@@ -34,10 +36,14 @@ export default function iconFor(iconKey: string) {
     case "grade-6": return <PiNumberCircleSixBold {...props} />
     case "fungus": return <GiMushroomGills {...props} />
     case "slime": return <GiAcidBlob {...props} />
-    case "offal": return <GiAnimalHide {...props} />
+    case "offal":
+    case "viscera":
+      return <GiAnimalHide {...props} />
     case "mineral": return <GiMinerals {...props} />
     case "flora": return <GiAgave {...props} />
-    case "terroir": return <GiCoalPile {...props} />
+    case "soil":
+    case "terroir":
+      return <GiCoalPile {...props} />
     case "draw": return <GiCardDraw {...props} />
     case "antidote": return <FcCancel {...props} />
     case "diff-grades": return <GiCardPick {...props} />
@@ -48,7 +54,9 @@ export default function iconFor(iconKey: string) {
     case "wild": return <GiCardRandom {...props} />
     case "hold-card": return <GiCardPlay {...props} />
     case "rainbow": return <GiRainbowStar {...props} />
+    case "swap-cards": return <GiCardExchange {...props} />
+    case "reroute": return <GiTeePipe {...props} />
     default:
-      return <span>No Icon Found</span>
+      return <span>X</span>
   }
 }

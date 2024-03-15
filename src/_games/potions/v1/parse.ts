@@ -1,7 +1,8 @@
 import { CardRow } from "@/app/lib/CardRow";
 import { parseSheet } from "@/app/lib/ParseSheet";
+import { FilterableCard } from "@/app/lib/Filters"
 
-export interface CardData extends CardRow {
+export interface CardData extends CardRow, FilterableCard {
   name: string
   type: string
   subType: string

@@ -2,6 +2,7 @@ import { ParsedUrlQuery } from "querystring"
 import { CardData } from "./parse"
 import { first, mapArtURL } from "@/app/lib/Utils"
 import { RedisRTC } from "@/app/lib/RedisRTC"
+import { FilterProps } from "@/app/lib/Filters"
 
 export const artURLCache = new RedisRTC<string>("art", (artName) => mapArtURL("astromon", artName))
 
@@ -85,31 +86,6 @@ export const icon = (code: string): string => {
       return "🛠"
     default:
       return "unknown"
-  }
-}
-
-export interface FilterProps {
-  types: string[],
-  names: string[]
-}
-export interface Filters extends FilterProps { }
-export class Filters {
-  constructor({ types, names }: FilterProps = { types: [], names: [] }) {
-    this.types = types
-    this.names = names
-  }
-  allows(card: CardData): boolean {
-    let isAllowed = true
-
-    if (this.types.length > 0) {
-      isAllowed &&= this.types.includes(card.type.toLowerCase())
-    }
-
-    if (this.names.length > 0) {
-      isAllowed &&= this.names.includes(card.name.toLowerCase())
-    }
-
-    return isAllowed
   }
 }
 
