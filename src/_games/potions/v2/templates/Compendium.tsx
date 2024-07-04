@@ -10,7 +10,7 @@ export default function Compendium({ data }: { data: CardData }) {
       <div className={`text-center ${myColor}`}>{data.name}</div>
       <hr />
       <div className="text-md p-1">
-        <MarkdownWithIcons content={data.text} />
+        <MarkdownWithIcons content={data.text} iconFn={(s: string) => iconFor(s, { size: "1.5em" })} />
       </div>
       <div className={`text-center ${myColor} text-4xl mt-auto`}>{iconFor(data.subType)}</div>
     </div>

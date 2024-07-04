@@ -8,8 +8,6 @@ export interface CardData extends CardRow, FilterableCard {
   subType: string
   text: string
   grade: string
-  payoutFormula: string
-  requirement: string
   upgrade1: string
   upgrade2: string
   upgrade3: string

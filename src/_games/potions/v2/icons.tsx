@@ -1,16 +1,18 @@
 
+import { IconBaseProps } from 'react-icons';
 import { FaPlus } from 'react-icons/fa';
 import { FcCancel } from 'react-icons/fc';
 import {
   GiAcid, GiAcidBlob,
   GiAgave, GiAnimalHide,
-  GiCardDraw, GiCardExchange, GiCardPick,
+  GiCauldron,
+  GiCardExchange, GiCardPick,
   GiCardPlay, GiCardRandom,
-  GiChatBubble, GiCoalPile,
+  GiCoalPile,
   GiHood, GiMineExplosion,
   GiMinerals, GiMushroomGills,
   GiRainbowStar,
-  GiTeePipe
+  GiShoppingCart
 } from 'react-icons/gi';
 import { ImCross } from 'react-icons/im';
 import {
@@ -20,12 +22,10 @@ import {
   PiNumberCircleThreeBold, PiNumberCircleTwoBold, PiQuestionBold
 } from "react-icons/pi";
 
-const props = { style: { display: "unset" } }
-
-export default function iconFor(iconKey: string) {
+export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
+  const props = { style: { display: "unset" }, ...extraProps }
   switch (iconKey.toLowerCase().replaceAll("`", "")) {
     case "potion": return <GiAcid {...props} />
-    case "ask": return <GiChatBubble {...props} />
     case "gold": return <PiCoinBold {...props} />
     case "grade": return <PiQuestionBold {...props} />
     case "grade-1": return <PiNumberCircleOneBold {...props} />
@@ -36,15 +36,10 @@ export default function iconFor(iconKey: string) {
     case "grade-6": return <PiNumberCircleSixBold {...props} />
     case "fungus": return <GiMushroomGills {...props} />
     case "slime": return <GiAcidBlob {...props} />
-    case "offal":
-    case "viscera":
-      return <GiAnimalHide {...props} />
+    case "viscera": return <GiAnimalHide {...props} />
     case "mineral": return <GiMinerals {...props} />
     case "flora": return <GiAgave {...props} />
-    case "soil":
-    case "terroir":
-      return <GiCoalPile {...props} />
-    case "draw": return <GiCardDraw {...props} />
+    case "soil": return <GiCoalPile {...props} />
     case "antidote": return <FcCancel {...props} />
     case "diff-grades": return <GiCardPick {...props} />
     case "explode": return <GiMineExplosion {...props} />
@@ -55,7 +50,8 @@ export default function iconFor(iconKey: string) {
     case "hold-card": return <GiCardPlay {...props} />
     case "rainbow": return <GiRainbowStar {...props} />
     case "swap-cards": return <GiCardExchange {...props} />
-    case "reroute": return <GiTeePipe {...props} />
+    case "pot": return <GiCauldron {...props} />
+    case "shopping": return <GiShoppingCart {...props} />
     default:
       return <span>X</span>
   }
