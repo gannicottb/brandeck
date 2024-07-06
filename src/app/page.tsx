@@ -45,13 +45,13 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-slate-400">
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Brandeck</h1>
       <div>Winding Road Games card preview and generation utility.</div>
-      <div>
+      <div className="flex flex-col">
         {Object.keys(gameVersions).map(gameName => {
           const versions = gameVersions[gameName]
           return (
             <div key={gameName}>
-              <h3>{gameName}</h3>
-              <div className="flex flex-row">
+              <h3 className="font-bold">{gameName}</h3>
+              <div className="flex flex-row flex-wrap">
                 {versions.map(v =>
                   <div className="m-1 p-1 border-2 border-white" key={`${v.major}.${v.minor}`}>
                     <Link href={`/${gameName}/cards/${v.major}.${v.minor}`}>{`${v.major}.${v.minor}`}</Link>
