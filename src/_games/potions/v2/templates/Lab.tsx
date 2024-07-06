@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function Lab({ data }: { data: CardData }) {
   const topAndBottom = "flex justify-around w-[40%] ml-auto mr-auto text-2xl bg-orange-400 rounded-2xl"
-  const leftAndRight = "flex flex-col justify-center h-[30%] min-w-[18%] mt-auto mb-auto text-2xl bg-orange-400 rounded-2xl"
+  const leftAndRight = "flex flex-col justify-center h-[30%] min-w-[18%] mt-auto mb-auto text-2xl bg-orange-500 rounded-2xl"
   return (
     <div className="flex flex-col h-full">
       <div className={`absolute top-0 w-full h-full m-0 -z-10`}>
