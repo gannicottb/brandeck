@@ -12,16 +12,28 @@ export class Filters {
     this.types = types
     this.names = names
   }
+
+  checkInclusion(array: string[], pred: string): boolean {
+    if (array.length > 0) {
+      return array.includes(pred)
+    } else return true
+  }
+
+  or(predicates: boolean[]): boolean {
+    return predicates.reduce((memo, pred) => memo || pred)
+  }
+
+  and(predicates: boolean[]): boolean {
+    return predicates.reduce((memo, pred) => memo && pred)
+  }
+
   allows(card: FilterableCard): boolean {
     let isAllowed = true
 
-    if (this.types.length > 0) {
-      isAllowed &&= this.types.includes(card.type.toLowerCase())
-    }
-
-    if (this.names.length > 0) {
-      isAllowed &&= this.names.includes(card.name.toLowerCase())
-    }
+    isAllowed = this.or([
+      this.checkInclusion(this.names, card.name.toLowerCase()),
+      this.checkInclusion(this.types, card.type.toLowerCase()),
+    ])
 
     return isAllowed
   }
