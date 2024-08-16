@@ -12,8 +12,11 @@ import {
   GiHood, GiMineExplosion,
   GiMinerals, GiMushroomGills,
   GiRainbowStar,
-  GiShoppingCart
+  GiShoppingCart,
+  GiPolarStar,
+  GiReceiveMoney
 } from 'react-icons/gi';
+import { GrMoney } from 'react-icons/gr';
 import { ImCross } from 'react-icons/im';
 import {
   PiCoinBold,
@@ -52,6 +55,8 @@ export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
     case "swap-cards": return <GiCardExchange {...props} />
     case "pot": return <GiCauldron {...props} />
     case "shopping": return <GiShoppingCart {...props} />
+    case "score": return <GiPolarStar {...props} />
+    case "payout": return <GrMoney {...props} />
     default:
       return <span>X</span>
   }
