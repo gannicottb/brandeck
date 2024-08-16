@@ -27,7 +27,8 @@ export default function Ingredient({ data }: { data: CardData }) {
           sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         />
       </div>
-      <div className="relative flex text-4xl justify-between">
+      <div className="absolute top-[-3px] right-0.5 z-10">{data.starterDeck}</div>
+      <div className="relative flex text-5xl justify-between">
         {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade)}
       </div>
 
@@ -40,7 +41,7 @@ export default function Ingredient({ data }: { data: CardData }) {
       <div className={`relative mt-1 ml-auto mr-auto p-1 text-m ${myColor} font-medium text-black rounded-lg`}>
         {data.name}
       </div>
-      <div className="relative flex text-4xl justify-between mt-1">
+      <div className="relative flex text-5xl justify-between mt-1">
         {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade)}
       </div>
     </div>
