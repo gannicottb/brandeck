@@ -7,9 +7,9 @@ import { MarkdownWithIcons } from "../MarkdownWithIcons";
 export default function Ingredient({ data }: { data: CardData }) {
   const myColor = ingredientColors[data.subType.toLowerCase()]
 
-  function glyphBubble(iconKey: string) {
+  function glyphBubble(iconKey: string, extraClasses?: string) {
     return (
-      <div className={`${myColor} rounded-xl p-0.5`}>
+      <div className={`${myColor} rounded-xl p-0.5 ${extraClasses}`}>
         {iconFor(iconKey)}
       </div>
     )
@@ -33,7 +33,7 @@ export default function Ingredient({ data }: { data: CardData }) {
       </div>
 
       <div className="absolute top-[45%] w-full flex text-4xl justify-between">
-        {glyphBubble(data.subType)}{glyphBubble(data.subType)}
+        {glyphBubble(data.subType, "rotate-180")}{glyphBubble(data.subType)}
       </div>
       <div className="empty:bg-transparent relative mt-auto ml-auto mr-auto p-2 text-3xl bg-white font-medium text-black rounded-lg">
         <MarkdownWithIcons content={data.text} />
@@ -42,7 +42,7 @@ export default function Ingredient({ data }: { data: CardData }) {
         {data.name}
       </div>
       <div className="relative flex text-5xl justify-between mt-1">
-        {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade)}
+        {glyphBubble(data.grade, "rotate-180")}{glyphBubble(data.subType, "rotate-180")}{glyphBubble(data.grade, "rotate-180")}
       </div>
     </div>
   )
