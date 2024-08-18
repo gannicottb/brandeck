@@ -33,7 +33,7 @@ export default function Ingredient({ data }: { data: CardData }) {
       </div>
 
       <div className="absolute top-[45%] w-full flex text-4xl justify-between">
-        {glyphBubble(data.subType, "rotate-180")}{glyphBubble(data.subType)}
+        {glyphBubble(data.subType)}{glyphBubble(data.subType, "rotate-180")}
       </div>
       <div className="empty:bg-transparent relative mt-auto ml-auto mr-auto p-2 text-3xl bg-white font-medium text-black rounded-lg">
         <MarkdownWithIcons content={data.text} />

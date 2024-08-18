@@ -30,7 +30,7 @@ export class Filters {
   allows(card: FilterableCard): boolean {
     let isAllowed = true
 
-    isAllowed = this.or([
+    isAllowed = this.and([
       this.checkInclusion(this.names, card.name.toLowerCase()),
       this.checkInclusion(this.types, card.type.toLowerCase()),
     ])
