@@ -51,7 +51,15 @@ export default function Controls({ gameVer }: { gameVer: GameVersion }) {
     /></>
   }
 
-  const filterLink = `?types=${filterBuilder.types.join(",")}&names=${filterBuilder.names.join(",")}`
+  const buildFilterParam = (key: string, values: string[]) =>
+    values.length > 0 ? `${key}=${values.join(",")}` : ""
+
+  const filterLink = () => {
+    const typesParam = buildFilterParam("types", filterBuilder.types)
+    const namesParam = buildFilterParam("names", filterBuilder.names)
+    const concatenated = [typesParam, namesParam].filter(p => p.length > 0).join("&")
+    return concatenated.length > 0 ? `?${concatenated}` : ""
+  }
 
   return (
     <div className="print:hidden">
@@ -67,8 +75,8 @@ export default function Controls({ gameVer }: { gameVer: GameVersion }) {
       <FilterBox label={"Types"} onEnter={addTypeFilter} />
       <FilterBox label={"Names"} onEnter={addNameFilter} />
       <ResetButton />
-      <div>Filter: <Link href={filterLink} className={"text-cyan-600 hover:underline"}>
-        {filterLink}
+      <div>Filter: <Link href={filterLink()} className={"text-cyan-600 hover:underline"}>
+        {filterLink()}
       </Link></div>
     </div>
   )
