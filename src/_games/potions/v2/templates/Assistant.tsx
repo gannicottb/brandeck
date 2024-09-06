@@ -2,6 +2,7 @@ import React from "react";
 import { MarkdownWithIcons } from "../MarkdownWithIcons";
 import { CardData } from "../parse";
 import Image from "next/image"
+import iconFor from "../icons";
 
 interface CornerPlacementProps {
   corner: "tl" | "tr" | "bl" | "br"
@@ -38,7 +39,7 @@ export default function Assistant({ data }: { data: CardData }) {
   return (
     <div className="flex flex-col h-[100%] justify-end">
       <CornerBadge corner="tr">
-        <div className="text-lg font-bold">{data.cost}</div>
+        <div className="text-5xl font-bold leading-[0]">{iconFor(data.grade)}</div>
       </CornerBadge>
       <div className={`absolute left-[5%] top-[5%] w-[90%] h-[90%] m-0 -z-10`}>
         <Image
