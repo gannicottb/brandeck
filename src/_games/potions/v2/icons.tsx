@@ -13,17 +13,18 @@ import {
   GiMinerals, GiMushroomGills,
   GiRainbowStar,
   GiShoppingCart,
-  GiPolarStar,
-  GiReceiveMoney
+  GiPolarStar
 } from 'react-icons/gi';
 import { GrMoney } from 'react-icons/gr';
 import { ImCross } from 'react-icons/im';
+import { IoSquareSharp, IoStar, IoTriangle } from 'react-icons/io5';
 import {
   PiCoinBold,
   PiNumberCircleFiveBold, PiNumberCircleFourBold,
   PiNumberCircleOneBold, PiNumberCircleSixBold,
   PiNumberCircleThreeBold, PiNumberCircleTwoBold, PiQuestionBold
 } from "react-icons/pi";
+import { TbSalt } from 'react-icons/tb';
 
 export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
   const props = { style: { display: "unset" }, ...extraProps }
@@ -57,6 +58,10 @@ export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
     case "shopping": return <GiShoppingCart {...props} />
     case "score": return <GiPolarStar {...props} />
     case "payout": return <GrMoney {...props} />
+    case "salt": return <TbSalt {...props} />
+    case "square": return <IoSquareSharp {...props} />
+    case "triangle": return <IoTriangle {...props} />
+    case "star": return <IoStar {...props} />
     default:
       return <span>X</span>
   }
