@@ -23,12 +23,10 @@ function CornerPlacement(props: CornerPlacementProps) {
         return `bottom-${margin} right-${margin}`
     }
   }
-  const layout = "h-10 w-10 flex items-center justify-center"
-  const style = "bg-yellow-400 border-solid border-2 border-black"
 
   return (
     <div className={
-      `absolute z-10 ${pos(props.corner)} rounded-full p-2 ${style} ${layout} ${props.extraClasses}`
+      `absolute z-10 ${pos(props.corner)} rounded-full p-2 ${props.extraClasses}`
     }>
       {props.children}
     </div>
@@ -38,7 +36,9 @@ function CornerPlacement(props: CornerPlacementProps) {
 export default function Assistant({ data }: { data: CardData }) {
   return (
     <div className="flex flex-col h-[100%] justify-end">
-      <CornerPlacement corner="tr">
+      <CornerPlacement corner="tr"
+        extraClasses={`h-10 w-10 flex items-center justify-center 
+           bg-yellow-400 border-solid border-2 border-black`}>
         <div className="text-5xl font-bold leading-[0]">{iconFor(data.grade)}</div>
       </CornerPlacement>
       <div className={`absolute left-[5%] top-[5%] w-[90%] h-[90%] m-0 -z-10`}>
