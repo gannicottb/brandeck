@@ -6,8 +6,7 @@ import { MarkdownWithIcons } from "../MarkdownWithIcons";
 
 export default function Ingredient({ data }: { data: CardData }) {
   const myColor = ingredientColors[data.subType.toLowerCase()]
-  //"A" | "B" | "C" | "D" | "E" | "F"
-  function border(key?: string) {
+  function starterIconBorder(key?: string): string {
     const baseBorder = "border-double border-l-[5px] border-b-[5px]"
     switch (key) {
       case "A":
@@ -64,9 +63,8 @@ export default function Ingredient({ data }: { data: CardData }) {
       </div>
       <div className="absolute top-0 text-xs right-0.5 z-10">{starterIcon(data.starterDeck)}</div>
       <div className="relative flex text-5xl justify-between">
-        {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade, border(data.starterDeck))}
+        {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade, starterIconBorder(data.starterDeck))}
       </div>
-
       <div className="absolute top-[45%] w-full flex text-4xl justify-between">
         {glyphBubble(data.subType)}{glyphBubble(data.subType, "rotate-180")}
       </div>

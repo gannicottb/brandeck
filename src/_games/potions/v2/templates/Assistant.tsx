@@ -9,7 +9,7 @@ interface CornerPlacementProps {
   children: React.ReactNode,
   extraClasses?: string
 }
-function CornerBadge(props: CornerPlacementProps) {
+function CornerPlacement(props: CornerPlacementProps) {
   const margin = "0.5"
   const pos = (k: string) => {
     switch (k) {
@@ -38,9 +38,9 @@ function CornerBadge(props: CornerPlacementProps) {
 export default function Assistant({ data }: { data: CardData }) {
   return (
     <div className="flex flex-col h-[100%] justify-end">
-      <CornerBadge corner="tr">
+      <CornerPlacement corner="tr">
         <div className="text-5xl font-bold leading-[0]">{iconFor(data.grade)}</div>
-      </CornerBadge>
+      </CornerPlacement>
       <div className={`absolute left-[5%] top-[5%] w-[90%] h-[90%] m-0 -z-10`}>
         <Image
           src={data.art}
