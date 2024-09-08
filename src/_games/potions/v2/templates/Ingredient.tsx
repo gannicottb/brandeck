@@ -6,36 +6,23 @@ import { MarkdownWithIcons } from "../MarkdownWithIcons";
 
 export default function Ingredient({ data }: { data: CardData }) {
   const myColor = ingredientColors[data.subType.toLowerCase()]
-  function starterIconBorder(key?: string): string {
-    const baseBorder = "border-double border-l-[5px] border-b-[5px]"
-    switch (key) {
-      case "A":
-      case "B":
-      case "C":
-        return `${baseBorder} border-black`
-      case "D":
-      case "E":
-      case "F":
-        return `${baseBorder} border-white`
-      default:
-        return ""
-    }
-  }
+  const starterIconBorder = (key?: string) =>
+    key ? "border-double border-l-[5px] border-b-[5px] border-black" : ""
 
   function starterIcon(key?: string) {
     switch (key) {
       case "A":
-        return iconFor("star", { color: "black" })
+        return iconFor("star")
       case "B":
-        return iconFor("square", { color: "black" })
+        return iconFor("square")
       case "C":
-        return iconFor("triangle", { color: "black" })
+        return iconFor("triangle")
       case "D":
-        return iconFor("star", { color: "white" })
+        return iconFor("flag")
       case "E":
-        return iconFor("square", { color: "white" })
+        return iconFor("circle")
       case "F":
-        return iconFor("triangle", { color: "white" })
+        return iconFor("spark")
       default:
         return ""
     }
