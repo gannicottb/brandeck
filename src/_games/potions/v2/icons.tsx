@@ -2,61 +2,52 @@
 import { IconBaseProps } from 'react-icons';
 import { FaPlus } from 'react-icons/fa';
 import { FcCancel } from 'react-icons/fc';
-import {
-  GiAcid, GiAcidBlob,
-  GiAgave, GiAnimalHide,
-  GiCauldron,
-  GiCardExchange, GiCardPick,
-  GiCardPlay, GiCardRandom,
-  GiCoalPile,
-  GiHood, GiMineExplosion,
-  GiMinerals, GiMushroomGills,
-  GiRainbowStar,
-  GiShoppingCart,
-  GiPolarStar,
-  GiReceiveMoney
-} from 'react-icons/gi';
+import * as gi from 'react-icons/gi';
 import { GrMoney } from 'react-icons/gr';
 import { ImCross } from 'react-icons/im';
-import {
-  PiCoinBold,
-  PiNumberCircleFiveBold, PiNumberCircleFourBold,
-  PiNumberCircleOneBold, PiNumberCircleSixBold,
-  PiNumberCircleThreeBold, PiNumberCircleTwoBold, PiQuestionBold
-} from "react-icons/pi";
+import * as io5 from 'react-icons/io5';
+import * as pi from "react-icons/pi";
+import { TbSalt } from 'react-icons/tb';
 
 export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
   const props = { style: { display: "unset" }, ...extraProps }
   switch (iconKey.toLowerCase().replaceAll("`", "")) {
-    case "potion": return <GiAcid {...props} />
-    case "gold": return <PiCoinBold {...props} />
-    case "grade": return <PiQuestionBold {...props} />
-    case "grade-1": return <PiNumberCircleOneBold {...props} />
-    case "grade-2": return <PiNumberCircleTwoBold {...props} />
-    case "grade-3": return <PiNumberCircleThreeBold {...props} />
-    case "grade-4": return <PiNumberCircleFourBold {...props} />
-    case "grade-5": return <PiNumberCircleFiveBold {...props} />
-    case "grade-6": return <PiNumberCircleSixBold {...props} />
-    case "fungus": return <GiMushroomGills {...props} />
-    case "slime": return <GiAcidBlob {...props} />
-    case "viscera": return <GiAnimalHide {...props} />
-    case "mineral": return <GiMinerals {...props} />
-    case "flora": return <GiAgave {...props} />
-    case "soil": return <GiCoalPile {...props} />
+    case "potion": return <gi.GiAcid {...props} />
+    case "gold": return <pi.PiCoinBold {...props} />
+    case "grade": return <pi.PiQuestionBold {...props} />
+    case "grade-1": return <pi.PiNumberCircleOneBold {...props} />
+    case "grade-2": return <pi.PiNumberCircleTwoBold {...props} />
+    case "grade-3": return <pi.PiNumberCircleThreeBold {...props} />
+    case "grade-4": return <pi.PiNumberCircleFourBold {...props} />
+    case "grade-5": return <pi.PiNumberCircleFiveBold {...props} />
+    case "grade-6": return <pi.PiNumberCircleSixBold {...props} />
+    case "fungus": return <gi.GiMushroomGills {...props} />
+    case "slime": return <gi.GiAcidBlob {...props} />
+    case "viscera": return <gi.GiAnimalHide {...props} />
+    case "mineral": return <gi.GiMinerals {...props} />
+    case "flora": return <gi.GiAgave {...props} />
+    case "soil": return <gi.GiCoalPile {...props} />
     case "antidote": return <FcCancel {...props} />
-    case "diff-grades": return <GiCardPick {...props} />
-    case "explode": return <GiMineExplosion {...props} />
+    case "diff-grades": return <gi.GiCardPick {...props} />
+    case "explode": return <gi.GiMineExplosion {...props} />
     case "no": return <ImCross {...props} />
     case "plus": return <FaPlus {...props} />
-    case "wholesaler": return <GiHood {...props} />
-    case "wild": return <GiCardRandom {...props} />
-    case "hold-card": return <GiCardPlay {...props} />
-    case "rainbow": return <GiRainbowStar {...props} />
-    case "swap-cards": return <GiCardExchange {...props} />
-    case "pot": return <GiCauldron {...props} />
-    case "shopping": return <GiShoppingCart {...props} />
-    case "score": return <GiPolarStar {...props} />
+    case "wholesaler": return <gi.GiHood {...props} />
+    case "wild": return <gi.GiCardRandom {...props} />
+    case "hold-card": return <gi.GiCardPlay {...props} />
+    case "rainbow": return <gi.GiRainbowStar {...props} />
+    case "swap-cards": return <gi.GiCardExchange {...props} />
+    case "pot": return <gi.GiCauldron {...props} />
+    case "shopping": return <gi.GiShoppingCart {...props} />
+    case "score": return <gi.GiPolarStar {...props} />
     case "payout": return <GrMoney {...props} />
+    case "salt": return <TbSalt {...props} />
+    case "square": return <io5.IoSquareSharp {...props} />
+    case "triangle": return <io5.IoTriangle {...props} />
+    case "flag": return <io5.IoFlag {...props} />
+    case "circle": return <io5.IoEllipse {...props} />
+    case "spark": return <io5.IoFlash {...props} />
+    case "star": return <io5.IoStar {...props} />
     default:
       return <span>X</span>
   }

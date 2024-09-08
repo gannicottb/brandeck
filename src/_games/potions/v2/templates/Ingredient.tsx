@@ -6,6 +6,27 @@ import { MarkdownWithIcons } from "../MarkdownWithIcons";
 
 export default function Ingredient({ data }: { data: CardData }) {
   const myColor = ingredientColors[data.subType.toLowerCase()]
+  const starterIconBorder = (key?: string) =>
+    key ? "border-double border-l-[5px] border-b-[5px] border-black" : ""
+
+  function starterIcon(key?: string) {
+    switch (key) {
+      case "A":
+        return iconFor("star")
+      case "B":
+        return iconFor("square")
+      case "C":
+        return iconFor("triangle")
+      case "D":
+        return iconFor("flag")
+      case "E":
+        return iconFor("circle")
+      case "F":
+        return iconFor("spark")
+      default:
+        return ""
+    }
+  }
 
   function glyphBubble(iconKey: string, extraClasses?: string) {
     return (
@@ -27,11 +48,10 @@ export default function Ingredient({ data }: { data: CardData }) {
           sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         />
       </div>
-      <div className="absolute top-[-3px] right-0.5 z-10">{data.starterDeck}</div>
+      <div className="absolute top-0 text-xs right-0.5 z-10">{starterIcon(data.starterDeck)}</div>
       <div className="relative flex text-5xl justify-between">
-        {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade)}
+        {glyphBubble(data.grade)}{glyphBubble(data.subType)}{glyphBubble(data.grade, starterIconBorder(data.starterDeck))}
       </div>
-
       <div className="absolute top-[45%] w-full flex text-4xl justify-between">
         {glyphBubble(data.subType)}{glyphBubble(data.subType, "rotate-180")}
       </div>
