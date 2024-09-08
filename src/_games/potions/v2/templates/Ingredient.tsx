@@ -61,8 +61,9 @@ export default function Ingredient({ data }: { data: CardData }) {
       <div className={`relative mt-1 ml-auto mr-auto p-1 text-m ${myColor} font-medium text-black rounded-lg`}>
         {data.name}
       </div>
+      <div className="absolute bottom-0 text-xs left-0.5 z-10 rotate-180">{starterIcon(data.starterDeck)}</div>
       <div className="relative flex text-5xl justify-between mt-1">
-        {glyphBubble(data.grade, "rotate-180")}{glyphBubble(data.subType, "rotate-180")}{glyphBubble(data.grade, "rotate-180")}
+        {glyphBubble(data.grade, `rotate-180 ${starterIconBorder(data.starterDeck)}`)}{glyphBubble(data.subType, "rotate-180")}{glyphBubble(data.grade, "rotate-180")}
       </div>
     </div>
   )
