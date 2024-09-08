@@ -10,7 +10,7 @@ interface CornerPlacementProps {
   extraClasses?: string
 }
 function CornerBadge(props: CornerPlacementProps) {
-  const margin = "0"
+  const margin = "0.5"
   const pos = (k: string) => {
     switch (k) {
       case "tl":
