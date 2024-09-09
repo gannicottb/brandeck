@@ -14,8 +14,9 @@ export default async function Page({ params, searchParams }: {
   const gameVer: GameVersion = { gameName: params.game, version: ver }
   const size: string = first(searchParams["size"]) || "print"
   const filters: FilterProps = {
-    types: (first(searchParams.types || [])?.split(",") || []).map(t => t.toLowerCase()),
-    names: (first(searchParams.names || [])?.split(",") || []).map(t => t.toLowerCase())
+    // types: (first(searchParams.types || [])?.split(",") || []).map(t => t.toLowerCase()),
+    // names: (first(searchParams.names || [])?.split(",") || []).map(t => t.toLowerCase())
+    query: first(searchParams.q) || ""
   }
 
   // We assume that all game+version combinations will have a Cards component that takes GameVersion
@@ -23,7 +24,7 @@ export default async function Page({ params, searchParams }: {
     () => import(`@/_games/${params.game}/v${ver.major}/Cards`)
   )
   return <div>
-    <Controls gameVer={gameVer} />
+    <Controls gameVer={gameVer} filterQuery={filters.query} />
     <Cards gameVer={gameVer} size={size} filters={filters} />
   </div>
 }
