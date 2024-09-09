@@ -21,7 +21,7 @@ export default function Controls({ gameVer, filterQuery }: { gameVer: GameVersio
 
   const FilterBox = ({ value, onEnter }: { value: string, onEnter: (s: string) => void }) => {
     return <input
-      className="border-2 bg-white text-black p-1 w-52"
+      className="border-2 bg-white text-black p-1 w-72"
       onKeyDown={(ev) => {
         if (ev.key === "Enter") {
           window.location.href = filterLink
