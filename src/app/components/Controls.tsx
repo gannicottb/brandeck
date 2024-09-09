@@ -14,73 +14,57 @@ async function doGenerate(gameVer: GameVersion) {
   return console.log(text);
 }
 
-export default function Controls({ gameVer }: { gameVer: GameVersion }) {
+export default function Controls({ gameVer, filterQuery }: { gameVer: GameVersion, filterQuery: string }) {
   const [isLoading, setLoading] = useState(false)
-  // To update this...
-  // do you write the raw syntax out?
-  // starterDeck:A|B|C|D|E|F AND subType:Slime OR type:Reference
-  const [filterBuilder, setFilterBuilder] = useState({ query: "" } as FilterProps)
 
-  // const addTypeFilter = (type: string) => {
-  //   setFilterBuilder({ ...filterBuilder, types: Array.from(new Set([...filterBuilder.types, type])) })
-  // }
-  // const addNameFilter = (name: string) => {
-  //   setFilterBuilder({ ...filterBuilder, names: Array.from(new Set([...filterBuilder.names, name])) })
-  // }
+  const [filterBuilder, setFilterBuilder] = useState({ query: filterQuery } as FilterProps)
 
-  const ResetButton = () => {
-    return <button
-      className="border-2 bg-white text-black p-1"
-      onClick={(e) => {
-        e.preventDefault()
-        setFilterBuilder({ query: "" })
-      }}
-    >Reset</button>
-  }
-
-  const FilterBox = ({ label, onEnter }: { label: string, onEnter: (s: string) => void }) => {
-    const [filterInput, setFilterInput] = useState("")
-    return <><span>{label}</span><input
-      className="border-2 bg-white text-black p-1"
+  const FilterBox = ({ value, onEnter }: { value: string, onEnter: (s: string) => void }) => {
+    return <input
+      className="border-2 bg-white text-black p-1 w-52"
       onKeyDown={(ev) => {
         if (ev.key === "Enter") {
-          onEnter(ev.currentTarget.value)
-          setFilterInput("")
+          window.location.href = filterLink
         }
       }}
-      onChange={(ev) => setFilterInput(ev.currentTarget.value)}
-      value={filterInput}
-    /></>
+      autoFocus={true}
+      onChange={(ev) => onEnter(ev.currentTarget.value)}
+      value={value}
+    />
   }
 
-  // const buildFilterParam = (key: string, values: string[]) =>
-  //   values.length > 0 ? `${key}=${values.join(",")}` : ""
-
-  const filterLink = () => {
-    // const typesParam = buildFilterParam("types", filterBuilder.types)
-    // const namesParam = buildFilterParam("names", filterBuilder.names)
-    // const concatenated = [typesParam, namesParam].filter(p => p.length > 0).join("&")
-    return filterBuilder.query.length > 0 ? `?q=${filterBuilder.query}` : ""
+  const HelpButton = () => {
+    const [hidden, setHidden] = useState(true)
+    return <div>
+      <button className="border-2 bg-white text-black p-1"
+        onClick={() => setHidden(!hidden)}
+      >?</button>
+      {hidden ? <></> : <code className="text-xs">(key:value AND key2:value|value2|value3 OR key3:value)</code>}
+    </div>
   }
+
+  const filterLink = filterBuilder.query.length > 0 ? `?q=${filterBuilder.query}` : ""
 
   return (
-    <div className="print:hidden">
-      <Link className="p-1" href={"/"}>{"<= Home"}</Link>
-      <button
-        className="border-2 bg-white text-black p-1"
-        onClick={(e) => {
-          e.preventDefault()
-          setLoading(true)
-          doGenerate(gameVer).finally(() => setLoading(false))
-        }
-        }>{isLoading ? "Generating..." : "Generate"}</button>
-      {/* <FilterBox label={"Types"} onEnter={addTypeFilter} /> */}
-      {/* <FilterBox label={"Names"} onEnter={addNameFilter} /> */}
-      <FilterBox label={"Filter"} onEnter={(s: string) => setFilterBuilder({ query: s })} />
-      <ResetButton />
-      <div>Filter: <Link href={filterLink()} className={"text-cyan-600 hover:underline"}>
-        {filterLink()}
-      </Link></div>
+    <div className="print:hidden flex flex-col">
+      <div>
+        <Link className="p-1" href={"/"}>{"<= Home"}</Link>
+        <button
+          className="border-2 bg-white text-black p-1"
+          onClick={(e) => {
+            e.preventDefault()
+            setLoading(true)
+            doGenerate(gameVer).finally(() => setLoading(false))
+          }
+          }>{isLoading ? "Generating..." : "Generate"}</button>
+      </div>
+      <div className="flex">
+        <FilterBox value={filterBuilder.query} onEnter={(s: string) => setFilterBuilder({ query: s })} />
+        <Link href={filterLink} className={"text-cyan-600 hover:underline p-1"}>
+          Filter
+        </Link>
+        <HelpButton />
+      </div>
     </div>
   )
 }

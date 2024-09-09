@@ -24,7 +24,7 @@ export default async function Page({ params, searchParams }: {
     () => import(`@/_games/${params.game}/v${ver.major}/Cards`)
   )
   return <div>
-    <Controls gameVer={gameVer} />
+    <Controls gameVer={gameVer} filterQuery={filters.query} />
     <Cards gameVer={gameVer} size={size} filters={filters} />
   </div>
 }
