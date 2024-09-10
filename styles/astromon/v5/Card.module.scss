@@ -119,6 +119,12 @@
   margin-right: auto;
   display: flex;
   justify-content: center;
+
+  position: relative;
+
+  img {
+    object-fit: contain;
+  }
 }
 
 .card .art:empty {

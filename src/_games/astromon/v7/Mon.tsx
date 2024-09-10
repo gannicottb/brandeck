@@ -4,6 +4,7 @@ import cardStyles from 'styles/astromon/v7/Card.module.scss'
 import styles from 'styles/astromon/v7/Mon.module.scss'
 import { biomeColors } from "./Card";
 import { CardProps } from "../parse";
+import { CardArt } from "../CardArt";
 
 export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
   const biomes = data.biome.split("")
@@ -52,11 +53,7 @@ export const Mon: React.FC<CardProps> = ({ data, size, ...props }) => {
         </div>
       </div>
       <div className={cardStyles.art}>
-        {data.art != "unknown" && <img
-          alt={data.name}
-          src={data.art}
-          referrerPolicy="no-referrer"
-        />}
+        {data.art != "unknown" && <CardArt src={data.art} alt={data.name} />}
       </div>
       <div className={cardStyles.text}
         dangerouslySetInnerHTML={{ __html: data.text }}

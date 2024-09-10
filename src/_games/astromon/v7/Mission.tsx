@@ -4,6 +4,7 @@ import styles from 'styles/astromon/v7/Mission.module.scss'
 import { icon, iconCircled } from "../utils";
 import { biomeColors } from "./Card";
 import { CardProps } from "../parse";
+import { CardArt } from "../CardArt";
 
 const cornerOverlay = (icon: string) =>
   <div className={cardStyles.overlay} style={{ "fontSize": "2em" }}>
@@ -26,11 +27,7 @@ export const Mission: React.FC<CardProps> = ({ data, size }) => {
       </div>
 
       <div className={cardStyles.art}>
-        {data.art != "unknown" && <img
-          alt={data.name}
-          src={data.art}
-          referrerPolicy="no-referrer"
-        />}
+        {data.art != "unknown" && <CardArt src={data.art} alt={data.name} />}
       </div>
       {data.text &&
         <div className={styles.text}

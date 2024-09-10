@@ -3,6 +3,7 @@ import cardStyles from 'styles/astromon/v6/Card.module.scss'
 import styles from 'styles/astromon/v6/Resource.module.scss'
 import { icon } from "../utils";
 import { CardProps } from "../parse";
+import { CardArt } from "../CardArt";
 
 export const Resource: React.FC<CardProps> = ({ data, size }) => {
   return (
@@ -13,11 +14,7 @@ export const Resource: React.FC<CardProps> = ({ data, size }) => {
       </div>
 
       <div className={cardStyles.art}>
-        {data.art != "unknown" && <img
-          alt={data.name}
-          src={data.art}
-          referrerPolicy="no-referrer"
-        />}
+        {data.art != "unknown" && <CardArt src={data.art} alt={data.name} />}
       </div>
       {data.text &&
         <div className={styles.text}

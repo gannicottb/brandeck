@@ -5,6 +5,7 @@ import styles from 'styles/astromon/v8/Upgrade.module.scss'
 import { icon } from "../utils";
 import { CardProps } from "../parse";
 import Image from "next/image";
+import { CardArt } from "../CardArt";
 
 export const Upgrade: React.FC<CardProps> = ({ data, size }) => {
   return (
@@ -22,14 +23,7 @@ export const Upgrade: React.FC<CardProps> = ({ data, size }) => {
       </div>
 
       <div className={cardStyles.art}>
-        {data.art != "unknown" && <Image
-          src={data.art}
-          fill={true}
-          alt={data.name}
-          referrerPolicy="no-referrer"
-          priority
-          sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
-        />}
+        {data.art != "unknown" && <CardArt src={data.art} alt={data.name} />}
       </div>
       {data.text &&
         <div className={styles.text}
