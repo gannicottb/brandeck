@@ -37,8 +37,7 @@ export default function Assistant({ data }: { data: CardData }) {
   return (
     <div className="flex flex-col h-[100%] justify-end">
       <CornerPlacement corner="tr"
-        extraClasses={`h-10 w-10 flex items-center justify-center 
-           bg-yellow-400 border-solid border-2 border-black`}>
+        extraClasses={`h-10 w-10 flex items-center justify-center bg-yellow-400 border-solid border-2 border-black`}>
         <div className="text-5xl font-bold leading-[0]">{iconFor(data.grade)}</div>
       </CornerPlacement>
       <div className={`absolute left-[5%] top-[5%] w-[90%] h-[90%] m-0 -z-10`}>
