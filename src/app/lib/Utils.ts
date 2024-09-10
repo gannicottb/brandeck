@@ -2,6 +2,7 @@ import { GaxiosPromise } from "@googleapis/drive"
 import { DriveClient } from "./DriveClient"
 import { RedisRTC } from "./RedisRTC"
 import { Version } from "./Version"
+import { log } from "console"
 // import { CardRow } from "./CardRow"
 // import { parseString } from "@fast-csv/parse"
 // import camelCase from "lodash.camelcase"
@@ -104,4 +105,8 @@ export const mapArtURL = async (game: string, artName: string): Promise<string> 
 
 export const first = (stringOrArray: string | string[] | undefined): string | undefined => {
   return Array.isArray(stringOrArray) ? stringOrArray[0] : stringOrArray
+}
+
+export const logIf = (show: boolean, message?: any, ...optionalParams: any[]): void => {
+  if (show) { console.debug(message, optionalParams) }
 }

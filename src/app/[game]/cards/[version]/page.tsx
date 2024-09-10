@@ -14,8 +14,6 @@ export default async function Page({ params, searchParams }: {
   const gameVer: GameVersion = { gameName: params.game, version: ver }
   const size: string = first(searchParams["size"]) || "print"
   const filters: FilterProps = {
-    // types: (first(searchParams.types || [])?.split(",") || []).map(t => t.toLowerCase()),
-    // names: (first(searchParams.names || [])?.split(",") || []).map(t => t.toLowerCase())
     query: first(searchParams.q) || ""
   }
 

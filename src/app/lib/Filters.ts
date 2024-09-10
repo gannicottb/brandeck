@@ -1,3 +1,7 @@
+import { logIf } from "./Utils"
+
+const debug = process.env.NODE_ENV != "production"
+
 export interface Filterable extends Record<string, any> { }
 
 class Condition<A> {
@@ -24,7 +28,7 @@ export class Filter {
   allows(c: Filterable) { return this.condition.test(c) }
 }
 
-const extractConditionsAndOperators = new RegExp(/([^" &]*"[^"&]+")|\s([&|\|])\s|(\S+)/gm)
+const extractConditionsAndOperators = new RegExp(/([^" ]*".*")|(\S+)/gm)
 
 // make a Condition from a single token
 // NOTE: assumes all comparisons are (string === string)?
@@ -32,6 +36,7 @@ function parseSingleCondition(s: string): Condition<Filterable> {
   const [k, v] = s.split(":")
   // sauce: allow listing out a list of options for a key
   const ors = v.replaceAll(`"`, "").split("|")
+  logIf(debug, ors)
   return orAll(
     ors.map(o =>
       new Condition<Filterable>(a =>
@@ -46,7 +51,9 @@ function orAll<A>(conditions: Condition<A>[]) {
 }
 // This takes a string (containing multiple conditions and operators) and returns a Condition
 function parseQuery(s: string): Condition<Filterable> {
+  if (s.length == 0) return new Condition<Filterable>(() => true)
   const [initial, ...rest] = [...s.matchAll(extractConditionsAndOperators)].map(arr => arr[0])
+  logIf(debug, initial, rest)
   if (rest.length % 2 != 0) {
     console.log("Dropping last token from query while parsing, shouldn't be an odd # of them")
     rest.pop()

@@ -1,8 +1,5 @@
-import { ParsedUrlQuery } from "querystring"
-import { CardData } from "./parse"
-import { first, mapArtURL } from "@/app/lib/Utils"
+import { mapArtURL } from "@/app/lib/Utils"
 import { RedisRTC } from "@/app/lib/RedisRTC"
-import { FilterProps } from "@/app/lib/Filters"
 
 export const artURLCache = new RedisRTC<string>("art", (artName) => mapArtURL("astromon", artName))
 
@@ -87,12 +84,4 @@ export const icon = (code: string): string => {
     default:
       return "unknown"
   }
-}
-
-export const getFilters = (query: ParsedUrlQuery): FilterProps => {
-  // Use string delimited lists rather than repeated params
-  const types = (first(query.filterType || [])?.split(",") || []).map(t => t.toLowerCase())
-  const names = (first(query.filterName || [])?.split(",") || []).map(t => t.toLowerCase())
-
-  return { types, names }
 }
