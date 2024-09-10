@@ -58,9 +58,12 @@ export default function Controls({ gameVer, filterQuery }: { gameVer: GameVersio
           onChange={ev => setFilterBuilder({ query: ev.currentTarget.value })}
           onKeyUp={ev => ev.key === "Enter" && (window.location.href = filterLink())}
         />
-        <Link href={filterLink()} className={"text-cyan-600 hover:underline p-1"}>
+        <button
+          className={"text-cyan-600 p-1 border-2"}
+          onClick={() => window.location.href = filterLink()}
+        >
           Filter
-        </Link>
+        </button>
         <HelpButton />
       </div>
     </div>
