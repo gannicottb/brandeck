@@ -10,17 +10,16 @@ interface CornerPlacementProps {
   extraClasses?: string
 }
 function CornerPlacement(props: CornerPlacementProps) {
-  const margin = "0.5"
   const pos = (k: string) => {
     switch (k) {
       case "tl":
-        return `top-${margin} left-${margin}`
+        return "top-0.5 left-0.5"
       case "tr":
-        return `top-${margin} right-${margin}`
+        return "top-0.5 right-0.5"
       case "bl":
-        return `bottom-${margin} left-${margin}`
+        return "bottom-0.5 left-0.5"
       case "br":
-        return `bottom-${margin} right-${margin}`
+        return "bottom-0.5 right-0.5"
     }
   }
 

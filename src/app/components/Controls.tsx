@@ -28,7 +28,7 @@ const HelpButton = () => {
     <button className="border-2 bg-white text-black p-1"
       onClick={() => setHidden(!hidden)}
     >?</button>
-    {!hidden && <code className="text-xs">(key:value AND key2:value|value2|value3 OR key3:&quot;value with spaces&quot;)</code>}
+    {!hidden && <code className="text-xs">(key:value AND key2:value|value2 OR key3:&quot;value with spaces&quot;)</code>}
   </div>
 }
 
