@@ -36,7 +36,8 @@ export default function Controls({ gameVer, filterQuery }: { gameVer: GameVersio
   const [isLoading, setLoading] = useState(false)
 
   const [filterBuilder, setFilterBuilder] = useState({ query: filterQuery } as FilterProps)
-  const filterLink = filterBuilder.query.length > 0 ? `?q=${filterBuilder.query}` : ""
+  const filterLink = () =>
+    filterBuilder.query.length > 0 ? `?q=${filterBuilder.query}` : window.location.href.split("?")[0]
 
   return (
     <div className="print:hidden flex flex-col">
@@ -55,9 +56,9 @@ export default function Controls({ gameVer, filterQuery }: { gameVer: GameVersio
         <FilterBox
           value={filterBuilder.query}
           onChange={ev => setFilterBuilder({ query: ev.currentTarget.value })}
-          onKeyUp={ev => ev.key === "Enter" && (window.location.href = filterLink)}
+          onKeyUp={ev => ev.key === "Enter" && (window.location.href = filterLink())}
         />
-        <Link href={filterLink} className={"text-cyan-600 hover:underline p-1"}>
+        <Link href={filterLink()} className={"text-cyan-600 hover:underline p-1"}>
           Filter
         </Link>
         <HelpButton />
