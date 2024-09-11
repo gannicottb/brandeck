@@ -27,19 +27,44 @@ export class Filter {
 }
 
 const extractConditionsAndOperators = new RegExp(/([^" ]*".*")|(\S+)/gm)
+const splitCondition = new RegExp(/([^:!]+)([:|!])([^:!]+)/gm)
 
 // make a Condition from a single token
 // NOTE: assumes all comparisons are (string === string)?
+function lowerAll(strs: string[]) {
+  return strs.map(s => s.toLowerCase())
+}
+function cmpInsensitive(cmp: (a: string, b: string) => boolean) {
+  return (...strs: string[]) => {
+    const [l, r] = lowerAll(strs)
+    return cmp(l, r)
+  }
+}
+type CompareStrings = (...strs: string[]) => boolean
+type CombineConditions<T> = (l: Condition<T>, r: Condition<T>) => Condition<T>
+const eqInsensitive = cmpInsensitive((a: string, b: string) => a === b)
+const neInsensitive = cmpInsensitive((a: string, b: string) => a !== b)
+const andConds = (l: Condition<Filterable>, r: Condition<Filterable>) => l.and(r)
+const orConds = (l: Condition<Filterable>, r: Condition<Filterable>) => l.or(r)
+// next step: handle numbers
+function parseOperator(s: string): [CompareStrings, CombineConditions<Filterable>] {
+  switch (s) {
+    case ":":
+      return [eqInsensitive, orConds]
+    case "!":
+      return [neInsensitive, andConds]
+    default:
+      throw new Error(`Unrecognized operator ${s}`)
+  }
+}
 function parseSingleCondition(s: string): Condition<Filterable> {
-  const [k, v] = s.split(":")
-  // sauce: allow listing out a list of options for a key
-  const ors = v.replaceAll(`"`, "").split("|")
-  debugLog("Condition value(s):", ors)
-  return ors.map(o =>
-    new Condition<Filterable>(a =>
-      a[k]?.toLowerCase() === o.toLowerCase() // case insensitive string compare
-    )
-  ).reduce((final, next) => final.or(next))
+  const [k, o, v] = [...s.matchAll(splitCondition)][0].slice(1, 4)
+  debugLog(k, o, v)
+  const [cmp, combine] = parseOperator(o)
+  const values = v.replaceAll(`"`, "").split("|") // get all values delimited by |
+  debugLog("Condition value(s):", values)
+  return values.map(or => new Condition<Filterable>(a => cmp(a[k], or)))
+    .reduce((final, next) => combine(final, next))
 
 }
 // This takes a string (containing multiple conditions and operators) and returns a Condition
