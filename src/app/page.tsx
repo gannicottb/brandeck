@@ -1,7 +1,7 @@
 import { drive_v3 } from '@googleapis/drive'
 import { DriveClient } from '@/app/lib/DriveClient'
 import { getRootId, FolderType, getGameNames } from '@/app/lib/Utils'
-import { Version, convertVersionToNumber } from '@/app/lib/Version'
+import { Version } from '@/app/lib/Version'
 import Link from 'next/link'
 
 interface Folder {
@@ -25,21 +25,20 @@ async function getVersionsFor(drive: drive_v3.Drive, gameName: string) {
 
     const names = (minorVersions.data.files || []).map(f => f.name || "").filter(s => s != "")
     return names.map<Version>(minor => {
-      return { major: Number(major.name.replace("v", "")), minor: Number(minor.replace(".", "")) }
+      return Version.apply(Number(major.name.replace("v", "")), Number(minor.replace(".", "")))
     })
-  })).then(x => x.flat(1).sort((a, b) => convertVersionToNumber(a) - convertVersionToNumber(b)))
+  })).then(x => x.flat(1).sort((a, b) => Version.toNumber(a) - Version.toNumber(b)))
   return allVersions
 }
-type GameVersionMap = {
-  [key: string]: Version[]
-}
+type GameVersionMap = Record<string, Version[]>
+
 export default async function Home() {
   const drive = DriveClient.getInstance().drive()
 
-  let gameVersions: GameVersionMap = {} as GameVersionMap
-  for (const gameName of getGameNames()) {
-    gameVersions[gameName] = await getVersionsFor(drive, gameName)
-  }
+  const gameVersions: GameVersionMap = await getGameNames()
+    .reduce(async (acc, name) => {
+      return { ...await acc, [name]: await getVersionsFor(drive, name) }
+    }, Promise.resolve({}))
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-slate-400">
@@ -53,8 +52,8 @@ export default async function Home() {
               <h3 className="font-bold">{gameName}</h3>
               <div className="flex flex-row flex-wrap">
                 {versions.map(v =>
-                  <div className="m-1 p-1 border-2 border-white" key={`${v.major}.${v.minor}`}>
-                    <Link href={`/${gameName}/cards/${v.major}.${v.minor}`}>{`${v.major}.${v.minor}`}</Link>
+                  <div className="m-1 p-1 border-2 border-white" key={`${Version.toString(v)}`}>
+                    <Link href={`/${gameName}/cards/${Version.toString(v)}`}>{`${Version.toString(v)}`}</Link>
                   </div>
                 )}
               </div>

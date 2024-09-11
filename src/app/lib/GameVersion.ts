@@ -5,6 +5,14 @@ export interface GameVersion {
   version: Version
 }
 
-export function prettyPrint(gameVer: GameVersion) {
-  `${gameVer.gameName} v${gameVer.version.major}.${gameVer.version.minor}`
+export abstract class GameVersion {
+  static show(gv: GameVersion) {
+    return `${gv.gameName} v${Version.toString(gv.version)}`
+  }
+  static fromObject(gv: GameVersion): GameVersion {
+    return this.apply(gv.gameName, gv.version)
+  }
+  static apply(gameName: string, version: Version) {
+    return { gameName, version }
+  }
 }

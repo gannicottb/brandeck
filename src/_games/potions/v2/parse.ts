@@ -30,7 +30,7 @@ export async function _parseSheet(csv: string) {
     }
     return data
   }).then(cardData => { // Traverse the cards again because fast-csv.transform only takes one operand
-    return cardData.reduce<[{ [k: string]: string[] }, CardData[]]>(
+    return cardData.reduce<[Record<string, string[]>, CardData[]]>(
       ([remainingCodes, result], card) => {
         const codesForCard = card.starterDeck?.split(",")
         // set the codes for a new id

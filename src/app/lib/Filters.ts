@@ -1,4 +1,4 @@
-import { debugLog } from "./Utils"
+import { ArrayOps, debugLog } from "./Utils"
 
 export interface Filterable extends Record<string, any> { }
 
@@ -35,39 +35,26 @@ function parseSingleCondition(s: string): Condition<Filterable> {
   // sauce: allow listing out a list of options for a key
   const ors = v.replaceAll(`"`, "").split("|")
   debugLog("Condition value(s):", ors)
-  return orAll(
-    ors.map(o =>
-      new Condition<Filterable>(a =>
-        a[k]?.toLowerCase() === o.toLowerCase() // case insensitive string compare
-      )
+  return ors.map(o =>
+    new Condition<Filterable>(a =>
+      a[k]?.toLowerCase() === o.toLowerCase() // case insensitive string compare
     )
-  )
-}
-// OR together multiple conditions
-function orAll<A>(conditions: Condition<A>[]) {
-  return conditions.reduce((final, next) => final.or(next))
+  ).reduce((final, next) => final.or(next))
+
 }
 // This takes a string (containing multiple conditions and operators) and returns a Condition
 function parseQuery(s: string): Condition<Filterable> {
+  // empty query means allow all
   if (s.length == 0) return new Condition<Filterable>(() => true)
+  // parse query into tokens
   const [initial, ...rest] = [...s.matchAll(extractConditionsAndOperators)].map(arr => arr[0])
   debugLog("Conditions:", initial, rest)
   if (rest.length % 2 != 0) {
     console.log("Dropping last token from query while parsing, shouldn't be an odd # of them")
     rest.pop()
   }
-  const groupsOfTwo = rest.reduce<string[][]>((result, item, index) => {
-    const chunkIndex = Math.floor(index / 2)
-    if (!result[chunkIndex]) {
-      result[chunkIndex] = [] // start a new chunk
-    }
-
-    result[chunkIndex].push(item)
-
-    return result
-  }, [] as string[][])
-
-  return groupsOfTwo.reduce((all, one) => {
+  // parse and combine each pair of tokens (assumption is conditions joined with operators)
+  return new ArrayOps(rest).grouped(2).reduce((all, one) => {
     const [operator, conditionStr] = one
     switch (operator) {
       case "AND":
@@ -75,11 +62,12 @@ function parseQuery(s: string): Condition<Filterable> {
       case "OR":
         return all.or(parseSingleCondition(conditionStr))
       default:
-        throw `Unrecognized operator ${operator}`
+        throw new Error(`Unrecognized operator ${operator}`)
     }
   }, parseSingleCondition(initial))
 }
 
+// holdover from previous implementation, could remove
 export interface FilterProps {
   query: string
 }

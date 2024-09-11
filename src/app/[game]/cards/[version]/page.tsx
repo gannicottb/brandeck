@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import { parseVersion, Version } from '@/app/lib/Version'
+import { Version } from '@/app/lib/Version'
 import { first } from '@/app/lib/Utils'
 import { CardPageProps } from '@/app/lib/CardPageProps'
 import Controls from '@/app/components/Controls'
@@ -10,8 +10,10 @@ export default async function Page({ params, searchParams }: {
   params: { game: string, version: string },
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const ver: Version = parseVersion(params.version)
-  const gameVer: GameVersion = { gameName: params.game, version: ver }
+  const gameVer: GameVersion = GameVersion.apply(
+    params.game,
+    Version.fromString(params.version)
+  )
   const size: string = first(searchParams["size"]) || "print"
   const filters: FilterProps = {
     query: first(searchParams.q) || ""
@@ -19,7 +21,7 @@ export default async function Page({ params, searchParams }: {
 
   // We assume that all game+version combinations will have a Cards component that takes GameVersion
   const Cards = dynamic<CardPageProps>(
-    () => import(`@/_games/${params.game}/v${ver.major}/Cards`)
+    () => import(`@/_games/${gameVer.gameName}/v${gameVer.version.major}/Cards`)
   )
   return <div>
     <Controls gameVer={gameVer} filterQuery={filters.query} />

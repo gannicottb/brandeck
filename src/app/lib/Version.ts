@@ -3,11 +3,18 @@ export interface Version {
   minor: number
 }
 
-export function parseVersion(version: string): Version {
-  const [major, minor] = version.split(".").map((s) => Number(s))
-  return { major, minor }
-}
-
-export function convertVersionToNumber(version: Version): number {
-  return Number(`${version.major}.${version.minor}`)
+export abstract class Version {
+  static fromString(s: string) {
+    const [major, minor] = s.split(".").map((s) => Number(s))
+    return this.apply(major, minor)
+  }
+  static toNumber(v: Version) {
+    return Number(`${v.major}.${v.minor}`)
+  }
+  static toString(v: Version) {
+    return `${v.major}.${v.minor}`
+  }
+  static apply(major: number, minor: number) {
+    return { major, minor }
+  }
 }

@@ -9,9 +9,7 @@ interface NameAndParentId {
   parentId?: string
 }
 
-export type Dict = {
-  [key: string]: string
-}
+export type Dict = Record<string, string>
 
 export const FolderType = "application/vnd.google-apps.folder"
 
@@ -91,4 +89,22 @@ export const first = (stringOrArray: string | string[] | undefined): string | un
 
 export const debugLog = (message?: any, ...optionalParams: any[]): void => {
   if (process.env.NODE_ENV != "production") { console.log(message, optionalParams) }
+}
+
+// usage: new ArrayOps(a).???
+export class ArrayOps<T> {
+  ts: T[]
+  constructor(array: T[]) { this.ts = array }
+  grouped(size: number): T[][] {
+    return this.ts.reduce<T[][]>((result, item, index) => {
+      const chunkIndex = Math.floor(index / size)
+      if (!result[chunkIndex]) {
+        result[chunkIndex] = [] // start a new chunk
+      }
+
+      result[chunkIndex].push(item)
+
+      return result
+    }, [])
+  }
 }

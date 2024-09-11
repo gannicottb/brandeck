@@ -38,9 +38,11 @@ const RefreshButton = ({ gameVer }: { gameVer: GameVersion }) => {
     const text = await res.text();
     return console.log(text);
   }
+
   return <div className="ml-auto">
     {isLoading && <span>Refreshing...</span>}<button
-      className={`border-2 ${isLoading ? "bg-green-400" : "bg-slate-400"} p-1`}
+      className={`border-2 ${isLoading ? "bg-slate-400" : "bg-green-400"} p-1`}
+      disabled={isLoading}
       onClick={(e) => {
         e.preventDefault()
         setIsLoading(true)
