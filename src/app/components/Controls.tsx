@@ -3,15 +3,57 @@ import { InputHTMLAttributes, useState } from "react";
 import { GameVersion } from "../lib/GameVersion";
 import Link from "next/link";
 import { FilterProps } from "../lib/Filters";
+import { useRouter } from "next/navigation";
+import { IoRefreshOutline } from "react-icons/io5";
 
-async function doGenerate(gameVer: GameVersion) {
-  const origin = window.location.origin
-  const res = await fetch(`${origin}/api/generate`, {
-    method: "POST",
-    body: JSON.stringify(gameVer)
-  });
-  const text = await res.text();
-  return console.log(text);
+const GenerateButton = ({ gameVer }: { gameVer: GameVersion }) => {
+  const [isLoading, setIsLoading] = useState(false)
+  async function doGenerate(gameVer: GameVersion) {
+    const origin = window.location.origin
+    const res = await fetch(`${origin}/api/generate`, {
+      method: "POST",
+      body: JSON.stringify(gameVer)
+    });
+    const text = await res.text();
+    return console.log(text);
+  }
+  return <button
+    className="border-2 bg-white text-black p-1"
+    onClick={(e) => {
+      e.preventDefault()
+      setIsLoading(true)
+      doGenerate(gameVer).finally(() => setIsLoading(false))
+    }
+    }>{isLoading ? "Generating..." : "Generate"}</button>
+}
+
+const RefreshButton = ({ gameVer }: { gameVer: GameVersion }) => {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  async function doRefresh(gameVer: GameVersion) {
+    const res = await fetch(`${window.location.origin}/api/refresh`, {
+      method: "POST",
+      body: JSON.stringify(gameVer)
+    });
+    const text = await res.text();
+    return console.log(text);
+  }
+  return <div className="ml-auto">
+    {isLoading && <span>Refreshing...</span>}<button
+      className={`border-2 ${isLoading ? "bg-green-400" : "bg-slate-400"} p-1`}
+      onClick={(e) => {
+        e.preventDefault()
+        setIsLoading(true)
+        console.log("refreshing cache...")
+        doRefresh(gameVer).finally(() => {
+          router.refresh()
+          setIsLoading(false)
+        })
+      }}
+    >
+      <IoRefreshOutline />
+    </button>
+  </div>
 }
 
 const FilterBox = (props: InputHTMLAttributes<HTMLInputElement>) => {
@@ -33,24 +75,23 @@ const HelpButton = () => {
 }
 
 export default function Controls({ gameVer, filterQuery }: { gameVer: GameVersion, filterQuery: string }) {
-  const [isLoading, setLoading] = useState(false)
-
   const [filterBuilder, setFilterBuilder] = useState({ query: filterQuery } as FilterProps)
-  const filterLink = () =>
-    filterBuilder.query.length > 0 ? `?q=${filterBuilder.query}` : window.location.href.split("?")[0]
+  const filterLink = () => {
+    const withoutQueryParam = window.location.search
+      .replace("?", "")
+      .split("&")
+      .filter(s => !s.startsWith("q=") && s.length > 0)
+    const hrefWithoutParams = window.location.origin + window.location.pathname
+    const filterParam = filterBuilder.query.length > 0 ? [`q=${filterBuilder.query}`] : []
+    return [hrefWithoutParams, filterParam.concat(withoutQueryParam).join("&")].join("?")
+  }
 
   return (
     <div className="print:hidden flex flex-col">
-      <div>
+      <div className="flex">
         <Link className="p-1" href={"/"}>{"<= Home"}</Link>
-        <button
-          className="border-2 bg-white text-black p-1"
-          onClick={(e) => {
-            e.preventDefault()
-            setLoading(true)
-            doGenerate(gameVer).finally(() => setLoading(false))
-          }
-          }>{isLoading ? "Generating..." : "Generate"}</button>
+        <GenerateButton gameVer={gameVer} />
+        <RefreshButton gameVer={gameVer} />
       </div>
       <div className="flex">
         <FilterBox

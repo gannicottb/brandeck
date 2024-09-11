@@ -2,10 +2,7 @@ import { GaxiosPromise } from "@googleapis/drive"
 import { DriveClient } from "./DriveClient"
 import { RedisRTC } from "./RedisRTC"
 import { Version } from "./Version"
-import { log } from "console"
-// import { CardRow } from "./CardRow"
-// import { parseString } from "@fast-csv/parse"
-// import camelCase from "lodash.camelcase"
+import { GameVersion } from "./GameVersion"
 
 interface NameAndParentId {
   name: string
@@ -67,24 +64,9 @@ export async function downloadSheet(game: string, ver: Version) {
 
   return buf
 }
-
-// export async function parseSheet<C extends CardRow>(csv: string, transformFn: (c: C) => C) {
-//   return new Promise<C[]>(resolve => {
-//     let result: C[] = []
-//     parseString<C, C>(csv,
-//       { headers: headers => headers.map(h => camelCase(h || "")), trim: true }
-//     )
-//       .transform((data: C) => {
-//         return transformFn(data)
-//       })
-//       .on('error', error => console.error(error))
-//       .on('data', (row: C) => [...Array(Number(row.num))].forEach((_, i) => result.push(row)))
-//       .on('end', (rowCount: number) => {
-//         console.log(`Parsed ${rowCount} rows`)
-//         resolve(result)
-//       });
-//   })
-// }
+export const cardCache = new RedisRTC<GameVersion>("cards", (gameVer) =>
+  downloadSheet(gameVer.gameName, gameVer.version)
+)
 
 export const mapArtURL = async (game: string, artName: string): Promise<string> => {
   const drive = DriveClient.getInstance().drive()
@@ -107,6 +89,6 @@ export const first = (stringOrArray: string | string[] | undefined): string | un
   return Array.isArray(stringOrArray) ? stringOrArray[0] : stringOrArray
 }
 
-export const logIf = (show: boolean, message?: any, ...optionalParams: any[]): void => {
-  if (show) { console.debug(message, optionalParams) }
+export const debugLog = (message?: any, ...optionalParams: any[]): void => {
+  if (process.env.NODE_ENV != "production") { console.log(message, optionalParams) }
 }
