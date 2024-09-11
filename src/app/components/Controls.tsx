@@ -80,7 +80,7 @@ export default function Controls({ gameVer, filterQuery }: { gameVer: GameVersio
     const withoutQueryParam = window.location.search
       .replace("?", "")
       .split("&")
-      .filter(s => !s.startsWith("q="))
+      .filter(s => !s.startsWith("q=") && s.length > 0)
     const hrefWithoutParams = window.location.origin + window.location.pathname
     const filterParam = filterBuilder.query.length > 0 ? [`q=${filterBuilder.query}`] : []
     return [hrefWithoutParams, filterParam.concat(withoutQueryParam).join("&")].join("?")

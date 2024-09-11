@@ -89,6 +89,6 @@ export const first = (stringOrArray: string | string[] | undefined): string | un
   return Array.isArray(stringOrArray) ? stringOrArray[0] : stringOrArray
 }
 
-export const logIf = (show: boolean, message?: any, ...optionalParams: any[]): void => {
-  if (show) { console.debug(message, optionalParams) }
+export const debugLog = (message?: any, ...optionalParams: any[]): void => {
+  if (process.env.NODE_ENV != "production") { console.log(message, optionalParams) }
 }

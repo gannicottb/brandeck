@@ -1,6 +1,4 @@
-import { logIf } from "./Utils"
-
-const debug = process.env.NODE_ENV != "production"
+import { debugLog } from "./Utils"
 
 export interface Filterable extends Record<string, any> { }
 
@@ -36,7 +34,7 @@ function parseSingleCondition(s: string): Condition<Filterable> {
   const [k, v] = s.split(":")
   // sauce: allow listing out a list of options for a key
   const ors = v.replaceAll(`"`, "").split("|")
-  logIf(debug, ors)
+  debugLog("Condition value(s):", ors)
   return orAll(
     ors.map(o =>
       new Condition<Filterable>(a =>
@@ -53,7 +51,7 @@ function orAll<A>(conditions: Condition<A>[]) {
 function parseQuery(s: string): Condition<Filterable> {
   if (s.length == 0) return new Condition<Filterable>(() => true)
   const [initial, ...rest] = [...s.matchAll(extractConditionsAndOperators)].map(arr => arr[0])
-  logIf(debug, initial, rest)
+  debugLog("Conditions:", initial, rest)
   if (rest.length % 2 != 0) {
     console.log("Dropping last token from query while parsing, shouldn't be an odd # of them")
     rest.pop()
