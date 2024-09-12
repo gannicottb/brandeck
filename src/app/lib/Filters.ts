@@ -2,11 +2,15 @@ import { ArrayOps, debugLog } from "./Utils"
 
 export interface Filterable extends Record<string, any> { }
 
-class Condition<A> {
+export class Condition<A> {
   test: (a: A) => boolean
   // Construct with initial fn
   constructor(p: (a: A) => boolean) {
     this.test = p
+  }
+
+  static fromString(s: string) {
+    return parseQuery(s)
   }
   // Combine with AND
   and(co: Condition<A>): Condition<A> {
@@ -17,37 +21,31 @@ class Condition<A> {
     return new Condition<A>(a => this.test(a) || co.test(a))
   }
 }
-// wraps a Condition (because we don't have companion objects to define Condition.fromString)
-export class Filter {
-  condition: Condition<Filterable>
-  constructor(queryString: string) {
-    this.condition = parseQuery(queryString)
-  }
-  allows(c: Filterable) { return this.condition.test(c) }
-}
 
 const extractConditionsAndOperators = new RegExp(/([^" ]*".*")|(\S+)/gm)
 const splitCondition = new RegExp(/([^:!]+)([:|!])([^:!]+)/gm)
 
-// make a Condition from a single token
-// NOTE: assumes all comparisons are (string === string)?
-function lowerAll(strs: string[]) {
-  return strs.map(s => s.toLowerCase())
+type Compare<A, B> = (a: A, b: B) => boolean
+type CompareStrings = Compare<string, string>
+type CombineConditions<T> = (l: Condition<T>, r: Condition<T>) => Condition<T>
+type CombineFilterables = CombineConditions<Filterable>
+function lowerAll(a: string, b: string) {
+  return [a, b].map(s => s.toLowerCase())
 }
-function cmpInsensitive(cmp: (a: string, b: string) => boolean) {
-  return (...strs: string[]) => {
-    const [l, r] = lowerAll(strs)
+function cmpInsensitive(cmp: CompareStrings): CompareStrings {
+  return (a, b) => {
+    const [l, r] = lowerAll(a, b)
     return cmp(l, r)
   }
 }
-type CompareStrings = (...strs: string[]) => boolean
-type CombineConditions<T> = (l: Condition<T>, r: Condition<T>) => Condition<T>
-const eqInsensitive = cmpInsensitive((a: string, b: string) => a === b)
-const neInsensitive = cmpInsensitive((a: string, b: string) => a !== b)
-const andConds = (l: Condition<Filterable>, r: Condition<Filterable>) => l.and(r)
-const orConds = (l: Condition<Filterable>, r: Condition<Filterable>) => l.or(r)
-// next step: handle numbers
-function parseOperator(s: string): [CompareStrings, CombineConditions<Filterable>] {
+const eq: CompareStrings = (a, b) => a === b
+const ne: CompareStrings = (a, b) => a !== b
+const eqInsensitive = cmpInsensitive(eq)
+const neInsensitive = cmpInsensitive(ne)
+const andConds: CombineFilterables = (l, r) => l.and(r)
+const orConds: CombineFilterables = (l, r) => l.or(r)
+
+function parseOperator(s: string): [CompareStrings, CombineFilterables] {
   switch (s) {
     case ":":
       return [eqInsensitive, orConds]
@@ -57,15 +55,14 @@ function parseOperator(s: string): [CompareStrings, CombineConditions<Filterable
       throw new Error(`Unrecognized operator ${s}`)
   }
 }
+// make a Condition from a single token
 function parseSingleCondition(s: string): Condition<Filterable> {
   const [k, o, v] = [...s.matchAll(splitCondition)][0].slice(1, 4)
   debugLog(k, o, v)
   const [cmp, combine] = parseOperator(o)
   const values = v.replaceAll(`"`, "").split("|") // get all values delimited by |
   debugLog("Condition value(s):", values)
-  return values.map(or => new Condition<Filterable>(a => cmp(a[k], or)))
-    .reduce((final, next) => combine(final, next))
-
+  return values.map(or => new Condition<Filterable>(a => cmp(a[k], or))).reduce(combine)
 }
 // This takes a string (containing multiple conditions and operators) and returns a Condition
 function parseQuery(s: string): Condition<Filterable> {

@@ -75,8 +75,11 @@ const HelpButton = () => {
     {!hidden && <code className="text-xs">(key:value AND key2!value|value2 OR key3:&quot;value with spaces&quot;)</code>}
   </div>
 }
-
-export default function Controls({ gameVer, filterQuery }: { gameVer: GameVersion, filterQuery: string }) {
+interface ControlsProps {
+  gameVer: GameVersion
+  filterQuery: string
+}
+export default function Controls({ gameVer, filterQuery }: ControlsProps) {
   const [filterBuilder, setFilterBuilder] = useState({ query: filterQuery } as FilterProps)
   const filterLink = () => {
     const withoutQueryParam = window.location.search
