@@ -35,10 +35,12 @@ type GameVersionMap = Record<string, Version[]>
 export default async function Home() {
   const drive = DriveClient.getInstance().drive()
 
-  const gameVersions: GameVersionMap = await getGameNames()
-    .reduce(async (acc, name) => {
-      return { ...await acc, [name]: await getVersionsFor(drive, name) }
-    }, Promise.resolve({}))
+  const gameVersions: GameVersionMap = await Promise.all(
+    getGameNames().map(name =>
+      getVersionsFor(drive, name)
+        .then(vs => [name, vs])
+    )
+  ).then(Object.fromEntries)
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-slate-400">
