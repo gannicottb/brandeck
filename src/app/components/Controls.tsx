@@ -57,13 +57,22 @@ const RefreshButton = ({ gameVer }: { gameVer: GameVersion }) => {
     </button>
   </div>
 }
-
-const FilterBox = (props: InputHTMLAttributes<HTMLInputElement>) => {
-  return <input
-    className="border-2 bg-white text-black p-1 w-96"
-    autoFocus={true}
-    {...props}
-  />
+interface FilterBoxProps extends InputHTMLAttributes<HTMLInputElement> {
+  setInput: (s: string) => void
+}
+const FilterBox = (props: FilterBoxProps) => {
+  const ClearInput = () => <a className="absolute pt-1 right-1 z-0 cursor-pointer"
+    onClick={() => props.setInput("")}
+  >x</a>
+  return <div className="relative">
+    <ClearInput />
+    <input
+      className="border-2 bg-white text-black p-1 w-96"
+      autoFocus={true}
+      onChange={(ev) => props.setInput(ev.currentTarget.value)}
+      {...props}
+    />
+  </div>
 }
 
 const HelpButton = () => {
@@ -101,7 +110,7 @@ export default function Controls({ gameVer, filterQuery }: ControlsProps) {
       <div className="flex">
         <FilterBox
           value={filterBuilder.query}
-          onChange={ev => setFilterBuilder({ query: ev.currentTarget.value })}
+          setInput={s => setFilterBuilder({ query: s })}
           onKeyUp={ev => ev.key === "Enter" && (window.location.href = filterLink())}
         />
         <button
