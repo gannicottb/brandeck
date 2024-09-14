@@ -31,7 +31,7 @@ export const GameVersionPicker = ({ gameName, versions }: GameVersionPickerProps
             router.push(makeHref(Version.fromString(ev.currentTarget.value)))
           }
           options={
-            [{ label: "Older", value: "" }].concat(versions.slice(0, -2)
+            [{ label: "Older", value: "" }].concat(versions.slice(0, -1)
               .reverse()
               .map(v => { return { label: Version.toString(v), value: Version.toString(v) } }
               ))}
