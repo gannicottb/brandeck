@@ -52,7 +52,7 @@ export default async function Home() {
         {Object.keys(gameVersions).map(gameName => {
           const versions = gameVersions[gameName]
           return (
-            <GameVersionPicker gameName={gameName} versions={versions} />
+            <GameVersionPicker key={gameName} gameName={gameName} versions={versions} />
           )
         }
         )}
