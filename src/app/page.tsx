@@ -3,6 +3,8 @@ import { DriveClient } from '@/app/lib/DriveClient'
 import { getRootId, FolderType, getGameNames } from '@/app/lib/Utils'
 import { Version } from '@/app/lib/Version'
 import Link from 'next/link'
+import { Select } from './components/Select'
+import { GameVersionPicker } from './components/GameVersionPicker'
 
 interface Folder {
   id: string
@@ -18,7 +20,7 @@ async function getVersionsFor(drive: drive_v3.Drive, gameName: string) {
     return { id: f.id || "", name: f.name || "" }
   })
 
-  const allVersions = await Promise.all(majors.map(async major => {
+  const allVersions: Version[] = await Promise.all(majors.map(async major => {
     const minorVersions = await drive.files.list({
       q: `name contains '.' and mimeType = '${FolderType}' and parents in '${major.id}'`
     })
@@ -50,16 +52,7 @@ export default async function Home() {
         {Object.keys(gameVersions).map(gameName => {
           const versions = gameVersions[gameName]
           return (
-            <div key={gameName}>
-              <h3 className="font-bold">{gameName}</h3>
-              <div className="flex flex-row flex-wrap">
-                {versions.map(v =>
-                  <div className="m-1 p-1 border-2 border-white" key={`${Version.toString(v)}`}>
-                    <Link href={`/${gameName}/cards/${Version.toString(v)}`}>{`${Version.toString(v)}`}</Link>
-                  </div>
-                )}
-              </div>
-            </div>
+            <GameVersionPicker gameName={gameName} versions={versions} />
           )
         }
         )}
