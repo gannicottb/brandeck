@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Version } from "../lib/Version"
 import { Select } from "./Select"
 import { useRouter } from "next/navigation"
+import { ArrayOps } from "../lib/ArrayOps"
 
 interface GameVersionPickerProps {
   gameName: string
@@ -14,16 +15,15 @@ export const GameVersionPicker = ({ gameName, versions }: GameVersionPickerProps
   const makeHref = (v: Version) => {
     return `/${gameName}/cards/${Version.toString(v)}`
   }
+  const latest = ArrayOps.of(versions).last()
 
   return (
     <div key={gameName}>
       <h3 className="font-bold">{gameName}</h3>
       <div className="flex flex-row flex-wrap items-center">
-        {versions.slice(-1).map(v =>
-          <div className="m-1 p-1 border-2 border-white" key={`${Version.toString(v)}`}>
-            <Link href={makeHref(v)}>{`${Version.toString(v)}`}</Link>
-          </div>
-        )}
+        {latest && <div className="m-1 p-1 border-2 border-white">
+          <Link href={makeHref(latest)}>{`${Version.toString(latest)}`}</Link>
+        </div>}
         <Select
           className="p-1 border-2 border-white bg-transparent"
           value=""
@@ -31,7 +31,7 @@ export const GameVersionPicker = ({ gameName, versions }: GameVersionPickerProps
             router.push(makeHref(Version.fromString(ev.currentTarget.value)))
           }
           options={
-            [{ label: "Older", value: "" }].concat(versions.slice(0, -1)
+            [{ label: "Older", value: "" }].concat(ArrayOps.of(versions).dropRight(1)
               .reverse()
               .map(v => { return { label: Version.toString(v), value: Version.toString(v) } }
               ))}

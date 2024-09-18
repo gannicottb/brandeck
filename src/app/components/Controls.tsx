@@ -60,16 +60,16 @@ const RefreshButton = ({ gameVer }: { gameVer: GameVersion }) => {
 interface FilterBoxProps extends InputHTMLAttributes<HTMLInputElement> {
   setInput: (s: string) => void
 }
-const FilterBox = (props: FilterBoxProps) => {
+const FilterBox = ({ setInput, ...props }: FilterBoxProps) => {
   const ClearInput = () => <a className="absolute pt-1 right-1 z-0 cursor-pointer"
-    onClick={() => props.setInput("")}
+    onClick={() => setInput("")}
   >x</a>
   return <div className="relative">
     <ClearInput />
     <input
       className="border-2 bg-white text-black p-1 w-96"
       autoFocus={true}
-      onChange={(ev) => props.setInput(ev.currentTarget.value)}
+      onChange={(ev) => setInput(ev.currentTarget.value)}
       {...props}
     />
   </div>

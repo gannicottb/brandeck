@@ -1,4 +1,5 @@
-import { ArrayOps, debugLog } from "./Utils"
+import { debugLog } from "./Utils"
+import { ArrayOps } from "./ArrayOps"
 
 export interface Filterable extends Record<string, any> { }
 
@@ -44,6 +45,11 @@ const eqInsensitive = cmpInsensitive(eq)
 const neInsensitive = cmpInsensitive(ne)
 const andConds: CombineFilterables = (l, r) => l.and(r)
 const orConds: CombineFilterables = (l, r) => l.or(r)
+const getKeyInsensitive = (a: Filterable, key: string): string | undefined => Object.keys(a).find(k => eqInsensitive(k, key))
+const accessWithKeyInsensitive = (a: Filterable, key: string): any | undefined => {
+  const maybeKey = getKeyInsensitive(a, key)
+  return (typeof maybeKey !== "undefined") ? a[maybeKey] : maybeKey
+}
 
 function parseOperator(s: string): [CompareStrings, CombineFilterables] {
   switch (s) {
@@ -62,7 +68,9 @@ function parseSingleCondition(s: string): Condition<Filterable> {
   const [cmp, combine] = parseOperator(o)
   const values = v.replaceAll(`"`, "").split("|") // get all values delimited by |
   debugLog("Condition value(s):", values)
-  return values.map(or => new Condition<Filterable>(a => cmp(a[k], or))).reduce(combine)
+  return values.map(or =>
+    new Condition<Filterable>(a => cmp(accessWithKeyInsensitive(a, k) || "", or))
+  ).reduce(combine)
 }
 // This takes a string (containing multiple conditions and operators) and returns a Condition
 function parseQuery(s: string): Condition<Filterable> {
@@ -76,7 +84,7 @@ function parseQuery(s: string): Condition<Filterable> {
     rest.pop()
   }
   // parse and combine each pair of tokens (assumption is conditions joined with operators)
-  return new ArrayOps(rest).grouped(2).reduce((all, one) => {
+  return ArrayOps.of(rest).grouped(2).reduce((all, one) => {
     const [operator, conditionStr] = one
     switch (operator) {
       case "AND":
