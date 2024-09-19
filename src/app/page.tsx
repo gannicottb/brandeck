@@ -2,8 +2,6 @@ import { drive_v3 } from '@googleapis/drive'
 import { DriveClient } from '@/app/lib/DriveClient'
 import { getRootId, FolderType, getGameNames } from '@/app/lib/Utils'
 import { Version } from '@/app/lib/Version'
-import Link from 'next/link'
-import { Select } from './components/Select'
 import { GameVersionPicker } from './components/GameVersionPicker'
 
 interface Folder {
@@ -51,9 +49,7 @@ export default async function Home() {
       <div className="flex flex-col">
         {Object.keys(gameVersions).map(gameName => {
           const versions = gameVersions[gameName]
-          return (
-            <GameVersionPicker key={gameName} gameName={gameName} versions={versions} />
-          )
+          return <GameVersionPicker key={gameName} gameName={gameName} versions={versions} />
         }
         )}
       </div>

@@ -1,7 +1,9 @@
-// usage: new ArrayOps(a).???
 export class ArrayOps<T> {
   ts: T[]
   constructor(array: T[]) { this.ts = array }
+  /*
+    ex: ArrayOps.of(a).grouped(2)
+  */
   static of<T>(array: T[]) { return new ArrayOps(array) }
   grouped(size: number): T[][] {
     return this.ts.reduce<T[][]>((result, item, index) => {
