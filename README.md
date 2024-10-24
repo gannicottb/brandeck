@@ -36,7 +36,7 @@ API:
 
 /api/[game]/generate/[Major].[Minor] - import, parse, render, screenshot, and upload to a known location
 
-# Add a new version
+# Add a new version (deprecated)
 
 1. npm run newver [game] [version] 
   ex: npm run newver astromon 7
