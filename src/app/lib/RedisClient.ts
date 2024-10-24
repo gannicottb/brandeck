@@ -10,7 +10,11 @@ export class RedisClient {
 
   private constructor() {
     const rc = createClient({
-      url: process.env.REDIS_URL
+      url: process.env.REDIS_URL,
+      socket: {
+        tls: (process.env.REDIS_URL?.match(/rediss:/) != null),
+        rejectUnauthorized: false,
+      }
     });
 
     rc.on('error', (err) => console.log('Redis Client Error', err));
