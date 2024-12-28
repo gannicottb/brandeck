@@ -49,7 +49,7 @@ export default function Assistant({ data }: { data: CardData }) {
           sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         />
       </div>
-      <div className="text-center bg-white border-solid border-2 border-black w-[fit-content] ml-auto mr-auto p-1 rounded-t-lg">
+      <div className="text-center bg-white border-solid border-2 border-black w-[fit-content] ml-3 mr-auto p-1 rounded-t-lg">
         {data.name}
       </div>
       <div className="text-xs p-3 bg-white h-[30%]">
