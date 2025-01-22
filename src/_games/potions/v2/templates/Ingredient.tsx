@@ -1,10 +1,10 @@
 import { ingredientColors } from "../colors";
 import iconFor from "../icons";
-import { CardData } from "../parse";
+import { CardProps } from "../parse";
 import Image from "next/image"
 import { MarkdownWithIcons } from "../MarkdownWithIcons";
 
-export default function Ingredient({ data }: { data: CardData }) {
+export default function Ingredient({ data }: CardProps) {
   const myColor = ingredientColors[data.subType.toLowerCase()]
   const starterIconBorder = (key?: string) =>
     key ? "border-double border-l-[5px] border-b-[5px] border-black" : ""

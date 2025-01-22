@@ -1,7 +1,7 @@
 import { MarkdownWithIcons } from "../MarkdownWithIcons";
-import { CardData } from "../parse";
+import { CardProps } from "../parse";
 
-export default function Reference({ data }: { data: CardData }) {
+export default function Reference({ data }: CardProps) {
   return (
     <div>
       <div className="text-center">{data.name}</div>

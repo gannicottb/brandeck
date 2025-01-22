@@ -1,8 +1,8 @@
 import { MarkdownWithIcons } from "../MarkdownWithIcons";
-import { CardData } from "../parse";
+import { CardProps } from "../parse";
 import Image from "next/image"
 
-export default function Lab({ data }: { data: CardData }) {
+export default function Lab({ data }: CardProps) {
   const topAndBottom = "flex justify-around w-[40%] ml-auto mr-auto text-2xl bg-orange-400 rounded-2xl"
   const leftAndRight = "flex flex-col justify-center h-[30%] min-w-[18%] mt-auto mb-auto text-2xl bg-orange-500 rounded-2xl"
   return (

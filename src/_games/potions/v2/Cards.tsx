@@ -13,7 +13,7 @@ export default async function Cards({ gameVer, size, filters }: CardPageProps) {
     <Container cards={
       parsed
         .filter(c => filter.test(c))
-        .map((r, i) => <Card data={r} key={i} size={size} />)
+        .map((r, i) => <Card data={r} key={i} size={size} gameVer={gameVer} />)
     } />
   )
 }

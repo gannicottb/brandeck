@@ -1,8 +1,9 @@
 import React from "react";
 import { MarkdownWithIcons } from "../MarkdownWithIcons";
-import { CardData } from "../parse";
+import { CardProps } from "../parse";
 import Image from "next/image"
 import iconFor from "../icons";
+import { Version } from "@/app/lib/Version";
 
 interface CornerPlacementProps {
   corner: "tl" | "tr" | "bl" | "br"
@@ -32,7 +33,7 @@ function CornerPlacement(props: CornerPlacementProps) {
   )
 }
 
-export default function Assistant({ data }: { data: CardData }) {
+export default function Assistant({ data, gameVer }: CardProps) {
   return (
     <div className="flex flex-col h-[100%] justify-end">
       <CornerPlacement corner="tr"
@@ -55,6 +56,7 @@ export default function Assistant({ data }: { data: CardData }) {
       <div className="text-xs p-3 bg-white h-[30%]">
         <MarkdownWithIcons content={data.text} />
       </div>
+      <div className="text-xs bottom-0 right-1 absolute">{Version.toString(gameVer.version)}</div>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { MarkdownWithIcons } from "../MarkdownWithIcons";
-import { CardData } from "../parse";
+import { CardProps } from "../parse";
 
-export default function Salt({ data }: { data: CardData }) {
+export default function Salt({ data }: CardProps) {
   return (
     <div className="flex flex-col justify-center items-center h-[100%]">
       <div className="text-8xl p-1">
