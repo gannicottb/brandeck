@@ -54,7 +54,7 @@ export default function Assistant({ data, gameVer }: CardProps) {
         {data.name}
       </div>
       <div className="text-xs p-3 bg-white h-[30%]">
-        <MarkdownWithIcons content={data.text} />
+        <MarkdownWithIcons content={data.text} iconFn={(s: string) => iconFor(s, true, { className: "text-lg" })} />
       </div>
       <div className="text-xs bottom-0 right-1 absolute">{Version.toString(gameVer.version)}</div>
     </div>

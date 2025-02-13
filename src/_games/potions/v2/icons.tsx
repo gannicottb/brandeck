@@ -8,9 +8,16 @@ import { ImCross } from 'react-icons/im';
 import * as io5 from 'react-icons/io5';
 import * as pi from "react-icons/pi";
 import { TbSalt } from 'react-icons/tb';
+import { ingredientColors } from './colors';
 
-export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
-  const props = { style: { display: "unset" }, ...extraProps }
+export default function iconFor(
+  iconKey: string,
+  withBackground: boolean = false,
+  extraProps?: IconBaseProps) {
+
+  const withBackgroundProps = withBackground ? backgroundProps(iconKey) : {} as IconBaseProps
+  const props = { style: { display: "unset" }, ...mergeClassNames(withBackgroundProps, extraProps) }
+
   switch (iconKey.toLowerCase().replaceAll("`", "")) {
     case "potion": return <gi.GiAcid {...props} />
     case "gold": return <pi.PiCoinBold {...props} />
@@ -49,6 +56,21 @@ export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
     case "spark": return <io5.IoFlash {...props} />
     case "star": return <io5.IoStar {...props} />
     default:
-      return <span>X</span>
+      return <span>⚠️</span>
   }
+}
+
+const backgroundProps = (iconKey: string): IconBaseProps => {
+  const ingredientColor = ingredientColors[iconKey.toLowerCase()]
+  if (!ingredientColor) return {} as IconBaseProps
+  const split = ingredientColor.split("-")
+  const shade = split.pop()
+  const result = [...split, (Number(shade) - 100).toString()].join("-")
+  const classNames = ingredientColor ? { className: [result.trim(), "rounded-md"].join(" ") } : {}
+
+  return { ...classNames }
+}
+
+const mergeClassNames = (a: IconBaseProps, b?: IconBaseProps) => {
+  return { ...a, ...b, className: [a.className, b?.className].join(" ") }
 }

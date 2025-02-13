@@ -11,7 +11,7 @@ export default function Compendium({ data, gameVer }: CardProps) {
       <div className={`text-center text-xl ${myColor}`}>{data.name}</div>
       <hr />
       <div className="text-md p-1">
-        <MarkdownWithIcons content={data.text} iconFn={(s: string) => iconFor(s, { size: "1.5em" })} />
+        <MarkdownWithIcons content={data.text} iconFn={(s: string) => iconFor(s, true, { className: "text-2xl" })} />
       </div>
       <div className={`text-center ${myColor} text-4xl mt-auto`}>{iconFor(data.subType)}</div>
       <div className="text-xs bottom-0 right-1 absolute">{Version.toString(gameVer.version)}</div>
