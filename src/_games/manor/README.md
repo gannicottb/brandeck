@@ -1,0 +1,1 @@
+Templates for a prototype of a deckbuilding game, working title Crosley Manor
