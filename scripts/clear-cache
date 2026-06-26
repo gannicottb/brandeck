@@ -9,7 +9,3 @@ min=$3
 curl -X POST http://localhost:3000/api/refresh \
   -H "Content-Type: application/json" \
   -d "{\"gameName\":\"$game\",\"version\": {\"major\": $maj, \"minor\": $min}}"
-
-# curl -X POST http://localhost:3000/api/refresh \
-#   -H "Content-Type: application/json" \
-#   -d '{"gameName":"manor","version": {"major": 1, "minor": 0}}'
