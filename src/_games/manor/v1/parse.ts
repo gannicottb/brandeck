@@ -5,6 +5,7 @@ import { Filterable } from "@/app/lib/Filters"
 export interface CardData extends CardRow, Filterable {
   name: string
   type: string
+  cost: string
   text: string
   num: string
   art: string
