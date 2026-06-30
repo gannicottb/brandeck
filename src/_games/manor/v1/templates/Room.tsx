@@ -1,3 +1,4 @@
+import { MarkdownWithIcons } from "../MarkdownWithIcons";
 import { CardData } from "../parse";
 import Image from "next/image"
 
@@ -10,7 +11,7 @@ export default function Room({ data }: { data: CardData }) {
     </div>
     <div className={`absolute left-[5%] top-[6%] w-[90%] h-[90%] m-0 -z-10`}>
       <Image
-        src="https://placehold.co/300x300/png?text=R"
+        src={`https://placehold.co/300x300/mediumpurple/white/png?text=${data.name.split(" ").map(n => n.at(0)).join('')}`}
         fill={true}
         alt={data.name}
         referrerPolicy="no-referrer"
@@ -19,7 +20,7 @@ export default function Room({ data }: { data: CardData }) {
       />
     </div>
     <div className="text-center bg-white border-solid border-2 border-black w-[fit-content] mx-auto mt-auto p-1 rounded-t-lg">
-      {data.text}
+      <MarkdownWithIcons content={data.text}/>
     </div>
   </div>
 }

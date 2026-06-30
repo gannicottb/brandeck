@@ -1,11 +1,13 @@
 import { CardRow } from "@/app/lib/CardRow";
 import { parseSheet } from "@/app/lib/ParseSheet";
 import { Filterable } from "@/app/lib/Filters"
+import { GameVersion } from "@/app/lib/GameVersion";
 
 export interface CardData extends CardRow, Filterable {
   name: string
   type: string
   cost: string
+  faction: string
   text: string
   num: string
   art: string
@@ -13,6 +15,7 @@ export interface CardData extends CardRow, Filterable {
 
 export interface CardProps {
   data: CardData
+  gameVer: GameVersion
 }
 
 export async function _parseSheet(csv: string) {
