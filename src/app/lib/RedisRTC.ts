@@ -15,7 +15,7 @@ export class RedisRTC<K> extends ReadThroughCache<K, string> {
     return `brandeck:${this.namespace}:${JSON.stringify(key)}`
   }
 
-  async get(key: K): Promise<string> {
+async get(key: K): Promise<string> {
     const keyString = this.buildKeyString(key)
     const redis = await RedisClient.getInstance().then((c) => c.redis())
 

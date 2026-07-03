@@ -12,4 +12,5 @@ export interface CardPageProps {
   gameVer: GameVersion
   size: string
   filters: FilterProps
+  diffWith?: GameVersion
 }

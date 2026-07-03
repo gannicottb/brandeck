@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FilterProps } from "../lib/Filters";
 import { useRouter } from "next/navigation";
 import { IoRefreshOutline } from "react-icons/io5";
+import { Version } from "../lib/Version";
 
 const GenerateButton = ({ gameVer }: { gameVer: GameVersion }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -27,6 +28,17 @@ const GenerateButton = ({ gameVer }: { gameVer: GameVersion }) => {
     }>{isLoading ? "Generating..." : "Generate"}</button>
 }
 
+const DiffWithPreviousButton = ({ gameVer }: {gameVer: GameVersion}) => {
+  // Assume we usually want to diff with previous version in same major line
+  // not currently able to get a full list easily
+  const prevVersion = Version.apply(gameVer.version.major, Math.max(gameVer.version.minor - 1, 0))
+  const prevVersionString = Version.toString(prevVersion)
+    
+  return <Link className={"p-2 underline"} href={`/${gameVer.gameName}/cards/${Version.toString(gameVer.version)}/diff/${prevVersionString}`}>
+    {`Diff w/ ${prevVersionString}`}
+  </Link>
+}
+
 const RefreshButton = ({ gameVer }: { gameVer: GameVersion }) => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
@@ -41,7 +53,7 @@ const RefreshButton = ({ gameVer }: { gameVer: GameVersion }) => {
 
   return <div className="ml-auto">
     {isLoading && <span>Refreshing...</span>}<button
-      className={`border-2 ${isLoading ? "bg-slate-400" : "bg-green-400"} p-1`}
+      className={`border-2 ${isLoading ? "bg-slate-400" : "bg-green-400"} p-3`}
       disabled={isLoading}
       onClick={(e) => {
         e.preventDefault()
@@ -102,9 +114,10 @@ export default function Controls({ gameVer, filterQuery }: ControlsProps) {
 
   return (
     <div className="print:hidden flex flex-col">
-      <div className="flex">
+      <div className="flex items-center">
         <Link className="p-1" href={"/"}>{"<= Home"}</Link>
         <GenerateButton gameVer={gameVer} />
+        <DiffWithPreviousButton gameVer={gameVer} />
         <RefreshButton gameVer={gameVer} />
       </div>
       <div className="flex">

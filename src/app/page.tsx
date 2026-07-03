@@ -53,7 +53,7 @@ export default async function Home() {
         }
         )}
       </div>
-      <div>Winding Road Games 2024</div>
+      <div>Winding Road Games 2026</div>
     </main>
   )
 }
