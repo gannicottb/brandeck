@@ -151,33 +151,31 @@ export default function Controls({ gameVer, filterQuery }: ControlsProps) {
   };
 
   return (
-    <>
+    <div className="print:hidden flex flex-col">
       <RefreshButton gameVer={gameVer} />
-      <div className="print:hidden flex flex-col">
-        <div className="flex items-center">
-          <Link className="p-1" href={"/"}>
-            {"<= Home"}
-          </Link>
-          <GenerateButton gameVer={gameVer} />
-          <DiffWithPreviousButton gameVer={gameVer} />
-        </div>
-        <div className="flex">
-          <FilterBox
-            value={filterBuilder.query}
-            setInput={(s) => setFilterBuilder({ query: s })}
-            onKeyUp={(ev) =>
-              ev.key === "Enter" && (window.location.href = filterLink())
-            }
-          />
-          <button
-            className={"text-cyan-600 p-1 border-2"}
-            onClick={() => (window.location.href = filterLink())}
-          >
-            Filter
-          </button>
-          <HelpButton />
-        </div>
+      <div className="flex items-center">
+        <Link className="p-1" href={"/"}>
+          {"<= Home"}
+        </Link>
+        <GenerateButton gameVer={gameVer} />
+        <DiffWithPreviousButton gameVer={gameVer} />
       </div>
-    </>
+      <div className="flex">
+        <FilterBox
+          value={filterBuilder.query}
+          setInput={(s) => setFilterBuilder({ query: s })}
+          onKeyUp={(ev) =>
+            ev.key === "Enter" && (window.location.href = filterLink())
+          }
+        />
+        <button
+          className={"text-cyan-600 p-1 border-2"}
+          onClick={() => (window.location.href = filterLink())}
+        >
+          Filter
+        </button>
+        <HelpButton />
+      </div>
+    </div>
   );
 }

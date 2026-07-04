@@ -13,6 +13,9 @@ export function Container({ cards }: { cards: ReactNode[] }) {
           </Fragment>
         );
       })}
+      <div className="print:hidden fixed bottom-0 right-0">
+        Total: {cards.length}
+      </div>
     </div>
   );
 }
