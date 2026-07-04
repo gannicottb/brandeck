@@ -1,3 +1,3 @@
 export interface CardRow {
-  num: string
+  num: string;
 }
