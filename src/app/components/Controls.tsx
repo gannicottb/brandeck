@@ -51,7 +51,7 @@ const RefreshButton = ({ gameVer }: { gameVer: GameVersion }) => {
     return console.log(text);
   }
 
-  return <div className="ml-auto">
+  return <div className="fixed top-0 right-0 z-[1000]">
     {isLoading && <span>Refreshing...</span>}<button
       className={`border-2 ${isLoading ? "bg-slate-400" : "bg-green-400"} p-3`}
       disabled={isLoading}
@@ -113,12 +113,13 @@ export default function Controls({ gameVer, filterQuery }: ControlsProps) {
   }
 
   return (
+    <>
+    <RefreshButton gameVer={gameVer} />
     <div className="print:hidden flex flex-col">
       <div className="flex items-center">
         <Link className="p-1" href={"/"}>{"<= Home"}</Link>
         <GenerateButton gameVer={gameVer} />
         <DiffWithPreviousButton gameVer={gameVer} />
-        <RefreshButton gameVer={gameVer} />
       </div>
       <div className="flex">
         <FilterBox
@@ -135,5 +136,6 @@ export default function Controls({ gameVer, filterQuery }: ControlsProps) {
         <HelpButton />
       </div>
     </div>
+    </>
   )
 }

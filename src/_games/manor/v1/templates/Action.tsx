@@ -7,7 +7,10 @@ import iconFor from "../icons";
 export default function Action({ data }: { data: CardData }) {
   const factionColors: Dict = {
     "B": "blue-500",
-    "C": "rose-600"
+    "C": "rose-600",
+    "R": "yellow-500",
+    "W": "black"
+
   }
 
   const borderColor = (faction: string) => {
@@ -17,6 +20,7 @@ export default function Action({ data }: { data: CardData }) {
       return "gray-400"
   }
   // This text box is "lurk aware"
+  // and "dot aware"
   const CustomTextBox = ({text}: {text: string}) => {
     if(text.startsWith("**Lurk**")) {
 
@@ -28,6 +32,8 @@ export default function Action({ data }: { data: CardData }) {
         <MarkdownWithIcons content={action} />
       </>
       
+    } else if (text.includes(`dot`)) {
+      return <span className="text-left"><MarkdownWithIcons content={text} /></span>
     } else {
       return <MarkdownWithIcons content={text} />
     }
