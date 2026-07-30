@@ -5,10 +5,10 @@ export class DriveClient {
   private static instance: DriveClient;
   private client: drive_v3.Drive;
   private constructor() {
-    const key =
-      process.env.NODE_ENV == "production" // inexplicably, have to do this for Heroku, won't work locally. idk
-        ? JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED")
-        : process.env.SERVICE_ACCOUNT_KEY;
+    // dotenv automatically converts \n into real newlines, which can be taken as-is
+    // Heroku passes the value as a raw string, which has to be JSON.parsed
+    // Approach that works for both is to replace the escaped \\n
+    const key = process.env.SERVICE_ACCOUNT_KEY?.replace(/\\n/g, '\n')
 
     const jwtClient = new JWT({
       email: process.env.SERVICE_ACCOUNT_EMAIL,
