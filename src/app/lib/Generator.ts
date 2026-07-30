@@ -46,8 +46,7 @@ export default async function generateAndUpload(
     "#container",
     (container: Element) => {
       const sheetDivs = container.querySelectorAll("div[class*='sheet']");
-      return sheetDivs
-        .entries()
+      return Array.from(sheetDivs.entries())
         .map(([_, sheet]) => {
           const rect = sheet.getBoundingClientRect();
           const cardsInSheet =
@@ -60,7 +59,6 @@ export default async function generateAndUpload(
             total: cardsInSheet,
           };
         })
-        .toArray();
     },
   );
 
@@ -116,22 +114,30 @@ export default async function generateAndUpload(
         throw new Error(`File ${filename} was not given a fileId!`);
       } else {
         console.log(`Uploaded ${filename}`);
-        return TtsCardSheetEntrySchema.parse({ fileId: uploadResult.data.id, count: sheet.total });
+        return TtsCardSheetEntrySchema.parse({
+          fileId: uploadResult.data.id,
+          count: sheet.total,
+        });
       }
     }),
   );
 
   await browser.close();
-  console.log(`Finished generating and uploading images in ${batchFolder.data.name}`);
-  await ttsCache.set(gameVer, results)
-  console.log("Updated the TTS cache")
+  console.log(
+    `Finished generating and uploading images in ${batchFolder.data.name}`,
+  );
+  await ttsCache.set(gameVer, results);
+  console.log("Updated the TTS cache");
   return results;
 }
 
 /*
   This is the Tabletopia/single-card-image style uploader
 */
-export async function generateAndUploadIndividualCards(gameVer: GameVersion, filterQuery: string) {
+export async function generateAndUploadIndividualCards(
+  gameVer: GameVersion,
+  filterQuery: string,
+) {
   const { gameName, version } = gameVer;
   const drive = DriveClient.getInstance().drive();
   const browser = await puppeteer.launch({

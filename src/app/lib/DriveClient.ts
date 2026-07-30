@@ -5,10 +5,10 @@ export class DriveClient {
   private static instance: DriveClient;
   private client: drive_v3.Drive;
   private constructor() {
-    const key =
-      process.env.NODE_ENV == "production"
-        ? JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED")
-        : process.env.SERVICE_ACCOUNT_KEY;
+    const key = process.env.SERVICE_ACCOUNT_KEY;
+      // process.env.NODE_ENV == "production"
+      //   ? JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED")
+      //   : process.env.SERVICE_ACCOUNT_KEY;
 
     const jwtClient = new JWT({
       email: process.env.SERVICE_ACCOUNT_EMAIL,
