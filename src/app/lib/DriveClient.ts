@@ -5,7 +5,7 @@ export class DriveClient {
   private static instance: DriveClient;
   private client: drive_v3.Drive;
   private constructor() {
-    const key = process.env.SERVICE_ACCOUNT_KEY;
+    const key =
       process.env.NODE_ENV == "production" // inexplicably, have to do this for Heroku, won't work locally. idk
         ? JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED")
         : process.env.SERVICE_ACCOUNT_KEY;
