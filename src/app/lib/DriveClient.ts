@@ -6,9 +6,9 @@ export class DriveClient {
   private client: drive_v3.Drive;
   private constructor() {
     const key = process.env.SERVICE_ACCOUNT_KEY;
-      // process.env.NODE_ENV == "production"
-      //   ? JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED")
-      //   : process.env.SERVICE_ACCOUNT_KEY;
+      process.env.NODE_ENV == "production" // inexplicably, have to do this for Heroku, won't work locally. idk
+        ? JSON.parse(process.env.SERVICE_ACCOUNT_KEY || "UNDEFINED")
+        : process.env.SERVICE_ACCOUNT_KEY;
 
     const jwtClient = new JWT({
       email: process.env.SERVICE_ACCOUNT_EMAIL,
