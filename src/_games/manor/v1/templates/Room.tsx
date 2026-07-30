@@ -14,7 +14,7 @@ export default function Room({ data }: { data: CardData }) {
       </div>
       <div className={`absolute left-[5%] top-[6%] w-[90%] h-[90%] m-0 -z-10`}>
         <Image
-          src={`https://placehold.co/300x300/mediumpurple/white/png?text=${data.name
+          src={data.art ? data.art : `https://placehold.co/300x300/mediumpurple/white/png?text=${data.name
             .split(" ")
             .map((n) => n.at(0))
             .join("")}`}

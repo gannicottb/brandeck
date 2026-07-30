@@ -10,6 +10,7 @@ export default async function Cards({
   size,
   filters,
   diffWith,
+  renderMode
 }: CardPageProps) {
   const raw = await cardCache.get(gameVer);
   const parsed = await _parseSheet(raw);
@@ -38,6 +39,7 @@ export default async function Cards({
         .map((r, i) => (
           <Card data={r} key={i} size={size} gameVer={gameVer} />
         ))}
+      renderMode={renderMode}
     />
   );
 }

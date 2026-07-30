@@ -9,8 +9,8 @@ export interface CardData extends CardRow, Filterable {
   cost: string;
   faction: string;
   text: string;
-  num: string;
   art: string;
+  idx: string;
 }
 
 export interface CardProps {

@@ -3,6 +3,7 @@ import { DriveClient } from "./DriveClient";
 import { RedisRTC } from "./RedisRTC";
 import { Version } from "./Version";
 import { GameVersion } from "./GameVersion";
+import { TtsCache } from "./TtsCache";
 
 interface NameAndParentId {
   name: string;
@@ -17,9 +18,11 @@ export const getRootId = (game: string) =>
   process.env[`${game.toUpperCase()}_ROOT_ID`];
 
 export const getGameNames = (): string[] => {
-  return Object.keys(process.env)
+  const names = Object.keys(process.env)
     .filter((key) => key.endsWith("_ROOT_ID"))
     .map((key) => key.replace("_ROOT_ID", "").replace("_", " ").toLowerCase());
+  console.log(`All game names: ${names.join(",")}`)
+  return names
 };
 
 export const folderIdMap = new RedisRTC<NameAndParentId>(
@@ -117,3 +120,5 @@ export const debugLog = (message?: any, ...optionalParams: any[]): void => {
       : console.log(message);
   }
 };
+
+export const ttsCache = new TtsCache()

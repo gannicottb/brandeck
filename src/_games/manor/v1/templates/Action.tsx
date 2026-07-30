@@ -11,6 +11,7 @@ export default function Action({ data }: { data: CardData }) {
     C: "rose-600",
     R: "yellow-500",
     W: "black",
+    M: "black"
   };
 
   const borderColor = (faction: string) => {
@@ -58,7 +59,7 @@ export default function Action({ data }: { data: CardData }) {
       </div>
       <div className={`mx-auto p-2 border-solid border-4 border-${myColor}`}>
         <Image
-          src="https://placehold.co/300x200/png?text=👻"
+          src={data.art ? data.art : "https://placehold.co/300x200/white/white/png?text="}
           width={300}
           height={200}
           alt={data.name}

@@ -30,6 +30,8 @@ export default async function Page({
       ? GameVersion.apply(gameVer.gameName, Version.fromString(value))
       : undefined;
 
+  const renderMode = first(searchParams["renderMode"])
+
   // We assume that all game+version combinations will have a Cards component that takes GameVersion
   const Cards = dynamic<CardPageProps>(
     () =>
@@ -43,6 +45,7 @@ export default async function Page({
         size={size}
         filters={filters}
         diffWith={diffWithVersion}
+        renderMode={renderMode}
       />
     </div>
   );

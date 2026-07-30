@@ -13,4 +13,5 @@ export interface CardPageProps {
   size: string;
   filters: FilterProps;
   diffWith?: GameVersion;
+  renderMode?: string;
 }

@@ -7,13 +7,19 @@ import { useRouter } from "next/navigation";
 import { IoRefreshOutline } from "react-icons/io5";
 import { Version } from "../lib/Version";
 
-const GenerateButton = ({ gameVer }: { gameVer: GameVersion }) => {
+const GenerateButton = ({
+  gameVer,
+  filterQuery,
+}: {
+  gameVer: GameVersion;
+  filterQuery: string;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   async function doGenerate(gameVer: GameVersion) {
     const origin = window.location.origin;
     const res = await fetch(`${origin}/api/generate`, {
       method: "POST",
-      body: JSON.stringify(gameVer),
+      body: JSON.stringify({ gameVer: gameVer, filterQuery: filterQuery }),
     });
     const text = await res.text();
     return console.log(text);
@@ -133,6 +139,11 @@ interface ControlsProps {
   filterQuery: string;
 }
 export default function Controls({ gameVer, filterQuery }: ControlsProps) {
+  const generateBody = JSON.stringify({
+    gameVer: gameVer,
+    filterQuery: filterQuery,
+  });
+
   const [filterBuilder, setFilterBuilder] = useState({
     query: filterQuery,
   } as FilterProps);
@@ -157,7 +168,7 @@ export default function Controls({ gameVer, filterQuery }: ControlsProps) {
         <Link className="p-1" href={"/"}>
           {"<= Home"}
         </Link>
-        <GenerateButton gameVer={gameVer} />
+        <GenerateButton gameVer={gameVer} filterQuery={filterQuery} />
         <DiffWithPreviousButton gameVer={gameVer} />
       </div>
       <div className="flex">
