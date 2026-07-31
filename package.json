@@ -7,7 +7,8 @@
     "build": "NODE_OPTIONS=--disable-warning=DEP0040 next build",
     "start": "NODE_OPTIONS=--disable-warning=DEP0040 next start -p $PORT",
     "lint": "NODE_OPTIONS=--disable-warning=DEP0040 next lint",
-    "newver": "./scripts/create-new-version"
+    "newver": "./scripts/create-new-version",
+    "heroku-postbuild": "npm run build && mkdir ./.cache && mv /app/.cache/puppeteer ./.cache"
   },
   "dependencies": {
     "@fast-csv/parse": "^5.0.0",

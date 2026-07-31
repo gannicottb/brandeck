@@ -8,7 +8,11 @@ export class DriveClient {
     // dotenv automatically converts \n into real newlines, which can be taken as-is
     // Heroku passes the value as a raw string, which has to be JSON.parsed
     // Approach that works for both is to replace the escaped \\n
-    const key = process.env.SERVICE_ACCOUNT_KEY_B64 && Buffer.from(process.env.SERVICE_ACCOUNT_KEY_B64, 'base64').toString('utf8')
+    const key =
+      process.env.SERVICE_ACCOUNT_KEY_B64 &&
+      Buffer.from(process.env.SERVICE_ACCOUNT_KEY_B64, "base64").toString(
+        "utf8",
+      );
 
     const jwtClient = new JWT({
       email: process.env.SERVICE_ACCOUNT_EMAIL,
