@@ -14,6 +14,9 @@ export abstract class Version {
   static toString(v: Version) {
     return `${v.major}.${v.minor}`;
   }
+  static show(v: Version) {
+    return this.toString(v)
+  }
   static apply(major: number, minor: number) {
     return { major, minor };
   }

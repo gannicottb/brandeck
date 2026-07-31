@@ -36,12 +36,6 @@ export default async function generateAndUpload(
   const cardsUrl = `${host}/${gameName}/cards/${version.major}.${version.minor}?renderMode=tts&q=${filterQuery}`;
   await page.goto(cardsUrl, { waitUntil: "networkidle0" });
 
-  // const container = await page.$eval("#container", (e: Element) => {
-  //   const rect = e.getBoundingClientRect();
-  //   const total = e.querySelectorAll("div[class*='card']").length;
-  //   return { x: rect.x, y: rect.y, w: rect.width, h: rect.height, total };
-  // });
-
   const sheets: BrandeckSheetElement[] = await page.$eval(
     "#container",
     (container: Element) => {

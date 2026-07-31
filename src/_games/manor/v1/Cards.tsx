@@ -36,6 +36,7 @@ export default async function Cards({
     <Container
       cards={(diffed || parsed)
         .filter((c) => filter.test(c))
+        .sort((a, b) => Number(a.idx) - Number(b.idx)) // idx order!
         .map((r, i) => (
           <Card data={r} key={i} size={size} gameVer={gameVer} />
         ))}

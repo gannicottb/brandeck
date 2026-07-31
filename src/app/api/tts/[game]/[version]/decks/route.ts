@@ -4,7 +4,6 @@ import { cardCache } from "@/app/lib/Utils";
 import { NextResponse } from "next/server";
 import path from "path";
 import { promises as fs } from "fs";
-import { Version } from "@/app/lib/Version";
 
 // AFAICT you can't dynamically load interfaces so we have to redeclare the fields we care about
 interface DynamicCard extends Filterable {
@@ -15,10 +14,13 @@ interface DynamicCard extends Filterable {
   [key: string]: any; // Allows any other dynamic property
 }
 // Return "decklists" keyed by `idx` so that TTS can create the decks we want
-export async function GET(request: Request, {params}: {params: Promise<{game: string, version: string}>}) {
-  const {game, version} = await params
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ game: string; version: string }> },
+) {
+  const { game, version } = await params;
 
-  const gameVer = GameVersion.fromObject({gameName: game, version: Version.fromString(version)});
+  const gameVer = GameVersion.fromStrings(game, version);
 
   // Dynamically load the right parser
   const { _parseSheet } = await import(
@@ -30,6 +32,7 @@ export async function GET(request: Request, {params}: {params: Promise<{game: st
   // Parse the cards
   const parsed = (await _parseSheet(raw)) as DynamicCard[];
 
+  // Note: we don't usually hardcode configuration like this in brandeck, should be read from Google Drive
   // Look up the decks.txt containing the decks we want to load in TTS
   const filePath = path.join(
     process.cwd(),

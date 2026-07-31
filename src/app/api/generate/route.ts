@@ -5,9 +5,9 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic"; // defaults to auto
 export async function POST(request: Request) {
   const res = await request.json();
-  
+
   const gameVer = GameVersion.fromObject(res["gameVer"]);
-  const filterQuery = res["filterQuery"]
+  const filterQuery = res["filterQuery"];
 
   // whether we await here determines if the call waits or not, seems like
   await generateAndUpload(gameVer, filterQuery);

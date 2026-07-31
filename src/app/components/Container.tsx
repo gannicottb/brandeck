@@ -32,6 +32,8 @@ const MAX_CARDS_IN_TTS_SHEET = 69;
 // pass filters through to the generate page, so it can do different slices. Which would then import as different decks nicely.
 const ttsWidth = 232.5 * 10;
 const ttsHeight = 325.5 * 7;
+// If this can automatically group by type before slicing into sheets, we just need to tag them somehow.
+// at this level, the cards are just ReactNodes, any info we might want won't be there.
 const ttsExportContainer = (cards: ReactNode[]) => {
   const sheets = Array.from(
     { length: Math.ceil(cards.length / MAX_CARDS_IN_TTS_SHEET) },

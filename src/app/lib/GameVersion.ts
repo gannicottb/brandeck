@@ -6,13 +6,16 @@ export interface GameVersion {
 }
 
 export abstract class GameVersion {
-  static show(gv: GameVersion) {
-    return `${gv.gameName} v${Version.toString(gv.version)}`;
+  static show(gv: GameVersion): string {
+    return `${gv.gameName} v${Version.show(gv.version)}`;
   }
   static fromObject(gv: GameVersion): GameVersion {
     return this.apply(gv.gameName, gv.version);
   }
-  static apply(gameName: string, version: Version) {
+  static fromStrings(gameName: string, version: string): GameVersion {
+    return { gameName, version: Version.fromString(version) };
+  }
+  static apply(gameName: string, version: Version): GameVersion {
     return { gameName, version };
   }
 }
