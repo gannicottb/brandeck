@@ -4,6 +4,7 @@ import { cardCache } from "@/app/lib/Utils";
 import { NextResponse } from "next/server";
 import path from "path";
 import { promises as fs } from "fs";
+import { Version } from "@/app/lib/Version";
 
 // AFAICT you can't dynamically load interfaces so we have to redeclare the fields we care about
 interface DynamicCard extends Filterable {
@@ -14,10 +15,10 @@ interface DynamicCard extends Filterable {
   [key: string]: any; // Allows any other dynamic property
 }
 // Return "decklists" keyed by `idx` so that TTS can create the decks we want
-export async function POST(request: Request) {
-  const res = await request.json();
+export async function GET(request: Request, {params}: {params: Promise<{game: string, version: string}>}) {
+  const {game, version} = await params
 
-  const gameVer = GameVersion.fromObject(res);
+  const gameVer = GameVersion.fromObject({gameName: game, version: Version.fromString(version)});
 
   // Dynamically load the right parser
   const { _parseSheet } = await import(
