@@ -441,6 +441,9 @@ Decker.RescanExistingDeckIDs = recheckNextID
 -----------------CUSTOM CODE------------------
 ----------------------------------------------
 
+gameName = "manor"
+gameVersion = "1.2"
+
 -- Check if string begins with the argument (no regex)
 string.beginswith = function(str, prefix)
     return (str:sub(1, prefix:len()) == prefix)
@@ -452,6 +455,17 @@ string.startswith = string.beginswith
 allAssets = {}
 -- and one for the Classic Deck. This is not saved, it's too big and makes the mod crash.
 classicDeck = {}
+
+function apiUrl()
+    return 'https://brandeck.herokuapp.com/api/tts/' .. gameName .. '/' .. gameVersion
+end
+function decksUrl()
+    return apiUrl() .. '/decks'
+end
+function sheetsUrl()
+    return apiUrl() .. '/sheets'
+end
+
 
 function makeAssets(args)
     -- Width or height must be less than 10k pixels
@@ -473,12 +487,24 @@ end
 function buildDeck(decklist, options)
     local cards = {}
     local options = options or {}
+    -- the entry.id has to correspond to the index of the "classic deck" which is 1-indexed
+    -- the +1 is because we were probably returning the "id" 0-indexed
     for idx, entry in ipairs(decklist) do
         for i=1,entry.qty do
             cards[#cards+1] = classicDeck:cardAt(tonumber(entry.id)+1):setCommon(options)
         end
     end
 
+    return Decker.Deck(cards, options)
+end
+
+-- If the list is just 1-indexed indices and already in correct quantities 
+function buildDeckSimple(list, options)
+    local cards = {}
+    local options = options or {}
+    for _, cardIdx in ipairs(list) do
+        cards[#cards+1] = classicDeck:cardAt(tonumber(cardIdx)):setCommon(options)
+    end
     return Decker.Deck(cards, options)
 end
 
@@ -510,7 +536,7 @@ end
 
 -- Use the brandeck API to reset allAssets and classicDeck
 function autoUpdateClassic(args, player)
-    local url = "https://brandeck.herokuapp.com/api/tts/manor/1.2/sheets"
+    local url = sheetsUrl()
     printToAll("Reading the latest sheets from Brandeck...")
     function callback(webReturn)
         local parsed = JSON.decode(webReturn.text)
@@ -549,22 +575,42 @@ function spawnClassic(args, player)
 end
 
 -- Given a deck name, request JSON and spawn the deck based on that JSON
-function spawnDeck(args, player)
-    local deckFileId = args[1]
-    local url = "https://skypirate-deckgen.herokuapp.com/api/decks/"..deckFileId
+-- function spawnDeck(args, player)
+--     local deckFileId = args[1]
+--     local url = "https://skypirate-deckgen.herokuapp.com/api/decks/"..deckFileId
 
+--     function callback(webReturn)
+--         local parsed = JSON.decode(webReturn.text)
+--         -- {cards: {qty:number, id:?}[], name: string}
+--         -- 
+--         local newDeck = buildDeck(parsed["cards"], {name = parsed["name"]})
+--         printToAll(parsed["name"].." fetched and built.", Color.fromString(player.color))
+--         local spawnLocation = getSpawnLocation(player)
+--         local spawnRotation = getSpawnRotation(player)
+--         newDeck:spawn({position = spawnLocation, rotation = spawnRotation})
+--         printToAll(parsed["name"].." spawned!", Color.fromString(player.color))
+--     end
+
+--     WebRequest.get(url, callback)
+-- end
+
+function spawnPresetDecks(args, player)
+    local url = decksUrl()
     function callback(webReturn)
         local parsed = JSON.decode(webReturn.text)
-        local newDeck = buildDeck(parsed["cards"], {name = parsed["name"]})
-        printToAll(parsed["name"].." fetched and built.", Color.fromString(player.color))
-        local spawnLocation = getSpawnLocation(player)
-        local spawnRotation = getSpawnRotation(player)
-        newDeck:spawn({position = spawnLocation, rotation = spawnRotation})
-        printToAll(parsed["name"].." spawned!", Color.fromString(player.color))
+        local decks = parsed["decks"] -- {name:string, cards:number[]}[]
+        for _, deck in ipairs(decks) do
+            local built = buildDeckSimple(deck["cards"], {name = deck["name"]})
+            printToAll(parsed["name"].." fetched and built.", Color.fromString(player.color))
+            local spawnLocation = getSpawnLocation(player)
+            local spawnRotation = getSpawnRotation(player)
+            newDeck:spawn({position = spawnLocation, rotation = spawnRotation})
+            printToAll(parsed["name"].." spawned!", Color.fromString(player.color))
+        end
     end
-
     WebRequest.get(url, callback)
 end
+
 
 -- Display help text to the player who asked for it.
 function help(args, player)
@@ -585,9 +631,10 @@ chatCommandPrefix = "."
 chatCommandArgDelimiter = " "
 chatCommands =  {
     ["spawn.classic"] = { func = spawnClassic, description = "-> Spawns a Classic deck." },
-    ["spawn.deck"] = { func = spawnDeck, description = "DeckId".." -> Spawns a deck based on deck id from DeckGen server." },
+    -- ["spawn.deck"] = { func = spawnDeck, description = "DeckId".." -> Spawns a deck based on deck id from DeckGen server." },
+    ["spawn.presets"] = { func = spawnPresetDecks, description = "-> Spawns all preset decks." },
     ["update.manual"] = { func = updateClassic, description = "pageOneFileId"..chatCommandArgDelimiter.."pageTwoFileId -> Update cached Classic set." },
-    ["update"] = { func = autoUpdateClassic, description = "-> Update cached Classic set based on skypirate-deckgen.herokuapp.com/api/classic_sheets."},
+    ["update"] = { func = autoUpdateClassic, description = "-> Update cached Classic set based on " .. sheetsUrl()},
     ["help"] = { func = help, description = "-> This list of descriptions." },
     ["echo"] = { func = echo, description = "hi"..chatCommandArgDelimiter.."you".." -> hi\nyou" },
 }

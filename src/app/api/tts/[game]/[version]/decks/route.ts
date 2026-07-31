@@ -64,7 +64,7 @@ export async function GET(
   const decks = filterLines.map((filterLine, deckIndex) => {
     const condition = Condition.fromString(filterLine);
     const cards = parsed.filter((c) => condition.test(c)).map((c) => c.idx);
-    return { [`deck_${deckIndex}`]: cards };
+    return { name: `deck_${deckIndex}`, cards };
   });
 
   return NextResponse.json({

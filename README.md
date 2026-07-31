@@ -42,6 +42,17 @@ API:
   ex: npm run newver astromon 7
 2. Add a line (and imports) to pages/gameName/cards/[version].tsx for the new version
 
+# Puppeteer
+
+Currently using the jontewks buildpack, seems to be working.
+At some point I switched to 
+```
+https://buildpack-registry.s3.amazonaws.com/buildpacks/heroku-community/chrome-for-testing.tgz
+
+PUPPETEER_EXECUTABLE_PATH=google-chrome
+PUPPETEER_SKIP_DOWNLOAD=true
+```
+But it wasn't working so I threw it all out.
 ===
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
