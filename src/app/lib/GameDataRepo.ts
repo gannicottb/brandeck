@@ -76,6 +76,7 @@ export class GameDataRepo {
     });
     return data.files || [];
   }
+  // Just grab the first result or undefined
   async getFirst(gameVer: GameVersion, searchParams?: FileSearchParams) {
     const files = await this.list(gameVer, searchParams);
     return ArrayOps.of(files).first();
@@ -85,11 +86,24 @@ export class GameDataRepo {
 
   // download a file with files.export
   async exportAsText(fileId: string) {
+    // Weird stuff here, has to do with the sdk not knowing what types it's returning
+    // https://github.com/googleapis/google-api-nodejs-client/issues/1683
     const gaxios = await (this.driveClient.drive().files.export({
       fileId: fileId,
       mimeType: "text/plain",
     }) as unknown as GaxiosPromise<Blob>);
 
     return new Response(gaxios.data).text();
+  }
+
+  async exportAsCsv(fileId: string) {
+    // Weird stuff here, has to do with the sdk not knowing what types it's returning
+    // https://github.com/googleapis/google-api-nodejs-client/issues/1683
+    const gaxios = await (this.driveClient.drive().files.export({
+      fileId: fileId,
+      mimeType: "text/csv",
+    }) as unknown as GaxiosPromise<Blob>);
+
+    return gaxios.data.text();
   }
 }

@@ -1,10 +1,10 @@
-import { GaxiosPromise } from "@googleapis/drive";
 import { DriveClient } from "./DriveClient";
 import { RedisRTC } from "./RedisRTC";
 import { Version } from "./Version";
 import { GameVersion } from "./GameVersion";
 import { TtsCache } from "./TtsCache";
 import { GameDataRepo } from "./GameDataRepo";
+import { notFound } from "next/navigation";
 
 interface NameAndParentId {
   name: string;
@@ -16,6 +16,9 @@ export type Dict = Record<string, string>;
 export const FolderType = "application/vnd.google-apps.folder";
 export const SpreadsheetType = "application/vnd.google-apps.spreadsheet";
 export const DocumentType = "application/vnd.google-apps.document";
+
+export const ttsCache = new TtsCache();
+// TODO: how to share GameDataRepo without increasing number of JWT authorizations
 
 export const getRootId = (game: string) =>
   process.env[`${game.toUpperCase()}_ROOT_ID`];
@@ -48,39 +51,14 @@ export const folderIdMap = new RedisRTC<NameAndParentId>(
 );
 
 export async function downloadSheet(game: string, ver: Version) {
-  const drive = DriveClient.getInstance().drive();
-  // Dynamically access the root id for the requested game
-  const parentId = getRootId(game);
-
-  const major_folder_id = await folderIdMap.get({
-    name: `v${ver.major}`,
-    parentId,
+  const repo = new GameDataRepo();
+  const sheet = await repo.getFirst(GameVersion.apply(game, ver), {
+    nameContains: "cards",
   });
-  console.log(`Major Folder: v${ver.major}: ${major_folder_id}`);
 
-  const minor_folder_id = await folderIdMap.get({
-    name: `.${ver.minor}`,
-    parentId: major_folder_id,
-  });
-  console.log(`Minor Folder: .${ver.minor}: ${minor_folder_id}`);
+  if (!sheet?.id) notFound();
 
-  const sheet = await drive.files
-    .list({ q: `name contains 'cards' and parents in '${minor_folder_id}'` })
-    .then((r) => (r.data.files || [])[0]);
-
-  if (!sheet) throw new Error(`Could not find the sheet for ${ver}`);
-  console.log(sheet.name);
-  // Weird typing is a workaround as described here
-  // https://github.com/googleapis/google-api-nodejs-client/issues/1683
-  const sheetId = sheet.id == null ? undefined : sheet.id;
-  const buf = await (
-    drive.files.export({
-      fileId: sheetId,
-      mimeType: "text/csv",
-    }) as unknown as GaxiosPromise<Blob>
-  ).then((blob) => blob.data.text());
-
-  return buf;
+  return await repo.exportAsCsv(sheet.id);
 }
 export const cardCache = new RedisRTC<GameVersion>("cards", (gameVer) =>
   downloadSheet(gameVer.gameName, gameVer.version),
@@ -123,6 +101,3 @@ export const debugLog = (message?: any, ...optionalParams: any[]): void => {
       : console.log(message);
   }
 };
-
-export const ttsCache = new TtsCache();
-export const gameDataRepo = new GameDataRepo();

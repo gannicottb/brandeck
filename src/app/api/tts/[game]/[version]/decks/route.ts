@@ -1,8 +1,9 @@
 import { Condition, Filterable } from "@/app/lib/Filters";
 import { GameVersion } from "@/app/lib/GameVersion";
-import { cardCache, gameDataRepo as repo } from "@/app/lib/Utils";
+import { cardCache } from "@/app/lib/Utils";
 import { NextResponse } from "next/server";
 import { notFound } from "next/navigation";
+import { GameDataRepo } from "@/app/lib/GameDataRepo";
 
 // AFAICT you can't dynamically load interfaces so we have to redeclare the fields we care about
 interface DynamicCard extends Filterable {
@@ -20,6 +21,8 @@ export async function GET(
   const { game, version } = await params;
 
   const gameVer = GameVersion.fromStrings(game, version);
+
+  const repo = new GameDataRepo();
 
   // Dynamically load the right parser
   const { _parseSheet } = await import(
