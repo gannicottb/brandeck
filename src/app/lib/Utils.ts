@@ -51,7 +51,7 @@ export const folderIdMap = new RedisRTC<NameAndParentId>(
 );
 
 export async function downloadSheet(game: string, ver: Version) {
-  const repo = new GameDataRepo();
+  const repo = GameDataRepo.getInstance();
   const sheet = await repo.getFirst(GameVersion.apply(game, ver), {
     nameContains: "cards",
   });

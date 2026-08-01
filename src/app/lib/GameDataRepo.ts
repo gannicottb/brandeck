@@ -11,6 +11,7 @@ export interface FileSearchParams {
 }
 
 export class GameDataRepo {
+    private static instance: GameDataRepo
   /*
     Big picture: interactions with the Google Drive side of this project
     are fragmented (downloadSheet, generateAndUpload, etc) and not easily reusable.
@@ -24,6 +25,13 @@ export class GameDataRepo {
   driveClient: DriveClient;
   constructor() {
     this.driveClient = DriveClient.getInstance();
+  }
+
+  public static getInstance(): GameDataRepo {
+    if (!GameDataRepo.instance) {
+      GameDataRepo.instance = new GameDataRepo();
+    }
+    return GameDataRepo.instance;
   }
 
   /*
@@ -65,6 +73,7 @@ export class GameDataRepo {
   // Public-ish interface
 
   // list all files for a GameVersion.
+  // TODO: a more generic list would also be helpful, for dealing with non-versioned files
   async list(gameVer: GameVersion, searchParams?: FileSearchParams) {
     const versionFolderId = await this.getVersionFolderId(gameVer);
     const queryString = this.makeQueryString([
@@ -83,6 +92,7 @@ export class GameDataRepo {
   }
   // move a file with files.update (changing parentId)
   // copy a file with files.copy
+  // create a new version (major or minor) by copying all of the files in PREV then creating NEXT folder then updating copies to live in NEXT then renaming files
 
   // download a file with files.export
   async exportAsText(fileId: string) {

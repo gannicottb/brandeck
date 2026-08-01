@@ -22,7 +22,7 @@ export async function GET(
 
   const gameVer = GameVersion.fromStrings(game, version);
 
-  const repo = new GameDataRepo();
+  const repo = GameDataRepo.getInstance();
 
   // Dynamically load the right parser
   const { _parseSheet } = await import(

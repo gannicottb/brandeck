@@ -31,6 +31,7 @@ export default async function generateAndUpload(
   const page = await browser.newPage();
   // redirect error logs
   page.on("console", (msg) => msg.type() == "error" && console.log(msg));
+
   // Go to the appropriate cards page
   const host = `${process.env.HOST}`;
   const cardsUrl = `${host}/${gameName}/cards/${version.major}.${version.minor}?renderMode=tts&q=${filterQuery}`;
