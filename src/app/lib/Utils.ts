@@ -4,6 +4,7 @@ import { RedisRTC } from "./RedisRTC";
 import { Version } from "./Version";
 import { GameVersion } from "./GameVersion";
 import { TtsCache } from "./TtsCache";
+import { GameDataRepo } from "./GameDataRepo";
 
 interface NameAndParentId {
   name: string;
@@ -13,6 +14,8 @@ interface NameAndParentId {
 export type Dict = Record<string, string>;
 
 export const FolderType = "application/vnd.google-apps.folder";
+export const SpreadsheetType = "application/vnd.google-apps.spreadsheet";
+export const DocumentType = "application/vnd.google-apps.document";
 
 export const getRootId = (game: string) =>
   process.env[`${game.toUpperCase()}_ROOT_ID`];
@@ -21,8 +24,8 @@ export const getGameNames = (): string[] => {
   const names = Object.keys(process.env)
     .filter((key) => key.endsWith("_ROOT_ID"))
     .map((key) => key.replace("_ROOT_ID", "").replace("_", " ").toLowerCase());
-  console.log(`All game names: ${names.join(",")}`)
-  return names
+  console.log(`All game names: ${names.join(",")}`);
+  return names;
 };
 
 export const folderIdMap = new RedisRTC<NameAndParentId>(
@@ -121,4 +124,5 @@ export const debugLog = (message?: any, ...optionalParams: any[]): void => {
   }
 };
 
-export const ttsCache = new TtsCache()
+export const ttsCache = new TtsCache();
+export const gameDataRepo = new GameDataRepo();

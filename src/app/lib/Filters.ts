@@ -68,10 +68,10 @@ function parseOperator(s: string): [CompareStrings, CombineFilterables] {
 // make a Condition from a single token
 function parseSingleCondition(s: string): Condition<Filterable> {
   const [k, o, v] = [...s.matchAll(splitCondition)][0].slice(1, 4);
-  debugLog(k, o, v);
+  // debugLog(k, o, v);
   const [cmp, combine] = parseOperator(o);
   const values = v.replaceAll(`"`, "").split("|"); // get all values delimited by |
-  debugLog("Condition value(s):", values);
+  // debugLog("Condition value(s):", values);
   return values
     .map(
       (or) =>
@@ -89,7 +89,7 @@ function parseQuery(s: string): Condition<Filterable> {
   const [initial, ...rest] = [...s.matchAll(extractConditionsAndOperators)].map(
     (arr) => arr[0],
   );
-  debugLog("Conditions:", initial, rest);
+  // debugLog("Conditions:", initial, rest);
   if (rest.length % 2 != 0) {
     console.log(
       "Dropping last token from query while parsing, shouldn't be an odd # of them",

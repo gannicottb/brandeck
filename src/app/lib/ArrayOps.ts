@@ -28,6 +28,9 @@ export class ArrayOps<T> {
   last(): T | undefined {
     return this.ts.at(-1);
   }
+  first(): T | undefined {
+    return this.ts.at(0)
+  }
   dropRight(n: number): T[] {
     return this.ts.slice(0, -n);
   }

@@ -1,6 +1,0 @@
-faction:B
-faction:C
-faction:R
-faction:W
-type:action AND faction:""
-type:room AND name!"Living Room"

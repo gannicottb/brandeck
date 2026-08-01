@@ -5,9 +5,7 @@ export class DriveClient {
   private static instance: DriveClient;
   private client: drive_v3.Drive;
   private constructor() {
-    // dotenv automatically converts \n into real newlines, which can be taken as-is
-    // Heroku passes the value as a raw string, which has to be JSON.parsed
-    // Approach that works for both is to replace the escaped \\n
+    // use base64 encoding to resolve escaping issues between local and Heroku env vars
     const key =
       process.env.SERVICE_ACCOUNT_KEY_B64 &&
       Buffer.from(process.env.SERVICE_ACCOUNT_KEY_B64, "base64").toString(

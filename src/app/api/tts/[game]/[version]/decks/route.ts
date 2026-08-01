@@ -1,9 +1,8 @@
 import { Condition, Filterable } from "@/app/lib/Filters";
 import { GameVersion } from "@/app/lib/GameVersion";
-import { cardCache } from "@/app/lib/Utils";
+import { cardCache, gameDataRepo as repo } from "@/app/lib/Utils";
 import { NextResponse } from "next/server";
-import path from "path";
-import { promises as fs } from "fs";
+import { notFound } from "next/navigation";
 
 // AFAICT you can't dynamically load interfaces so we have to redeclare the fields we care about
 interface DynamicCard extends Filterable {
@@ -31,16 +30,16 @@ export async function GET(
   const raw = await cardCache.get(gameVer);
   // Parse the cards
   const parsed = (await _parseSheet(raw)) as DynamicCard[];
-
-  // Note: we don't usually hardcode configuration like this in brandeck, should be read from Google Drive
-  // Look up the decks.txt containing the decks we want to load in TTS
-  const filePath = path.join(
-    process.cwd(),
-    `src/_games/${gameVer.gameName}/v${gameVer.version.major}/decks.txt`,
-  );
-  const fileContent = await fs.readFile(filePath, "utf8");
+  // Look up the deck list or 404
+  const file = await repo.getFirst(gameVer, { nameEq: "decks" });
+  if (!file?.id) {
+    notFound();
+  }
+  // Download the text
+  const fileContent = await repo.exportAsText(file?.id);
 
   // the decks are defined as single line filter expressions
+  // TODO: maybe add some metadata like a name so we can label them
   const filterLines = fileContent.split("\n");
 
   // Create lists containing card indices based on the filter expressions
