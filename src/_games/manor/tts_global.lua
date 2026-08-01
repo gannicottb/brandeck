@@ -599,13 +599,16 @@ function spawnPresetDecks(args, player)
     function callback(webReturn)
         local parsed = JSON.decode(webReturn.text)
         local decks = parsed["decks"] -- {name:string, cards:number[]}[]
-        for _, deck in ipairs(decks) do
-            local built = buildDeckSimple(deck["cards"], {name = deck["name"]})
-            printToAll(parsed["name"].." fetched and built.", Color.fromString(player.color))
-            local spawnLocation = getSpawnLocation(player)
+        for i, deck in ipairs(decks) do
+            local deckName = deck["name"]
+            local built = buildDeckSimple(deck["cards"], {name = deckName})
+            printToAll(deckName.." fetched and built.", Color.fromString(player.color))
+            local spawnLocation = Tables.getTableObject().getPosition()
             local spawnRotation = getSpawnRotation(player)
-            newDeck:spawn({position = spawnLocation, rotation = spawnRotation})
-            printToAll(parsed["name"].." spawned!", Color.fromString(player.color))
+            local offset = ((i - 1) * 2.5)
+            local spawnWithOffset = {spawnLocation[1] + offset, spawnLocation[2], spawnLocation[3]}
+            built:spawn({position = spawnWithOffset, rotation = spawnRotation})
+            printToAll(deckName.." spawned!", Color.fromString(player.color))
         end
     end
     WebRequest.get(url, callback)
@@ -632,7 +635,7 @@ chatCommandArgDelimiter = " "
 chatCommands =  {
     ["spawn.classic"] = { func = spawnClassic, description = "-> Spawns a Classic deck." },
     -- ["spawn.deck"] = { func = spawnDeck, description = "DeckId".." -> Spawns a deck based on deck id from DeckGen server." },
-    ["spawn.presets"] = { func = spawnPresetDecks, description = "-> Spawns all preset decks." },
+    ["spawn.preset"] = { func = spawnPresetDecks, description = "-> Spawns all preset decks." },
     ["update.manual"] = { func = updateClassic, description = "pageOneFileId"..chatCommandArgDelimiter.."pageTwoFileId -> Update cached Classic set." },
     ["update"] = { func = autoUpdateClassic, description = "-> Update cached Classic set based on " .. sheetsUrl()},
     ["help"] = { func = help, description = "-> This list of descriptions." },

@@ -13,6 +13,8 @@ export async function GET(
 
   const entries = await ttsCache.get(gameVer);
 
+  // ISSUE! TTS rejects 1-card decks. So a "Living Room" deck is right out.
+
   // ISSUE! We have two kinds of cards with different backs. The Lua script in TTS needs a URL for the card backs.
   // We could return that link from this API to make it simpler, but we also have to know how to separate the sheets
   // We could simply hardcode that type:room should get back A and type:action should get back B.
