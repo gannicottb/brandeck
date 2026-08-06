@@ -11,6 +11,11 @@ interface NameAndParentId {
   parentId?: string;
 }
 
+export interface Folder {
+  id: string;
+  name: string;
+}
+
 export type Dict = Record<string, string>;
 
 export const FolderType = "application/vnd.google-apps.folder";
@@ -34,25 +39,38 @@ export const getGameNames = (): string[] => {
 export const folderIdMap = new RedisRTC<NameAndParentId>(
   "folderIds",
   async ({ name, parentId }) => {
-    const drive = DriveClient.getInstance().drive();
-    return await drive.files
-      .list({
-        q: `name = '${name}' and parents in '${parentId}' and mimeType = '${FolderType}'`,
-      })
-      .then((r) => {
-        const fileId = (r.data.files || [])[0]?.id;
-        if (fileId) {
-          return fileId;
-        } else {
-          return Promise.reject(`item ${name} not found in ${parentId}`);
-        }
-      });
+    const repo = GameDataRepo.getInstance();
+    const file = await repo.getFirst({
+      nameEq: name,
+      parentsIn: parentId,
+      isFolder: true,
+    });
+    if (file?.id) {
+      return file.id;
+    } else {
+      return Promise.reject(`item ${name} not found in ${parentId}`);
+    }
+    // const drive = DriveClient.getInstance().drive();
+    // return await drive.files
+    //   .list({
+    //     q: `name = '${name}' and parents in '${parentId}' and mimeType = '${FolderType}'`,
+    //   })
+    //   .then((r) => {
+    //     const fileId = (r.data.files || [])[0]?.id;
+    //     if (fileId) {
+    //       return fileId;
+    //     } else {
+    //       return Promise.reject(`item ${name} not found in ${parentId}`);
+    //     }
+    //   });
   },
 );
 
 export async function downloadSheet(game: string, ver: Version) {
-  const repo = GameDataRepo.getInstance();
-  const sheet = await repo.getFirst(GameVersion.apply(game, ver), {
+  const repo = GameDataRepo.getInstance().atVersion(
+    GameVersion.apply(game, ver),
+  );
+  const sheet = await repo.getFirst({
     nameContains: "cards",
   });
 
@@ -68,24 +86,19 @@ export const mapArtURL = async (
   game: string,
   artName: string,
 ): Promise<string> => {
-  const drive = DriveClient.getInstance().drive();
+  const repo = GameDataRepo.getInstance();
   const parentId = getRootId(game);
-  const art_folder_id = await folderIdMap.get({
+  const artFolderId = await folderIdMap.get({
     name: "art",
     parentId,
   });
-  return drive.files
-    .list({ q: `name = '${artName}' and parents in '${art_folder_id}'` })
-    .then((r) => {
-      const id = (r.data.files || [])[0]?.id;
-      if (id) {
-        return `https://lh3.googleusercontent.com/d/${id}`;
-      } else {
-        return Promise.reject(
-          `image '${artName}' not found in ${art_folder_id}`,
-        );
-      }
-    });
+  const res = await repo.getFirst({ nameEq: artName, parentsIn: artFolderId });
+  const id = res?.id;
+  if (id) {
+    return `https://lh3.googleusercontent.com/d/${id}`;
+  } else {
+    return Promise.reject(`image '${artName}' not found in ${artFolderId}`);
+  }
 };
 
 export const first = (

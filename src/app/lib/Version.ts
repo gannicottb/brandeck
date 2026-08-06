@@ -15,7 +15,14 @@ export abstract class Version {
     return `${v.major}.${v.minor}`;
   }
   static show(v: Version) {
-    return this.toString(v)
+    return this.toString(v);
+  }
+  static modify(
+    v: Version,
+    fn: (major: number, minor: number) => [number, number],
+  ): Version {
+    const [newMajor, newMinor] = fn(v.major, v.minor);
+    return Version.apply(newMajor, newMinor);
   }
   static apply(major: number, minor: number) {
     return { major, minor };

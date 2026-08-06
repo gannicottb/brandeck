@@ -4,6 +4,7 @@ import * as puppeteer from "puppeteer";
 import { FolderType, folderIdMap, getRootId, ttsCache } from "./Utils";
 import { Readable } from "stream";
 import { TtsCardSheetEntries, TtsCardSheetEntrySchema } from "./TtsCache";
+import { GameDataRepo } from "./GameDataRepo";
 
 interface BrandeckSheetElement {
   x: number;
@@ -19,7 +20,7 @@ export default async function generateAndUpload(
   filterQuery: string, // probably not needed but technically interesting.
 ): Promise<TtsCardSheetEntries> {
   const { gameName, version } = gameVer;
-  const drive = DriveClient.getInstance().drive();
+  const repo = GameDataRepo.getInstance();
   const browser = await puppeteer.launch({
     defaultViewport: { width: 4096, height: 4096 },
     args: ["--no-sandbox"],
@@ -41,19 +42,18 @@ export default async function generateAndUpload(
     "#container",
     (container: Element) => {
       const sheetDivs = container.querySelectorAll("div[class*='sheet']");
-      return Array.from(sheetDivs.entries())
-        .map(([_, sheet]) => {
-          const rect = sheet.getBoundingClientRect();
-          const cardsInSheet =
-            sheet.querySelectorAll("div[class*='card']").length;
-          return {
-            x: rect.x,
-            y: rect.y,
-            w: rect.width,
-            h: rect.height,
-            total: cardsInSheet,
-          };
-        })
+      return Array.from(sheetDivs.entries()).map(([_, sheet]) => {
+        const rect = sheet.getBoundingClientRect();
+        const cardsInSheet =
+          sheet.querySelectorAll("div[class*='card']").length;
+        return {
+          x: rect.x,
+          y: rect.y,
+          w: rect.width,
+          h: rect.height,
+          total: cardsInSheet,
+        };
+      });
     },
   );
 
@@ -63,63 +63,59 @@ export default async function generateAndUpload(
     name: "generated",
     parentId: getRootId(gameName),
   });
-  const batchFolder = await drive.files.create({
-    requestBody: {
-      name: `V${version.major}.${version.minor}-${now.toISOString()}`,
-      mimeType: FolderType,
-      parents: [exportFolderId],
-    },
-  });
+  const batchFolder = await repo.createFolder(
+    `V${version.major}.${version.minor}-${now.toISOString()}`,
+    exportFolderId,
+  );
+  // I have struggled mightily to avoid this guard
+  // I think the entire function has to be rewritten in terms of Result
+  // for a clean solution
+  const batchFolderId = batchFolder.id;
+  if (!batchFolderId) {
+    throw new Error("Batch folder wasn't created!");
+  }
   // The order is preserved with Promise.all, so the fileIds will be returned in render order
   const results: TtsCardSheetEntries = await Promise.all(
     sheets.map(async (sheet, sheetIdx) => {
       // Take the screenshot
-      const buffer = await page.screenshot({
+      const buffer = (await page.screenshot({
         clip: {
           x: sheet.x,
           y: sheet.y,
           width: sheet.w,
           height: sheet.h,
         },
-      });
-
-      // Create a readable stream of the image
-      const readable = new Readable();
-      readable._read = () => {}; // _read is required but you can noop it
-      readable.push(buffer);
-      readable.push(null);
+        encoding: "binary",
+      })) as Buffer; // we use binary encoding so it's a Buffer, not a base64 string
 
       // To make it easier to import manually into TTS, output as sheet-{index}-{width}x{height}-{numCards}.png
       const filename = `sheet-${sheetIdx}-10x7-${sheet.total}.png`;
-
-      // Upload to drive
-      const uploadResult = await drive.files.create({
-        requestBody: {
-          name: filename,
-          mimeType: "image/png",
-          parents: batchFolder.data.id ? [batchFolder.data.id] : [],
+      const uploadResult = await repo.uploadPng(
+        buffer,
+        filename,
+        batchFolderId,
+      );
+      // this is a facile use of Result and no different than what I had before
+      // it gets interesting once the whole function is chained Results
+      // that should probably be a separate path
+      return uploadResult.match(
+        (r) => {
+          console.log(`Uploaded ${filename}`);
+          return TtsCardSheetEntrySchema.parse({
+            fileId: r.id,
+            count: sheet.total,
+          });
         },
-        media: {
-          mimeType: "image/png",
-          body: readable,
+        (err) => {
+          throw new Error(err);
         },
-      });
-      // Kind of gnarly but I don't know a better way to do this in TS
-      if (!uploadResult.data.id) {
-        throw new Error(`File ${filename} was not given a fileId!`);
-      } else {
-        console.log(`Uploaded ${filename}`);
-        return TtsCardSheetEntrySchema.parse({
-          fileId: uploadResult.data.id,
-          count: sheet.total,
-        });
-      }
+      );
     }),
   );
 
   await browser.close();
   console.log(
-    `Finished generating and uploading images in ${batchFolder.data.name}`,
+    `Finished generating and uploading images in ${batchFolder.name}`,
   );
   await ttsCache.set(gameVer, results);
   console.log("Updated the TTS cache");

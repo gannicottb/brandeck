@@ -18,6 +18,7 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ game: string; version: string }> },
 ) {
+
   const { game, version } = await params;
 
   const gameVer = GameVersion.fromStrings(game, version);
@@ -34,7 +35,7 @@ export async function GET(
   // Parse the cards
   const parsed = (await _parseSheet(raw)) as DynamicCard[];
   // Look up the deck list or 404
-  const file = await repo.getFirst(gameVer, { nameEq: "decks" });
+  const file = await repo.atVersion(gameVer).getFirst({ nameEq: "decks" });
   if (!file?.id) {
     notFound();
   }

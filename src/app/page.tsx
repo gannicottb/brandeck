@@ -1,30 +1,35 @@
-import { drive_v3 } from "@googleapis/drive";
-import { DriveClient } from "@/app/lib/DriveClient";
-import { getRootId, FolderType, getGameNames } from "@/app/lib/Utils";
+import { getRootId, getGameNames, Folder } from "@/app/lib/Utils";
 import { Version } from "@/app/lib/Version";
 import { GameVersionPicker } from "./components/GameVersionPicker";
+import { GameDataRepo } from "./lib/GameDataRepo";
 
-interface Folder {
-  id: string;
-  name: string;
-}
+// interface Folder {
+//   id: string;
+//   name: string;
+// }
+// this could be a candidate for ownership in GameDataRepo
+async function getVersionsFor(gameName: string): Promise<Version[]> {
+  const repo = GameDataRepo.getInstance();
 
-async function getVersionsFor(drive: drive_v3.Drive, gameName: string) {
-  const allMajorVersions = await drive.files.list({
-    q: `name contains 'v' and mimeType = '${FolderType}' and parents in '${getRootId(gameName)}'`,
+  const allMajorVersions = await repo.list({
+    nameContains: "v",
+    isFolder: true,
+    parentsIn: getRootId(gameName),
   });
 
-  const majors: Folder[] = (allMajorVersions.data.files || []).map((f) => {
+  const majors: Folder[] = allMajorVersions.map((f) => {
     return { id: f.id || "", name: f.name || "" };
   });
 
   const allVersions: Version[] = await Promise.all(
     majors.map(async (major) => {
-      const minorVersions = await drive.files.list({
-        q: `name contains '.' and mimeType = '${FolderType}' and parents in '${major.id}'`,
+      const minorVersions = await repo.list({
+        nameContains: ".",
+        isFolder: true,
+        parentsIn: major.id,
       });
 
-      const names = (minorVersions.data.files || [])
+      const names = minorVersions
         .map((f) => f.name || "")
         .filter((s) => s != "");
       return names.map<Version>((minor) => {
@@ -42,12 +47,8 @@ async function getVersionsFor(drive: drive_v3.Drive, gameName: string) {
 type GameVersionMap = Record<string, Version[]>;
 
 export default async function Home() {
-  const drive = DriveClient.getInstance().drive();
-
   const gameVersions: GameVersionMap = await Promise.all(
-    getGameNames().map((name) =>
-      getVersionsFor(drive, name).then((vs) => [name, vs]),
-    ),
+    getGameNames().map((name) => getVersionsFor(name).then((vs) => [name, vs])),
   ).then(Object.fromEntries);
 
   return (
