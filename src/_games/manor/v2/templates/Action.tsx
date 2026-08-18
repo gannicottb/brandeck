@@ -4,45 +4,34 @@ import { CardData } from "../parse";
 import Image from "next/image";
 import iconFor from "../icons";
 import { useMemo } from "react";
+import { factionColors, tailwindColor } from "../colors";
 
 export default function Action({ data }: { data: CardData }) {
-  const factionColors: Dict = {
-    B: "blue-500",
-    C: "rose-600",
-    R: "yellow-500",
-    W: "black",
-    M: "black",
-  };
-
-  const borderColor = (faction: string) => {
-    if (faction?.length > 0) return factionColors[faction];
-    else return "gray-400";
-  };
-
   const myColor = useMemo(() => {
-    return borderColor(data.faction);
+    return factionColors(data.faction).tw;
   }, [data.faction]);
+
+  const isLurk = data.text.includes("**Lurk**") && data.text.includes("---");
 
   // This text box is "lurk aware"
   // and "dot aware"
   const CustomTextBox = ({ text }: { text: string }) => {
-    if (text.startsWith("**Lurk**")) {
-      const [lurk, action] = text.split("---");
+    if (isLurk) {
+      const [action, lurk] = text.split("---");
       // If you don't wrap the MarkdownWithIcons components, you get duplicate key warnings
       // because react-markdown generates the keys and then React flattens the whole thing
       return (
         <>
           <div>
-            <MarkdownWithIcons content={lurk} />
+            <MarkdownWithIcons content={action} />
           </div>
-          {action && (
+          <hr className={`pb-2 mt-2 border-${myColor}`} />
+          <div>
             <>
-              <hr className={`pb-2 mt-2 border-${myColor}`} />
-              <div>
-                <MarkdownWithIcons content={action} />
-              </div>
+              <MarkdownWithIcons content={lurk} />
+              <span className="text-3xl">{iconFor("lurk")}</span>
             </>
-          )}
+          </div>
         </>
       );
     } else if (text.includes(`dot`)) {
@@ -58,15 +47,21 @@ export default function Action({ data }: { data: CardData }) {
 
   return (
     <div className="flex flex-col h-[100%] justify-end">
+      <div className="absolute right-[2%] top-[1%] text-lg flex">
+        {data.jumpscare && iconFor("jumpscare")}
+        <div
+          className={`border-2 border-${myColor} border-double rounded-[50%] bg-white px-2`}
+        >
+          {data.cost}
+        </div>
+      </div>
+      <div className="text-left px-2 text-md">
+        {/* {isLurk && <span className="mr-1">{iconFor("lurk")}</span>} */}
+        {data.name}
+      </div>
       <div
-        className={`absolute right-[2%] top-[1%] text-lg border-2 border-${myColor} border-double rounded-[50%] bg-white px-2`}
+        className={`relative mb-auto p-2 border-solid border-4 border-${myColor} -z-10`}
       >
-        {data.cost}
-      </div>
-      <div className="text-center mx-auto mb-auto uppercase text-sm">
-        {data.type}
-      </div>
-      <div className={`mx-auto p-2 border-solid border-4 border-${myColor}`}>
         <Image
           src={
             data.art
@@ -80,29 +75,35 @@ export default function Action({ data }: { data: CardData }) {
           priority
           sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         />
+        {data.subtype && (
+          <div
+            className={`absolute -bottom-1 -right-1 px-1 text-xs uppercase italic border-solid border-4 rounded-tl-lg border-${myColor}`}
+          >
+            {data.subtype}
+          </div>
+        )}
       </div>
-      <div className="absolute left-1 top-[65%] text-xl bg-white rounded-lg">
+      {/* <div className="absolute left-1 top-[65%] text-xl bg-white rounded-lg">
         {data.text.startsWith("**Lurk**") && <span>{iconFor("lurk")}</span>}
-      </div>
-      <div
+      </div> */}
+      {/* <div
         className={`text-center bg-white border-solid border-2 border-${myColor} w-[fit-content] mx-auto p-1 rounded-lg`}
       >
         {data.name}
-      </div>
+      </div> */}
 
       <div
-        className={`flex flex-col bg-white border-solid border-2 border-${myColor} h-[30%] w-[90%] p-1 rounded-t-lg mx-auto text-sm text-center`}
+        className={`flex flex-col bg-white border-solid border-2 border-${myColor} h-[40%] w-[90%] p-1 rounded-t-lg mx-auto text-sm text-center`}
       >
         <CustomTextBox text={data.text} />
         {data.gain && (
-        <div
-          className={`border-solid border-2 border-${myColor} mt-auto p-1 bg-gray-100 text-center`}
-        >
-          <CustomTextBox text={data.gain} />
-        </div>
-      )}
+          <div
+            className={`border-solid border-2 border-${myColor} mt-auto p-1 bg-gray-100 text-center text-lg`}
+          >
+            <CustomTextBox text={data.gain} />
+          </div>
+        )}
       </div>
-      
     </div>
   );
 }

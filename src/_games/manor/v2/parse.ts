@@ -6,10 +6,13 @@ import { GameVersion } from "@/app/lib/GameVersion";
 export interface CardData extends CardRow, Filterable {
   name: string;
   type: string;
+  subtype: string;
   cost: string;
   faction: string;
   text: string;
   gain: string;
+  mortals: string;
+  jumpscare: string;
   art: string;
   idx: string;
 }

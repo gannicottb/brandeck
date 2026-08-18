@@ -2,8 +2,13 @@ import { IconBaseProps } from "react-icons";
 import * as io5 from "react-icons/io5";
 import * as gi from "react-icons/gi";
 import * as bs from "react-icons/bs";
-import { TbPlayCard } from "react-icons/tb";
-import { FaPlus } from "react-icons/fa";
+import {
+  TbMeeple,
+  TbPlayCard,
+  TbPlayCardOff,
+  TbGhost2Filled,
+} from "react-icons/tb";
+import { FaPlus, FaSquare, FaLock } from "react-icons/fa";
 
 export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
   const props = { style: { display: "unset" }, ...extraProps };
@@ -21,11 +26,28 @@ export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
     case "draw":
       return <TbPlayCard size={"1.25em"} {...props} />;
     case "discard":
-      return <gi.GiCardDiscard {...props} />;
+      return <TbPlayCardOff size={"1.25em"} {...props} />;
     case "lock":
-      return <gi.GiPadlock {...props} />;
+      // return <gi.GiPadlock {...props} />;
+      return <FaLock {...props} />;
+    case "mortal":
+      return <TbMeeple fill="green" stroke="black" {...props} />;
+    case "exorcist":
+      return <TbMeeple color="white" stroke="black" {...props} />;
     case "plus":
       return <FaPlus {...props} />;
+    case "blue":
+      return <FaSquare fill="blue" {...props} />;
+    case "red":
+      return <FaSquare fill="red" {...props} />;
+    case "yellow":
+      return <FaSquare fill="gold" {...props} />;
+    case "black":
+      return <FaSquare fill="black" {...props} />;
+    case "jumpscare":
+      return <TbGhost2Filled {...props} />;
+    case "hand_reach":
+      return <gi.GiHand {...props} />;
     default:
       return <span>⚠️</span>;
   }
