@@ -23,10 +23,10 @@ const config: Config = {
   plugins: [],
   safelist: [
     {
-      pattern: /bg-(yellow|blue|green|pink|gray|red|rose)-.+/,
+      pattern: /bg-(yellow|blue|green|pink|gray|red|rose|purple)-.+/,
     },
     {
-      pattern: /border-(yellow|blue|green|pink|gray|red|rose)-.+/,
+      pattern: /border-(yellow|blue|green|pink|gray|red|rose|purple)-.+/,
     }
   ],
 }
