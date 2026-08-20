@@ -18,7 +18,6 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ game: string; version: string }> },
 ) {
-
   const { game, version } = await params;
 
   const gameVer = GameVersion.fromStrings(game, version);
@@ -44,7 +43,9 @@ export async function GET(
 
   // the decks are defined as single line filter expressions
   // TODO: maybe add some metadata like a name so we can label them
-  const filterLines = fileContent.split("\n");
+  const filterLines = fileContent
+    .split("\n")
+    .map((s) => s.trim().replaceAll("”", '"'));
 
   // Create lists containing card indices based on the filter expressions
   /* example: 
