@@ -1,15 +1,16 @@
-import { Dict } from "@/app/lib/Utils";
 import { MarkdownWithIcons } from "../MarkdownWithIcons";
 import { CardData } from "../parse";
 import Image from "next/image";
 import iconFor from "../icons";
 import { useMemo } from "react";
-import { factionColors, tailwindColor } from "../colors";
+import { factionColors } from "../colors";
 
 export default function Action({ data }: { data: CardData }) {
   const myColor = useMemo(() => {
     return factionColors(data.faction).tw;
   }, [data.faction]);
+
+  const myTextSize = ["Awaken"].includes(data.name) ? "text-2xl" : "text-sm"
 
   const isLurk = data.text.includes("**Lurk**") && data.text.includes("---");
 
@@ -55,10 +56,7 @@ export default function Action({ data }: { data: CardData }) {
           {data.cost}
         </div>
       </div>
-      <div className="text-left px-2 text-md">
-        {/* {isLurk && <span className="mr-1">{iconFor("lurk")}</span>} */}
-        {data.name}
-      </div>
+      <div className="text-left px-2 text-md">{data.name}</div>
       <div
         className={`relative mb-auto p-2 border-solid border-4 border-${myColor} -z-10`}
       >
@@ -83,17 +81,8 @@ export default function Action({ data }: { data: CardData }) {
           </div>
         )}
       </div>
-      {/* <div className="absolute left-1 top-[65%] text-xl bg-white rounded-lg">
-        {data.text.startsWith("**Lurk**") && <span>{iconFor("lurk")}</span>}
-      </div> */}
-      {/* <div
-        className={`text-center bg-white border-solid border-2 border-${myColor} w-[fit-content] mx-auto p-1 rounded-lg`}
-      >
-        {data.name}
-      </div> */}
-
       <div
-        className={`flex flex-col bg-white border-solid border-2 border-${myColor} h-[40%] w-[90%] p-1 rounded-t-lg mx-auto text-sm text-center`}
+        className={`flex flex-col bg-white border-solid border-2 border-${myColor} h-[40%] w-[90%] p-1 rounded-t-lg mx-auto ${myTextSize} text-center`}
       >
         <CustomTextBox text={data.text} />
         {data.gain && (

@@ -32,6 +32,9 @@ export default function Card({
     `}
     >
       <CardOfType data={data} gameVer={gameVer} />
+      <div className="text-xs bottom-0 right-4 absolute z-10 text-gray-400">
+        {Version.toString(gameVer.version)}
+      </div>
     </div>
   );
 }

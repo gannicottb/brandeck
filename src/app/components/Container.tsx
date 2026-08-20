@@ -3,7 +3,7 @@ import { ReactNode, Fragment } from "react";
 
 const cardTotal = (cards: ReactNode[]) => {
   return (
-    <div className="print:hidden fixed bottom-0 right-0">
+    <div className="print:hidden fixed bottom-1 right-1">
       Total: {cards.length}
     </div>
   );
