@@ -10,7 +10,7 @@ export default function Action({ data }: { data: CardData }) {
     return factionColors(data.faction).tw;
   }, [data.faction]);
 
-  const myTextSize = ["Awaken"].includes(data.name) ? "text-2xl" : "text-sm"
+  const myTextSize = ["Awaken"].includes(data.name) ? "text-2xl" : "text-sm";
 
   const isLurk = data.text.includes("**Lurk**") && data.text.includes("---");
 
@@ -50,13 +50,23 @@ export default function Action({ data }: { data: CardData }) {
     <div className="flex flex-col h-[100%] justify-end">
       <div className="absolute right-[2%] top-[1%] text-lg flex">
         {data.jumpscare && iconFor("jumpscare")}
+
         <div
-          className={`border-2 border-${myColor} border-double rounded-[50%] bg-white px-2`}
+          className={`border-2 border-${myColor} border-solid rounded-[50%] h-8 w-8 items-center justify-center inline-flex text-2xl bg-white`}
         >
           {data.cost}
         </div>
       </div>
-      <div className="text-left px-2 text-md">{data.name}</div>
+      <div className="text-left px-2 text-md flex">
+        {data.name}
+        {data.itembox && (
+          <div
+            className={`border-${myColor} border-solid rounded-[25%] border-2 px-1 text-sm inline-flex items-center justify-center bg-gray-100 ml-auto mr-8`}
+          >
+            <CustomTextBox text={data.itembox} />
+          </div>
+        )}
+      </div>
       <div
         className={`relative mb-auto p-2 border-solid border-4 border-${myColor} -z-10`}
       >
@@ -93,6 +103,15 @@ export default function Action({ data }: { data: CardData }) {
           </div>
         )}
       </div>
+      {/*rounded-[50%] border-2 border-solid border-gray-300*/}
+      {data.marketbox && (
+        <div className="absolute bottom-0 w-full h-[10%] border-solid border-2 bg-gray-100 flex text-lg">
+          <div className="h-8 w-8 inline-flex items-center justify-center mx-auto">
+            <div className="absolute -top-1 z-0 text-3xl text-gray-300 leading-none">{iconFor("ecto")}</div>
+            <div className="absolute -top-1 z-10 text-2xl">{data.marketbox}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

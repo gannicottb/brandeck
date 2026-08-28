@@ -11,6 +11,8 @@ export interface CardData extends CardRow, Filterable {
   faction: string;
   text: string;
   gain: string;
+  itembox: string;
+  marketbox: string;
   mortals: string;
   jumpscare: string;
   art: string;
