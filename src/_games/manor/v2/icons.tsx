@@ -9,9 +9,11 @@ import {
   TbGhost2Filled,
 } from "react-icons/tb";
 import { FaPlus, FaSquare, FaLock } from "react-icons/fa";
+import { SVGAttributes } from "react";
 
-export default function iconFor(iconKey: string, extraProps?: IconBaseProps) {
+export default function iconFor(iconKey: string, extraProps?: IconBaseProps & SVGAttributes<SVGElement>) {
   const props = { style: { display: "unset" }, ...extraProps };
+  console.log(iconKey, props)
   switch (iconKey.toLowerCase().replaceAll("`", "")) {
     case "star":
       return <io5.IoStar {...props} />;

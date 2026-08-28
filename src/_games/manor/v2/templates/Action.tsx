@@ -7,12 +7,12 @@ import { factionColors } from "../colors";
 
 export default function Action({ data }: { data: CardData }) {
   const myColor = useMemo(() => {
-    return factionColors(data.faction).tw;
+    return factionColors(data.faction);
   }, [data.faction]);
 
   const myTextSize = ["Awaken"].includes(data.name) ? "text-2xl" : "text-sm";
 
-  const isLurk = data.text.includes("**Lurk**") && data.text.includes("---");
+  const isLurk = (data.text.includes("**Lurk**") && data.text.includes("---")) || data.subtype.toLowerCase() == "lurk";
 
   // This text box is "lurk aware"
   // and "dot aware"
@@ -26,11 +26,15 @@ export default function Action({ data }: { data: CardData }) {
           <div>
             <MarkdownWithIcons content={action} />
           </div>
-          <hr className={`pb-2 mt-2 border-${myColor}`} />
+          <div className="relative">
+            <hr className={`pb-2 mt-2 border-${myColor.tw}`} />
+            <span className={`absolute left-[45%] top-0 bg-white text-sm px-1`}>{iconFor("lurk", {fill: myColor.css})}</span>
+          </div>
+          
           <div>
             <>
               <MarkdownWithIcons content={lurk} />
-              <span className="text-3xl">{iconFor("lurk")}</span>
+              {/* <span className="text-3xl">{iconFor("lurk")}</span> */}
             </>
           </div>
         </>
@@ -52,7 +56,7 @@ export default function Action({ data }: { data: CardData }) {
         {data.jumpscare && iconFor("jumpscare")}
 
         <div
-          className={`border-2 border-${myColor} border-solid rounded-[50%] h-8 w-8 items-center justify-center inline-flex text-2xl bg-white`}
+          className={`border-2 border-${myColor.tw} border-solid rounded-[50%] h-8 w-8 items-center justify-center inline-flex text-2xl bg-white`}
         >
           {data.cost}
         </div>
@@ -61,14 +65,14 @@ export default function Action({ data }: { data: CardData }) {
         {data.name}
         {data.itembox && (
           <div
-            className={`border-${myColor} border-solid rounded-[25%] border-2 px-1 text-sm inline-flex items-center justify-center bg-gray-100 ml-auto mr-8`}
+            className={`border-${myColor.tw} border-solid rounded-[25%] border-2 px-1 text-sm inline-flex items-center justify-center bg-gray-100 ml-auto mr-8`}
           >
             <CustomTextBox text={data.itembox} />
           </div>
         )}
       </div>
       <div
-        className={`relative mb-auto p-2 border-solid border-4 border-${myColor} -z-10`}
+        className={`relative mb-auto p-2 border-solid border-4 border-${myColor.tw} -z-10`}
       >
         <Image
           src={
@@ -85,19 +89,19 @@ export default function Action({ data }: { data: CardData }) {
         />
         {data.subtype && (
           <div
-            className={`absolute -bottom-1 -right-1 px-1 text-xs uppercase italic border-solid border-4 rounded-tl-lg border-${myColor}`}
+            className={`absolute -bottom-1 -right-1 px-1 text-xs uppercase italic border-solid border-4 rounded-tl-lg border-${myColor.tw}`}
           >
             {data.subtype}
           </div>
         )}
       </div>
       <div
-        className={`flex flex-col bg-white border-solid border-2 border-${myColor} h-[40%] w-[90%] p-1 rounded-t-lg mx-auto ${myTextSize} text-center`}
+        className={`flex flex-col bg-white border-solid border-2 border-${myColor.tw} h-[40%] w-[90%] p-1 rounded-t-lg mx-auto ${myTextSize} text-center`}
       >
         <CustomTextBox text={data.text} />
         {data.gain && (
           <div
-            className={`border-solid border-2 border-${myColor} mt-auto p-1 bg-gray-100 text-center text-lg`}
+            className={`border-solid border-2 border-${myColor.tw} mt-auto p-1 bg-gray-100 text-center text-lg`}
           >
             <CustomTextBox text={data.gain} />
           </div>

@@ -46,7 +46,7 @@ export default function Room({ data }: { data: CardData }) {
         />
       </div>
       <div
-        className={`text-center bg-white border-solid border-2 border-${myColor.tw} h-[33%] w-[fit-content] mx-auto mt-auto p-1 rounded-t-lg z-10`}
+        className={`text-center bg-white border-solid border-2 border-${myColor.tw} h-[33%] w-full mx-auto mt-auto p-1 rounded-t-lg z-10`}
       >
         <MarkdownWithIcons content={data.text} />
       </div>
