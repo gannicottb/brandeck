@@ -14,7 +14,7 @@ export default function Room({ data }: { data: CardData }) {
     <div className={`flex flex-col h-[100%] justify-end bg-${myColor.tw}`}>
       {data.cost && (
         <div
-          className={`absolute right-[2%] top-[2%] border-2 border-${myColor.tw} border-double rounded-[50%] h-10 w-10 items-center justify-center inline-flex text-2xl bg-white z-10`}
+          className={`absolute right-[2%] top-[2%] border-2 border-${myColor.tw} border-double rounded-[50%] h-10 w-10 items-center justify-center inline-flex text-2xl bg-white z-20`}
         >
           {data.cost}
         </div>
@@ -26,6 +26,7 @@ export default function Room({ data }: { data: CardData }) {
       {data.mortals.length > 0 && (
         <div className="absolute left-[7%] top-[10%] text-3xl bg-white z-10">
           <MarkdownWithIcons content={data.mortals} />
+          {data.chapter == "2" && <div className="text-xs"><MarkdownWithIcons content={"_Chapter II: 3 pts per_ `mortal`"} /></div>}
         </div>
       )}
       <div className={`absolute left-[5%] top-[6%] w-[90%] h-[90%] m-0`}>

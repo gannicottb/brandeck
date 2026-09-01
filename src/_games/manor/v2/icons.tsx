@@ -2,6 +2,7 @@ import { IconBaseProps } from "react-icons";
 import * as io5 from "react-icons/io5";
 import * as gi from "react-icons/gi";
 import * as bs from "react-icons/bs";
+import { ImArrowLeft } from "react-icons/im";
 import {
   TbMeeple,
   TbPlayCard,
@@ -11,9 +12,12 @@ import {
 import { FaPlus, FaSquare, FaLock } from "react-icons/fa";
 import { SVGAttributes } from "react";
 
-export default function iconFor(iconKey: string, extraProps?: IconBaseProps & SVGAttributes<SVGElement>) {
+export default function iconFor(
+  iconKey: string,
+  extraProps?: IconBaseProps & SVGAttributes<SVGElement>,
+) {
   const props = { style: { display: "unset" }, ...extraProps };
-  console.log(iconKey, props)
+
   switch (iconKey.toLowerCase().replaceAll("`", "")) {
     case "star":
       return <io5.IoStar {...props} />;
@@ -35,7 +39,13 @@ export default function iconFor(iconKey: string, extraProps?: IconBaseProps & SV
     case "mortal":
       return <TbMeeple fill="green" stroke="black" {...props} />;
     case "exorcist":
-      return <TbMeeple color="white" stroke="black" {...props} />;
+      return <TbMeeple fill="white" stroke="black" {...props} />;
+    case "hunter":
+      return <TbMeeple fill="orange" stroke="black" {...props} />;
+    case "skeptic":
+      return <TbMeeple fill="lightgray" stroke="black" {...props} />;
+    case "medium":
+      return <TbMeeple fill="cyan" stroke="black" {...props} />;
     case "plus":
       return <FaPlus {...props} />;
     case "blue":
@@ -50,6 +60,8 @@ export default function iconFor(iconKey: string, extraProps?: IconBaseProps & SV
       return <TbGhost2Filled {...props} />;
     case "hand_reach":
       return <gi.GiHand {...props} />;
+    case "move_left":
+      return <ImArrowLeft {...props} />;
     default:
       return <span>⚠️</span>;
   }
