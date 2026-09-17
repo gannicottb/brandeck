@@ -4,6 +4,7 @@ import Image from "next/image";
 import iconFor from "../icons";
 import { useMemo } from "react";
 import { factionColors } from "../colors";
+import { FactionBadge } from "../FactionBadge";
 
 export default function Action({ data }: { data: CardData }) {
   const myColor = useMemo(() => {
@@ -12,7 +13,9 @@ export default function Action({ data }: { data: CardData }) {
 
   const myTextSize = ["Awaken"].includes(data.name) ? "text-2xl" : "text-sm";
 
-  const isLurk = (data.text.includes("**Lurk**") && data.text.includes("---")) || data.subtype.toLowerCase() == "lurk";
+  const isLurk =
+    (data.text.includes("**Lurk**") && data.text.includes("---")) ||
+    data.subtype.toLowerCase() == "lurk";
 
   // This text box is "lurk aware"
   // and "dot aware"
@@ -28,13 +31,17 @@ export default function Action({ data }: { data: CardData }) {
           </div>
           <div className="relative">
             <hr className={`pb-2 mt-2 border-${myColor.tw}`} />
-            <span className={`absolute left-[45%] top-0 bg-white text-sm px-1`}>{iconFor("lurk", {fill: myColor.css})}</span>
+            <span className={`absolute left-[45%] top-0 bg-white text-sm px-1`}>
+              {iconFor("lurk", { fill: myColor.css })}
+            </span>
           </div>
-          
+
           <div>
             <>
               <MarkdownWithIcons content={lurk} />
-              {/* <span className="text-3xl">{iconFor("lurk")}</span> */}
+              {lurk.includes("**Lurk**") && (
+                <span className="text-3xl">{iconFor("lurk")}</span>
+              )}
             </>
           </div>
         </>
@@ -62,14 +69,14 @@ export default function Action({ data }: { data: CardData }) {
         </div>
       </div>
       <div className="text-left px-2 text-md flex">
-        {data.name}
-        {data.itembox && (
+        <MarkdownWithIcons content={data.name} />
+        {/* {data.itembox && (
           <div
             className={`border-${myColor.tw} border-solid rounded-[25%] border-2 px-1 text-sm inline-flex items-center justify-center bg-gray-100 ml-auto mr-8`}
           >
             <CustomTextBox text={data.itembox} />
           </div>
-        )}
+        )} */}
       </div>
       <div
         className={`relative mb-auto p-2 border-solid border-4 border-${myColor.tw} -z-10`}
@@ -89,11 +96,15 @@ export default function Action({ data }: { data: CardData }) {
         />
         {data.subtype && (
           <div
-            className={`absolute -bottom-1 -right-1 px-1 text-xs uppercase italic border-solid border-4 rounded-tl-lg border-${myColor.tw}`}
+            className={`absolute -top-1 -left-1 px-1 text-xs uppercase italic border-solid border-4 rounded-br-lg border-${myColor.tw}`}
           >
             {data.subtype}
           </div>
         )}
+      </div>
+      <div className="absolute right-0 top-[50%]">
+        {/*7% for upper left corner, 50% for lower left corner*/}
+        <FactionBadge faction={data.faction} />
       </div>
       <div
         className={`flex flex-col bg-white border-solid border-2 border-${myColor.tw} h-[40%] w-[90%] p-1 rounded-t-lg mx-auto ${myTextSize} text-center`}
@@ -107,12 +118,15 @@ export default function Action({ data }: { data: CardData }) {
           </div>
         )}
       </div>
-      {/*rounded-[50%] border-2 border-solid border-gray-300*/}
       {data.marketbox && (
         <div className="absolute bottom-0 w-full h-[10%] border-solid border-2 bg-gray-100 flex text-lg">
           <div className="h-8 w-8 inline-flex items-center justify-center mx-auto">
-            <div className="absolute -top-1 z-0 text-3xl text-gray-300 leading-none">{iconFor("ecto")}</div>
-            <div className="absolute -top-1 z-10 text-2xl">{data.marketbox}</div>
+            <div className="absolute -top-1 z-0 text-3xl text-gray-300 leading-none">
+              {iconFor("ecto")}
+            </div>
+            <div className="absolute -top-1 z-10 text-2xl">
+              {data.marketbox}
+            </div>
           </div>
         </div>
       )}

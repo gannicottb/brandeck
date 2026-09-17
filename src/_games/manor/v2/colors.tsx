@@ -6,7 +6,7 @@ export function factionColors(factionCode?: string) {
     case "C":
       return { css: "maroon", tw: "rose-600" };
     case "R":
-      return { css: "gold", tw: "yellow-500" };
+      return { css: "goldenrod", tw: "yellow-500" };
     case "M":
       return { css: "black", tw: "black" };
     case "E":
