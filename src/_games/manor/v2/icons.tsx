@@ -7,6 +7,7 @@ import { PiHexagonDuotone } from "react-icons/pi";
 import { ImArrowLeft, ImArrowRight } from "react-icons/im";
 import { FaPlus, FaLock } from "react-icons/fa";
 import { SVGAttributes } from "react";
+import { FiTriangle } from "react-icons/fi";
 
 export default function iconFor(
   iconKey: string,
@@ -93,6 +94,8 @@ export default function iconFor(
       return <bs.BsFileArrowDown size={"1.25em"} {...props} />;
     case "cycle":
       return <gi.GiCycle {...props} />;
+    case "triangle":
+      return <FiTriangle {...props} />;
     default:
       return <span>⚠️</span>;
   }

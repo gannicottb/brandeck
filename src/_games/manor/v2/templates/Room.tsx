@@ -12,6 +12,8 @@ export default function Room({ data }: { data: CardData }) {
 
   const useMinTextHeight = data.name.startsWith("Lair");
 
+  const useHighlightedText = data.name.startsWith("Dungeon");
+
   return (
     <div className={`flex flex-col h-[100%] justify-end bg-${myColor.tw}`}>
       {data.cost && (
@@ -35,7 +37,9 @@ export default function Room({ data }: { data: CardData }) {
           )}
         </div>
       )}
-      <div className={`absolute left-[5%] top-[6%] w-[90%] h-[90%] m-0`}>
+      <div
+        className={`absolute left-[5%] top-[6%] w-[90%] ${useMinTextHeight ? "h-[70%]" : "h-[90%]"} m-0`}
+      >
         <Image
           src={
             data.art
@@ -52,18 +56,32 @@ export default function Room({ data }: { data: CardData }) {
           sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         />
       </div>
-      {data.name.startsWith("Lair") && data.marketbox && (
+      {/* {data.name.startsWith("Lair") && data.marketbox && (
         <div
-          className={`mt-auto text-xs p-1 w-fit bg-white border-2 border-${myColor.tw} z-10`}
+          className={`ml-auto mt-auto text-[.5rem] p-1 w-fit bg-white border-2 border-${myColor.tw} z-10`}
         >
           <MarkdownWithIcons content={data.marketbox} />
         </div>
+        
+      )} */}
+      {data.name.startsWith("Lair") && (
+        <div className={`flex mt-auto text-[.5rem] w-fit bg-white  z-10`}>
+          {data.marketbox.split("---").map((t, i) => (
+            <div
+              className={`border-2 border-${myColor.tw} w-[50%]`}
+              key={`lair-${i}`}
+            >
+              <MarkdownWithIcons content={t} />
+            </div>
+          ))}
+        </div>
       )}
+
       <div className="absolute right-0 top-[60%]">
         <FactionBadge faction={data.faction} />
       </div>
       <div
-        className={`text-center bg-white border-solid border-2 border-${myColor.tw} ${useMinTextHeight ? "h-fit" : "h-[33%]"} w-full mx-auto ${useMinTextHeight ? "" : "mt-auto"} p-1 rounded-t-lg z-10`}
+        className={`text-center ${useHighlightedText ? "bg-yellow-400" : "bg-white"} border-solid border-2 border-${myColor.tw} ${useMinTextHeight ? "h-[20%]" : "h-[33%]"} w-full mx-auto ${useMinTextHeight ? "" : "mt-auto"} p-1 rounded-t-lg z-10`}
       >
         {(data.text.includes(`dot`) && (
           <span className="text-left">
