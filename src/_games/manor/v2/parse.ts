@@ -13,6 +13,7 @@ export interface CardData extends CardRow, Filterable {
   gain: string;
   itembox: string;
   marketbox: string;
+  points: string;
   mortals: string;
   chapter: string;
   jumpscare: string;

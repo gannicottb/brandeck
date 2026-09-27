@@ -2,7 +2,7 @@
 export function factionColors(factionCode?: string) {
   switch (factionCode) {
     case "B":
-      return { css: "cornflowerblue", tw: "blue-500" };
+      return { css: "royalblue", tw: "blue-500" };
     case "C":
       return { css: "maroon", tw: "rose-600" };
     case "R":

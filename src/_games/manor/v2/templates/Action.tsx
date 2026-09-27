@@ -5,6 +5,7 @@ import iconFor from "../icons";
 import { useMemo } from "react";
 import { factionColors } from "../colors";
 import { FactionBadge } from "../FactionBadge";
+import { PointsBadge } from "../PointsBadge";
 
 export default function Action({ data }: { data: CardData }) {
   const myColor = useMemo(() => {
@@ -40,7 +41,7 @@ export default function Action({ data }: { data: CardData }) {
             <>
               <MarkdownWithIcons content={lurk} />
               {lurk.includes("**Lurk**") && (
-                <span className="text-3xl">{iconFor("lurk")}</span>
+                <span className="text-4xl">{iconFor("lurk")}</span>
               )}
             </>
           </div>
@@ -61,7 +62,6 @@ export default function Action({ data }: { data: CardData }) {
     <div className="flex flex-col h-[100%] justify-end">
       <div className="absolute right-[2%] top-[1%] text-lg flex">
         {data.jumpscare && iconFor("jumpscare")}
-
         <div
           className={`border-2 border-${myColor.tw} border-solid rounded-[50%] h-8 w-8 items-center justify-center inline-flex text-2xl bg-white`}
         >
@@ -77,6 +77,11 @@ export default function Action({ data }: { data: CardData }) {
             <CustomTextBox text={data.itembox} />
           </div>
         )} */}
+        {isLurk && (
+          <div className="ml-auto mr-8 text-xl leading-none my-auto">
+            {iconFor("lurk", { fill: myColor.css })}
+          </div>
+        )}
       </div>
       <div
         className={`relative mb-auto p-2 border-solid border-4 border-${myColor.tw} -z-10`}
@@ -102,7 +107,7 @@ export default function Action({ data }: { data: CardData }) {
           </div>
         )}
       </div>
-      <div className="absolute right-0 top-[50%]">
+      <div className="absolute right-0 top-[9%]">
         {/*7% for upper left corner, 50% for lower left corner*/}
         <FactionBadge faction={data.faction} />
       </div>
@@ -110,6 +115,11 @@ export default function Action({ data }: { data: CardData }) {
         className={`flex flex-col bg-white border-solid border-2 border-${myColor.tw} h-[40%] w-[90%] p-1 rounded-t-lg mx-auto ${myTextSize} text-center`}
       >
         <CustomTextBox text={data.text} />
+        {data.points && (
+          <div className="absolute right-0 bottom-[10%] z-20">
+            <PointsBadge color={myColor.tw} points={data.points} />
+          </div>
+        )}
         {data.gain && (
           <div
             className={`border-solid border-2 border-${myColor.tw} mt-auto p-1 bg-gray-100 text-center text-lg`}

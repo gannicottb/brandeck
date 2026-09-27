@@ -33,15 +33,15 @@ export default function iconFor(
     case "lock":
       return <FaLock {...props} />;
     case "mortal":
-      return <tb.TbMeeple fill="green" stroke="black" {...props} />;
+      return <tb.TbMeeple fill="lime" stroke="green" {...props} />;
     case "exorcist":
       return <tb.TbMeeple fill="white" stroke="black" {...props} />;
     case "hunter":
-      return <tb.TbMeeple fill="orange" stroke="black" {...props} />;
+      return <tb.TbMeeple fill="orange" stroke="darkorange" {...props} />;
     case "skeptic":
-      return <tb.TbMeeple fill="lightgray" stroke="black" {...props} />;
+      return <tb.TbMeeple fill="lightgray" stroke="darkgray" {...props} />;
     case "medium":
-      return <tb.TbMeeple fill="cyan" stroke="black" {...props} />;
+      return <tb.TbMeeple fill="cyan" stroke="darkcyan" {...props} />;
     case "plus":
       return <FaPlus {...props} />;
     case "blue":
@@ -92,6 +92,8 @@ export default function iconFor(
       return <PiHexagonDuotone fill="green" {...props} />;
     case "tuck":
       return <bs.BsFileArrowDown size={"1.25em"} {...props} />;
+    case "recur":
+      return <bs.BsFileArrowUp size={"1.25em"} {...props} />;
     case "cycle":
       return <gi.GiCycle {...props} />;
     case "triangle":
